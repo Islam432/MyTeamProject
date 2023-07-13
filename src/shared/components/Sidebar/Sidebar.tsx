@@ -1,156 +1,286 @@
 import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import CssBaseline from '@mui/material/CssBaseline'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
+import MuiDrawer from '@mui/material/Drawer'
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 import List from '@mui/material/List'
+import CssBaseline from '@mui/material/CssBaseline'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import MailIcon from '@mui/icons-material/Mail'
-import MenuIcon from '@mui/icons-material/Menu'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import { NavLink } from 'react-router-dom'
 
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+
+
+import { LuUsers,LuLayoutDashboard } from 'react-icons/lu'
+import { BsCalendarDate } from 'react-icons/bs'
+
+import { PiStudent } from 'react-icons/pi'
+import { LiaFileSolid } from 'react-icons/lia'
+import {  BiBookBookmark} from 'react-icons/bi'
+import { FaUserAstronaut,  } from 'react-icons/fa'
+import styles from './Sidebar.module.scss'
+import { NavLink } from 'react-router-dom'
 const drawerWidth = 240
 
-interface Props {
-  window?: () => Window
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+})
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+})
+
+
+
+function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  event.preventDefault();
+  console.info('You clicked a breadcrumb.');
 }
 
-export default function ResponsiveDrawer(props: Props) {
-  const { window } = props
-  const [mobileOpen, setMobileOpen] = React.useState(false)
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}))
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}))
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}))
+
+export default function ResponsiveDrawer() {
+  const theme = useTheme()
+  const [open, setOpen] = React.useState(false)
+
   const links = [
     {
-      title: 'student',
+      title: 'Account',
       path: '/auth',
-      icon: <InboxIcon />,
+      icon: <FaUserAstronaut className={styles.Reacticon} />,
     },
     {
-      title: 'student',
+      title: 'Dashboard',
       path: '/auth',
-      icon: <InboxIcon />,
+      icon: <LuLayoutDashboard className={styles.Reacticon} />,
     },
     {
-      title: 'student',
+      title: 'Files',
+      path: '/auth',
+      icon: <LiaFileSolid className={styles.Reacticon} />,
+    },
+    {
+      title: 'Course templates',
       path: '/signup',
-      icon: <InboxIcon />,
+      icon: <BiBookBookmark className={styles.Reacticon} />,
+    },
+    {
+      title: 'Courses',
+      path: '/signup',
+      icon: <PiStudent className={styles.Reacticon}/>,
+    },
+    {
+      title: 'Users',
+      path: '/signup',
+      icon: <LuUsers className={styles.Reacticon} />,
+    },
+    {
+      title: 'Calendar',
+      path: '/signup',
+      icon: <BsCalendarDate  className={styles.Reacticon} />,
     },
   ]
 
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {links.map((data, index) => (
-          <ListItem
-            key={index}
-            disablePadding
-          >
-            <ListItemButton>
-              <ListItemIcon>{data.icon}</ListItemIcon>
-              {/* <ListItemText primary={text} onClick={} /> */}
-              <NavLink to={data.path}>{data.title}</NavLink>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      {/* <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem
-            key={text}
-            disablePadding
-          >
-            <ListItemButton>
-              <ListItemIcon>{data.icon}}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List> */}
-    </div>
-  )
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
 
-  const container = window !== undefined ? () => window().document.body : undefined
+  const handleDrawerClose = () => {
+    setOpen(false)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
+      <AppBar 
+      sx={{ bgcolor: 'white' }}
         position='fixed'
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
+        open={open}
       >
         <Toolbar>
           <IconButton
             color='inherit'
             aria-label='open drawer'
+            onClick={handleDrawerOpen}
             edge='start'
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
           >
-            <MenuIcon />
+            <MenuIcon  sx={{ color: '#333' }}/>
           </IconButton>
           <Typography
+          sx={{ color: '#333' }}
             variant='h6'
             noWrap
             component='div'
           >
-            Responsive drawer
+          
+
+
+          <div role="presentation" onClick={handleClick}>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          HOME
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Account
+        </Link>
+        <Link
+          underline="hover"
+          color="text.primary"
+          href="/material-ui/react-breadcrumbs/"
+          aria-current="page"
+        >
+          Breadcrumbs
+        </Link>
+      </Breadcrumbs>
+    </div>
+
+
+
+
+
           </Typography>
         </Toolbar>
       </AppBar>
-      <Box
-        component='nav'
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label='mailbox folders'
+      <Drawer
+        className={styles.xz}
+        variant='permanent'
+        open={open}
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant='temporary'
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant='permanent'
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+        <DrawerHeader sx={{ bgcolor: '#333' }}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+
+        <List sx={{ bgcolor: '#333' }}>
+          {links.map((data, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              sx={{ display: 'block' }}
+            >
+              <ListItemButton
+                component={NavLink}
+                to={data.path}
+              >
+                <ListItemIcon>{data.icon}</ListItemIcon>
+                {/* <ListItemText primary={text} onClick={} /> */}
+                <p className={styles.pcolor}>{data.title}</p>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+
+        <Divider />
+        {/* <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List> */}
+      </Drawer>
       <Box
         component='main'
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 3 }}
       >
-        <Toolbar />
+        <DrawerHeader />
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
