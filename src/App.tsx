@@ -1,15 +1,21 @@
-import { useState } from 'react'
-
+import './App.css'
 import Auth from './modules/authentication/pages/Auth/Auth'
+import { useRoutes } from 'react-router-dom'
+import ResponsiveDrawer from './shared/components/Sidebar/Sidebar'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const router = useRoutes([
+    {
+      path: '/',
+      element: <ResponsiveDrawer />,
+    },
+    {
+      path: '/sidebar',
+      element: <Auth />,
+    },
+  ])
 
-  return (
-    <div className='cont'>
-      <Auth />
-    </div>
-  )
+  return router
 }
 
 export default App
