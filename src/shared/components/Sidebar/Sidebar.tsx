@@ -43,7 +43,7 @@ export default function ResponsiveDrawer(props: Props) {
     },
     {
       title: 'student',
-      path: '/sidebar',
+      path: '/signup',
       icon: <InboxIcon />,
     },
   ]
