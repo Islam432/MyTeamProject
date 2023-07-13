@@ -5,7 +5,6 @@ import { registerUser } from './servers'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
 import z from 'zod'
 
-
 export type FormData = z.infer<typeof UserSchema>
 
 const Signup = () => {
@@ -26,7 +25,6 @@ const Signup = () => {
       date_of_birth: new Date(data.date_of_birth),
     }
     registerUser(dataRequest)
-    console.log(data)
   }
 
   return (
@@ -77,10 +75,15 @@ const Signup = () => {
         </div>
 
         <div>
-         <input type="date"
-             {...register('date_of_birth')}
-            
-            
+          <TextField
+            label='Дата рождения'
+            type='date'
+            {...register('date_of_birth')}
+            error={!!errors.date_of_birth}
+            helperText={errors.date_of_birth?.message}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </div>
 
