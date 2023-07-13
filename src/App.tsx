@@ -1,18 +1,14 @@
 import { useState } from 'react'
 
-import './App.css'
 import Auth from './modules/authentication/pages/Auth/Auth'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    
     <div className='cont'>
-      
-      <Auth/>
+      <Auth />
     </div>
-    
   )
 }
 

@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+// Fonts
+
+///Noto Sans
+@font-face {
+  font-family: Noto400;
+  font-weight: 400;
+  src: url('./assets/fonts/noto/NotoSans-Regular.ttf');
+}
+@font-face {
+  font-family: Noto500;
+  font-weight: 500;
+  src: url('./assets/fonts/noto/NotoSans-Medium.ttf');
+}
+@font-face {
+  font-family: Noto700;
+  font-weight: 700;
+  src: url('./assets/fonts/noto/NotoSans-Bold.ttf');
+}
+@font-face {
+  font-family: Noto800;
+  font-weight: 800;
+  src: url('./assets/fonts/noto/NotoSans-ExtraBold.ttf');
+}
+@font-face {
+  font-family: Noto900;
+  font-weight: 900;
+  src: url('./assets/fonts/noto/NotoSans-Bold.ttf');
+}
+
+/// Nunito
+@font-face {
+  font-family: Nunito400;
+  font-weight: 400;
+  src: url('./assets/fonts/nunito/Nunito-Regular.ttf');
+}
+@font-face {
+  font-family: Nunito500;
+  font-weight: 500;
+  src: url('./assets/fonts/nunito/Nunito-Medium.ttf');
+}
+@font-face {
+  font-family: Nunito600;
+  font-weight: 600;
+  src: url('./assets/fonts/nunito/Nunito-SemiBold.ttf');
+}
+@font-face {
+  font-family: Nunito700;
+  font-weight: 700;
+  src: url('./assets/fonts/nunito/Nunito-Bold.ttf');
+}
+@font-face {
+  font-family: Nunito800;
+  font-weight: 800;
+  src: url('./assets/fonts/nunito/Nunito-ExtraBold.ttf');
+}
+@font-face {
+  font-family: Nunito900;
+  font-weight: 900;
+  src: url('./assets/fonts/nunito/Nunito-Black.ttf');
+}
+
+///Ubuntu
+@font-face {
+  font-family: Ubuntu400;
+  font-weight: 400;
+  src: url('./assets/fonts/ubuntu/Ubuntu-Regular.ttf');
+}
+@font-face {
+  font-family: Ubuntu500;
+  font-weight: 500;
+  src: url('./assets/fonts/ubuntu/Ubuntu-Medium.ttf');
+}
+@font-face {
+  font-family: Ubuntu700;
+  font-weight: 700;
+  src: url('./assets/fonts/ubuntu/Ubuntu-Bold.ttf');
+}

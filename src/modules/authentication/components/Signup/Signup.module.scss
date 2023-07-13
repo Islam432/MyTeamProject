@@ -1,1 +1,83 @@
+@import '../../../../index.scss';
 
+.signUp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 25px;
+  height: 100%;
+  &__content {
+    background: #fff;
+    // margin-top: 50px;
+    box-shadow: 5px 4px 24px 5px rgba(34, 41, 47, 0.1);
+    padding: 25px;
+    max-width: 450px;
+    border-radius: 12px;
+  }
+  &__title {
+    text-align: center;
+    > img {
+      width: 320px;
+    }
+  }
+  &__subTitle {
+    font-family: Nunito400;
+    text-align: center;
+    margin-top: 25px;
+  }
+  &__form {
+    margin-top: 35px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
+    > div {
+      position: relative;
+      width: 100%;
+      > input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+      }
+      > div {
+        width: 100%;
+      }
+      > button {
+        position: absolute;
+        top: 7px;
+        right: 5px;
+        z-index: 9;
+      }
+    }
+  }
+  &__btn {
+    background: #fc0 !important;
+    width: 100%;
+    padding: 12px !important;
+    font-size: 16px !important;
+    text-transform: none !important;
+  }
+}
+
+.snackbar {
+  width: 100%;
+  font-size: 22px !important;
+  background: #ff000081 !important;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+  > svg {
+    width: 50px !important;
+    font-size: 34px !important;
+  }
+}
+
+@media screen and (max-width: 31.25rem) {
+  .signUp {
+    &__title {
+      > img {
+        width: 220px;
+      }
+    }
+  }
+}
