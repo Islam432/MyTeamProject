@@ -10,7 +10,7 @@ function App() {
       element: <ResponsiveDrawer />,
     },
     {
-      path: '/sidebar',
+      path: '/signup',
       element: <Auth />,
     },
   ])
