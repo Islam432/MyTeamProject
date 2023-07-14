@@ -14,7 +14,7 @@ import { AxiosError } from 'axios'
 
 export type FormData = z.infer<typeof UserSchema>
 
-function Signup() {
+export default function Signup() {
   const [open, setOpen] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(false)
   const [err, setErr] = useState<string>('')
@@ -152,5 +152,3 @@ function Signup() {
     </div>
   )
 }
-
-export default Signup

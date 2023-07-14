@@ -3,17 +3,20 @@
   > * > ul {
     height: 100vh !important;
   }
+
+  svg {
+    color: #ffcc00;
+    font-size: 1.7rem;
+  }
 }
 .pcolor {
   color: white;
+  margin: 0.8rem 0;
 }
 .iconRight {
   color: white;
 }
-.reacticon {
-  font-size: 20px;
-  color: #ffcc00;
-}
+
 .logo {
-  margin-right: 30px;
+  margin-right: 1rem;
 }
