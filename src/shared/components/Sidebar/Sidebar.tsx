@@ -16,21 +16,21 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Link from '@mui/material/Link'
 
-
-import { LuUsers,LuLayoutDashboard } from 'react-icons/lu'
+import { LuUsers, LuLayoutDashboard } from 'react-icons/lu'
 import { BsCalendarDate } from 'react-icons/bs'
 
 import { PiStudent } from 'react-icons/pi'
 import { AiOutlineFolderOpen } from 'react-icons/ai'
-import {  BiBookBookmark} from 'react-icons/bi'
-import { FaUserAstronaut,  } from 'react-icons/fa'
-import styles from './Sidebar.module.scss'
+import { BiBookBookmark } from 'react-icons/bi'
+import { FaUserAstronaut } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
-const drawerWidth = 240
+import { Outlet } from 'react-router-dom'
+import styles from './Sidebar.module.scss'
 
+const drawerWidth = 240
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -53,14 +53,10 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 })
 
-
-
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  event.preventDefault();
-  console.info('You clicked a breadcrumb.');
+  event.preventDefault()
+  console.info('You clicked a breadcrumb.')
 }
-
-
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -115,38 +111,38 @@ export default function ResponsiveDrawer() {
   const links = [
     {
       title: 'Account',
-      path: '/auth',
-      icon: <FaUserAstronaut className={styles.Reacticon} />,
+      path: '/account',
+      icon: <FaUserAstronaut className={styles.reacticon} />,
     },
     {
       title: 'Dashboard',
-      path: '/auth',
-      icon: <LuLayoutDashboard className={styles.Reacticon} />,
+      path: '/dashboard',
+      icon: <LuLayoutDashboard className={styles.reacticon} />,
     },
     {
       title: 'Files',
-      path: '/auth',
-      icon: <AiOutlineFolderOpen className={styles.Reacticon} />,
+      path: '/files',
+      icon: <AiOutlineFolderOpen className={styles.reacticon} />,
     },
     {
       title: 'Course templates',
-      path: '/signup',
-      icon: <BiBookBookmark className={styles.Reacticon} />,
+      path: '/templates',
+      icon: <BiBookBookmark className={styles.reacticon} />,
     },
     {
       title: 'Courses',
-      path: '/signup',
-      icon: <PiStudent className={styles.Reacticon}/>,
+      path: '/courses',
+      icon: <PiStudent className={styles.reacticon} />,
     },
     {
       title: 'Users',
-      path: '/signup',
-      icon: <LuUsers className={styles.Reacticon} />,
+      path: '/users',
+      icon: <LuUsers className={styles.reacticon} />,
     },
     {
       title: 'Calendar',
-      path: '/signup',
-      icon: <BsCalendarDate  className={styles.Reacticon} />,
+      path: '/calendar',
+      icon: <BsCalendarDate className={styles.reacticon} />,
     },
   ]
 
@@ -161,8 +157,8 @@ export default function ResponsiveDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar 
-      sx={{ bgcolor: 'white' }}
+      <AppBar
+        sx={{ bgcolor: 'white' }}
         position='fixed'
         open={open}
       >
@@ -177,44 +173,43 @@ export default function ResponsiveDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon  sx={{ color: '#333' }}/>
+            <MenuIcon sx={{ color: '#333' }} />
           </IconButton>
           <Typography
-          sx={{ color: '#333' }}
+            sx={{ color: '#333' }}
             variant='h6'
             noWrap
             component='div'
           >
-          
-
-
-          <div role="presentation" onClick={handleClick}>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/">
-          HOME
-        </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Account
-        </Link>
-        <Link
-          underline="hover"
-          color="text.primary"
-          href="/signup"
-          aria-current="page"
-        >
-          Breadcrumbs
-        </Link>
-      </Breadcrumbs>
-    </div>
-
-
-
-
-
+            <div
+              role='presentation'
+              onClick={handleClick}
+            >
+              <Breadcrumbs aria-label='breadcrumb'>
+                <Link
+                  underline='hover'
+                  color='inherit'
+                  href='/'
+                >
+                  HOME
+                </Link>
+                <Link
+                  underline='hover'
+                  color='inherit'
+                  href='/material-ui/getting-started/installation/'
+                >
+                  Account
+                </Link>
+                <Link
+                  underline='hover'
+                  color='text.primary'
+                  href='/signup'
+                  aria-current='page'
+                >
+                  Breadcrumbs
+                </Link>
+              </Breadcrumbs>
+            </div>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -224,8 +219,12 @@ export default function ResponsiveDrawer() {
         open={open}
       >
         <DrawerHeader sx={{ bgcolor: '#333' }}>
-        <img className={styles.logo} src="'../../../../public/logo-light.svg" alt="" />
-        
+          <img
+            className={styles.logo}
+            src="'../../../../public/logo-light.svg"
+            alt=''
+          />
+
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
           </IconButton>
@@ -282,26 +281,7 @@ export default function ResponsiveDrawer() {
         sx={{ flexGrow: 1, p: 3 }}
       >
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-          velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu
-          scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt
-          lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-          ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla facilisi etiam
-          dignissim diam. Pulvinar elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus
-          sed viverra tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis sed odio morbi. Euismod
-          lacinia at quis risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in.
-          In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin nibh sit. Ornare aenean euismod
-          elementum nisi quis eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla posuere
-          sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <Outlet />
       </Box>
     </Box>
   )
