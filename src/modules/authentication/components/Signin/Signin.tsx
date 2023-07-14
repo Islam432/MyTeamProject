@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Alert, Button, IconButton, Snackbar, TextField } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { autorization } from './servers'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import styles from './Signin.module.scss'
 import { AxiosError } from 'axios'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
+import Cookies from 'js-cookie'
 
 export interface FormAuth {
   email: string
@@ -28,11 +29,11 @@ function SignIn() {
   const onSubmit = async (data: FormAuth) => {
     try {
       const response = await autorization(data)
-      console.log(response)
+      Cookies.set('token', response.data.token)
       setOpen(false)
     } catch (error: AxiosError | any) {
       setOpen(true)
-      setErr(error.message)
+      setErr(error.response.data.message)
     }
   }
 

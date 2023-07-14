@@ -9,7 +9,7 @@ import styles from './Signup.module.scss'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 
 export type FormData = z.infer<typeof UserSchema>
@@ -18,6 +18,8 @@ function Signup() {
   const [open, setOpen] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(false)
   const [err, setErr] = useState<string>('')
+
+  const redirect = useNavigate()
 
   const {
     register,
@@ -31,10 +33,11 @@ function Signup() {
     UserSchema.parse(data)
     try {
       const response = await registerUser(data)
-      console.log(response)
+      redirect('/signin')
       setOpen(false)
     } catch (error: AxiosError | any) {
       setOpen(true)
+      setErr(error.response.message)
     }
   }
 
