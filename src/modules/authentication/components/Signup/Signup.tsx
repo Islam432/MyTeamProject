@@ -9,12 +9,15 @@ import styles from './Signup.module.scss'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
+import { NavLink } from 'react-router-dom'
+import { AxiosError } from 'axios'
 
 export type FormData = z.infer<typeof UserSchema>
 
-const Signup = () => {
+function Signup() {
   const [open, setOpen] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(false)
+  const [err, setErr] = useState<string>('')
 
   const {
     register,
@@ -24,10 +27,15 @@ const Signup = () => {
     resolver: zodResolver(UserSchema),
   })
 
-  function onSubmit(data: FormData) {
+  const onSubmit = async (data: FormData) => {
     UserSchema.parse(data)
-    registerUser(data)
-    setOpen(true)
+    try {
+      const response = await registerUser(data)
+      console.log(response)
+      setOpen(false)
+    } catch (error: AxiosError | any) {
+      setOpen(true)
+    }
   }
 
   return (
@@ -118,24 +126,26 @@ const Signup = () => {
           >
             Зарегистрироваться
           </Button>
-          <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={() => setOpen(false)}
-          >
-            <Alert
-              onClose={() => setOpen(false)}
-              severity='error'
-              className={styles.snackbar}
-            >
-              Такой email уже есть !!!
-            </Alert>
-          </Snackbar>
         </form>
         <div className={styles.signUp__help}>
-          <p>Если у вас уже есть аккаунт то вы можете </p>
+          <p>
+            Если у вас уже есть аккаунт то вы можете <NavLink to='/signin'>Авторизоваться</NavLink>
+          </p>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert
+          onClose={() => setOpen(false)}
+          severity='error'
+          className={styles.signUp__snackbar}
+        >
+          E-mail уже зарегистрирован
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

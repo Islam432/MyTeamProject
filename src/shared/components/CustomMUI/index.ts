@@ -11,7 +11,8 @@ export const CssTextField = styled(TextField)({
   '& input': {
     zIndex: '1',
     color: '#333',
-    borderColor: '333',
+    transition: '.5s all',
+    borderColor: '#ccc',
     padding: '15px',
   },
   '& label': {
@@ -19,21 +20,22 @@ export const CssTextField = styled(TextField)({
     zIndex: '999999',
   },
   '& .MuiInput-underline:after': {
-    color: '#333',
+    color: '#fc0',
     borderBottomColor: '#fff',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: '#333',
-      color: '#333',
+      borderColor: '#ccc',
+      color: '#ccc',
     },
     '&:hover fieldset': {
-      color: '#333',
+      color: '#ccc',
       borderColor: '#333',
     },
     '&.Mui-focused fieldset': {
-      color: '#333',
-      borderColor: '#333',
+      color: '#ccc',
+      boxShadow: '2px 4px 24px 2px rgba(34, 41, 47, 0.1)',
+      borderColor: '#fc0',
     },
   },
 })

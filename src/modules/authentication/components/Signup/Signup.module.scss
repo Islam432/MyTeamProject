@@ -6,10 +6,10 @@
   justify-content: center;
   width: 100%;
   padding: 25px;
-  height: 100%;
+  height: 100vh;
   &__content {
     background: #fff;
-    // margin-top: 50px;
+    position: relative;
     box-shadow: 5px 4px 24px 5px rgba(34, 41, 47, 0.1);
     padding: 25px;
     max-width: 450px;
@@ -39,6 +39,20 @@
       input::-webkit-inner-spin-button {
         -webkit-appearance: none !important;
       }
+      input[type='date'] {
+        position: relative;
+      }
+      input[type='date']::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        color: transparent;
+        background: transparent;
+      }
       > div {
         width: 100%;
       }
@@ -57,18 +71,51 @@
     font-size: 16px !important;
     text-transform: none !important;
   }
-}
-
-.snackbar {
-  width: 100%;
-  font-size: 22px !important;
-  background: #ff000081 !important;
-  color: #fff !important;
-  display: flex;
-  align-items: center;
-  > svg {
-    width: 50px !important;
-    font-size: 34px !important;
+  &__help {
+    font-family: Noto400;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 25px;
+    p {
+      &::after {
+        content: '';
+        width: 17%;
+        position: absolute;
+        left: 0;
+        bottom: 50px;
+        height: 2px;
+        background: #fc0;
+      }
+      &::before {
+        content: '';
+        width: 17%;
+        position: absolute;
+        right: 0;
+        bottom: 50px;
+        height: 2px;
+        background: #fc0;
+      }
+    }
+    a {
+      color: #fc0;
+      font-family: Ubuntu700;
+      text-decoration: underline;
+    }
+  }
+  &__snackbar {
+    width: 100%;
+    font-size: 22px !important;
+    background: #ff000081 !important;
+    display: flex;
+    align-items: center;
+    svg {
+      width: 50px !important;
+      font-size: 34px !important;
+      fill: #fff !important;
+    }
+    > * {
+      color: #fff !important;
+    }
   }
 }
 

@@ -1,13 +1,6 @@
-
-import Signup from '../../components/Signup/Signup'
-import styles from './Auth.module.scss'
+import Signin from '../../components/Signin/Signin'
 const Auth = () => {
-  return (
-    <div className={styles.cont}>
-
-        <Signup/>
-    </div>
-  )
+  return <Signin />
 }
 
 export default Auth

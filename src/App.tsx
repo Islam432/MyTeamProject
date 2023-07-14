@@ -1,7 +1,7 @@
-import './App.css'
 import Auth from './modules/authentication/pages/Auth/Auth'
 import { useRoutes } from 'react-router-dom'
 import ResponsiveDrawer from './shared/components/Sidebar/Sidebar'
+import Reg from './modules/authentication/pages/Reg/Reg'
 
 function App() {
   const router = useRoutes([
@@ -11,6 +11,10 @@ function App() {
     },
     {
       path: '/signup',
+      element: <Reg />,
+    },
+    {
+      path: '/signin',
       element: <Auth />,
     },
   ])
