@@ -15,7 +15,7 @@ export interface FormAuth {
   password: string
 }
 
-function SignIn() {
+export default function Signin() {
   const [open, setOpen] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [err, setErr] = useState<string>('')
@@ -110,4 +110,3 @@ function SignIn() {
   )
 }
 
-export default SignIn
