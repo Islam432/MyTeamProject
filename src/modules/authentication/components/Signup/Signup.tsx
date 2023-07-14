@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { Alert, Button, IconButton, Input, Snackbar } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { registerUser } from './servers'
+import { registerUser } from '../../services/auth.service'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
 import z from 'zod'
 import { useState } from 'react'
