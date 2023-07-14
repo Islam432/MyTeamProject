@@ -38,7 +38,7 @@ export default function ResponsiveDrawer(props: Props) {
     },
     {
       title: 'student',
-      path: '/auth',
+      path: '/user',
       icon: <InboxIcon />,
     },
     {

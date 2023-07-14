@@ -2,6 +2,7 @@ import Auth from './modules/authentication/pages/Auth/Auth'
 import { useRoutes } from 'react-router-dom'
 import ResponsiveDrawer from './shared/components/Sidebar/Sidebar'
 import Reg from './modules/authentication/pages/Reg/Reg'
+import UserComponents from './modules/authentication/components/users/UserComponents'
 
 function App() {
   const router = useRoutes([
@@ -14,8 +15,8 @@ function App() {
       element: <Reg />,
     },
     {
-      path: '/signin',
-      element: <Auth />,
+      path: '/user',
+      element: <UserComponents/>,
     },
   ])
 
