@@ -25,7 +25,7 @@ import { LuUsers,LuLayoutDashboard } from 'react-icons/lu'
 import { BsCalendarDate } from 'react-icons/bs'
 
 import { PiStudent } from 'react-icons/pi'
-import { LiaFileSolid } from 'react-icons/lia'
+import { AiOutlineFolderOpen } from 'react-icons/ai'
 import {  BiBookBookmark} from 'react-icons/bi'
 import { FaUserAstronaut,  } from 'react-icons/fa'
 import styles from './Sidebar.module.scss'
@@ -127,7 +127,7 @@ export default function ResponsiveDrawer() {
     {
       title: 'Files',
       path: '/auth',
-      icon: <LiaFileSolid className={styles.Reacticon} />,
+      icon: <AiOutlineFolderOpen className={styles.Reacticon} />,
     },
     {
       title: 'Course templates',
@@ -225,6 +225,8 @@ export default function ResponsiveDrawer() {
         open={open}
       >
         <DrawerHeader sx={{ bgcolor: '#333' }}>
+        <img className={styles.logo} src="'../../../../public/logo-light.svg" alt="" />
+        
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
           </IconButton>
