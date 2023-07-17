@@ -1,9 +1,22 @@
+:root {
+  --primary-color: #ffcc00;
+  --text-color: #666;
+}
+
 * {
   margin: 0;
   padding: 0;
   text-decoration: none;
   box-sizing: border-box;
-  color: #666;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-color)
 }
 
 // Fonts

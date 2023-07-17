@@ -1,8 +1,7 @@
-import Auth from './modules/authentication/pages/Auth/Auth'
-import { useRoutes } from 'react-router-dom'
+import Auth from './modules/authentication/pages/Auth/AuthPage'
+import { Outlet } from 'react-router-dom'
 import ResponsiveDrawer from './shared/components/Sidebar/Sidebar'
 import Reg from './modules/authentication/pages/Reg/Reg'
-import UserComponents from './modules/authentication/components/users/UserComponents'
 
 function App() {
   const router = useRoutes([
@@ -15,12 +14,11 @@ function App() {
       element: <Reg />,
     },
     {
-      path: '/user',
-      element: <UserComponents/>,
+      path: '/signin',
+      element: <Auth />,
     },
   ])
 
   return router
 }
 
-export default App
