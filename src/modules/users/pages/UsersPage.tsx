@@ -1,3 +1,7 @@
+import UserComponents from "../../authentication/components/users/UserComponents";
+
 export default function UsersPage() {
-  return <h1>Users</h1>
+  return <div>
+    <UserComponents/>
+  </div>
 }
