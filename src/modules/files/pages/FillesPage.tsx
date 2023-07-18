@@ -1,3 +1,5 @@
-export default function FilesPage(){
-  return <h1>Files</h1>
+import FileManager from '../components/FileManager/FileManager'
+
+export default function FilesPage() {
+  return <FileManager />
 }
