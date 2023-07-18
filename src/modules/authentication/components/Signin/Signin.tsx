@@ -19,6 +19,7 @@ export default function Signin() {
   const [open, setOpen] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [err, setErr] = useState<string>('')
+  const nav = useNavigate()
 
   const {
     handleSubmit,
@@ -30,6 +31,7 @@ export default function Signin() {
     try {
       const response = await authorization(data)
       Cookies.set('token', response.data.token)
+      nav('/')
       setOpen(false)
     } catch (error: AxiosError | any) {
       setOpen(true)

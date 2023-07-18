@@ -1,3 +1,5 @@
+import User from "../components/User/User"
+
 export default function UsersPage() {
-  return <h1>Users</h1>
+  return <User />
 }
