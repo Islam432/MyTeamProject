@@ -14,6 +14,7 @@ import { CoursesPage } from './modules/courses/pages/CoursesPage.tsx'
 import UsersPage from './modules/users/pages/UsersPage.tsx'
 import CalendarPage from './modules/calendar/pages/CalendarPage.tsx'
 import AuthPage from './modules/authentication/pages/Auth/AuthPage.tsx'
+import { registerLicense } from '@syncfusion/ej2-base'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,8 @@ const router = createBrowserRouter([
     ],
   },
 ])
+
+registerLicense(import.meta.env.VITE_LICENSE_KEY as string)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
