@@ -88,20 +88,23 @@ export default function User() {
   }, [])
 
   return (
-    <div style={{ width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 25 },
-          },
-        }}
-        pageSizeOptions={[10, 25, 50]}
-        checkboxSelection
-        density='compact'
-      />
-      <Snack open={open}>message</Snack>
-    </div>
+    <>
+      <h1>Users</h1>
+      <div style={{ width: '100%', padding: '1rem 0' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 25 },
+            },
+          }}
+          pageSizeOptions={[10, 25, 50]}
+          checkboxSelection
+          density='compact'
+        />
+        <Snack open={open}>message</Snack>
+      </div>
+    </>
   )
 }

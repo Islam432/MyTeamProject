@@ -39,19 +39,24 @@ function beforeDownload(args: BeforeDownloadEventArgs) {
 
 export default function FileManager() {
   return (
-    <FileManagerComponent
-      id='file'
-      ajaxSettings={{
-        url: hostUrl,
-        downloadUrl: hostUrl + '/Download',
-        uploadUrl: hostUrl + '/Upload',
-        getImageUrl: hostUrl + '/GetImage',
-      }}
-      beforeSend={beforeSend}
-      beforeImageLoad={beforeImageLoad}
-      beforeDownload={beforeDownload}
-    >
-      <Inject services={[NavigationPane, DetailsView, Toolbar]} />
-    </FileManagerComponent>
+    <>
+      <h1>Files</h1>
+      <div style={{ padding: '1rem 0' }}>
+        <FileManagerComponent
+          id='file'
+          ajaxSettings={{
+            url: hostUrl,
+            downloadUrl: hostUrl + '/Download',
+            uploadUrl: hostUrl + '/Upload',
+            getImageUrl: hostUrl + '/GetImage',
+          }}
+          beforeSend={beforeSend}
+          beforeImageLoad={beforeImageLoad}
+          beforeDownload={beforeDownload}
+        >
+          <Inject services={[NavigationPane, DetailsView, Toolbar]} />
+        </FileManagerComponent>
+      </div>
+    </>
   )
 }
