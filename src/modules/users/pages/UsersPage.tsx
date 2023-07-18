@@ -1,7 +1,5 @@
-import UserComponents from "../../authentication/components/users/UserComponents";
+import User from "../components/User/User"
 
 export default function UsersPage() {
-  return <div>
-    <UserComponents/>
-  </div>
+  return <User />
 }

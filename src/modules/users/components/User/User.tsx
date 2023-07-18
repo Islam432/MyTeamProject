@@ -1,15 +1,14 @@
 import { DataGrid, GridColDef, GridValueGetterParams, GridCellParams } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
-import { changeTogler, getUsers } from './server'
-import styles from './styles.module.scss'
 import { Chip } from '@mui/material'
 import Snack from '../../../../shared/components/Snackbar/Snackbar'
+import styles from './User.module.scss'
+import { toggleUser, getUsers } from '../../services/user.service'
 
-export default function UserComponents() {
+export default function User() {
   const [open, setOpen] = useState<boolean>(false)
   const [rows, setRows] = useState<any[]>([])
 
-  const count = rows.length
   const columns: GridColDef[] = [
     { field: 'Index', headerName: 'ID', width: 60 },
     { field: 'first_name', headerName: 'First name', width: 170 },
@@ -21,7 +20,7 @@ export default function UserComponents() {
     },
     {
       field: 'contact_number',
-      headerName: 'Contact_number',
+      headerName: 'Contact number',
       type: 'number',
       width: 160,
     },
@@ -32,7 +31,7 @@ export default function UserComponents() {
     },
     {
       field: 'date_of_birth',
-      headerName: 'date_of_birth ',
+      headerName: 'Date of birth',
       width: 170,
     },
     {
@@ -53,7 +52,7 @@ export default function UserComponents() {
     event.stopPropagation()
 
     try {
-      await changeTogler({ is_active: value, id })
+      await toggleUser({ is_active: value, id })
       setRows(
         rows.map((item) => {
           if (item.id == id) return { ...item, is_active: !item.is_active }
@@ -95,14 +94,14 @@ export default function UserComponents() {
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
+            paginationModel: { page: 0, pageSize: 25 },
           },
         }}
         pageSizeOptions={[10, 25, 50]}
         checkboxSelection
         density='compact'
       />
-      <Snack open={open}>dasdasdsadasdasdas</Snack>
+      <Snack open={open}>message</Snack>
     </div>
   )
 }

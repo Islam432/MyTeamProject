@@ -5,9 +5,9 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { PiStudentFill } from 'react-icons/pi'
 import { LiaFileSolid } from 'react-icons/lia'
-import { BiBell,BiShareAlt } from 'react-icons/bi'
-import styles from './card.module.scss'
+import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { Card } from '@mui/material'
+import styles from './CardDash.module.scss'
 interface CardDashProps {
   id: number
   text: string
@@ -16,9 +16,9 @@ interface CardDashProps {
   bc2: string
   color: string
   color2: string
-  bt:string
+  bt: string
 }
-export const CardDash: React.FC<CardDashProps> = ({ id, text, img, bc1, bc2, color, color2,bt }) => {
+export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }: CardDashProps){
   return (
     <Card
       key={id}
@@ -46,18 +46,30 @@ export const CardDash: React.FC<CardDashProps> = ({ id, text, img, bc1, bc2, col
           except Antarctica
         </Typography>
       </CardContent>
-      <CardActions sx={{ background: bc2 ,display:'flex',justifyContent:'center' }}>
+      <CardActions sx={{ background: bc2, display: 'flex', justifyContent: 'space-evenly' }}>
         <Button size='small'>
-          <PiStudentFill  style={{color:bt}} className={styles.icon} />
+          <PiStudentFill
+            style={{ color: bt }}
+            className={styles.icon}
+          />
         </Button>
         <Button size='small'>
-          <BiBell  style={{color:bt}} className={styles.icon} />
+          <BiBell
+            style={{ color: bt }}
+            className={styles.icon}
+          />
         </Button>
         <Button size='small'>
-          <LiaFileSolid  style={{color:bt}} className={styles.icon} />
+          <LiaFileSolid
+            style={{ color: bt }}
+            className={styles.icon}
+          />
         </Button>
         <Button size='small'>
-          <BiShareAlt style={{color:bt}}  className={styles.icon} />
+          <BiShareAlt
+            style={{ color: bt }}
+            className={styles.icon}
+          />
         </Button>
       </CardActions>
     </Card>
