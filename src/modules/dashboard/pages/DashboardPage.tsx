@@ -1,5 +1,7 @@
-import DashBoard from "../components/DashBoard/DashBoard"
+import Dashboard from '../components/DashBoard/DashBoard'
 
-export default function DashboardPage(){
-  return <DashBoard />
+export default function DashboardPage() {
+  return (
+      <Dashboard />
+  )
 }
