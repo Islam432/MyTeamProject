@@ -1,0 +1,26 @@
+.wrapper {
+  padding: 1rem 4%;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem 1rem;
+}
+
+.card {
+  min-width: calc(33% - 2rem/3);
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 480px) {
+    min-width: 100%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    min-width: calc(50% - 1rem/2);
+  }
+}
