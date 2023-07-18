@@ -1,6 +1,6 @@
 import CardDash from '../CardDash/CardDash'
-import { mokData } from './mokData'
 import styles from './Dashboard.module.scss'
+import { mokData } from './mokData'
 
 export default function Dashboard() {
   const soft = mokData

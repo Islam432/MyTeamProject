@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridValueGetterParams, GridCellParams } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridCellParams } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
 import { Chip } from '@mui/material'
 import Snack from '../../../../shared/components/Snackbar/Snackbar'
@@ -27,7 +27,7 @@ export default function User() {
     {
       field: 'role_name',
       headerName: 'Role',
-      width: 130,
+      width: 100,
     },
     {
       field: 'date_of_birth',
@@ -37,7 +37,7 @@ export default function User() {
     {
       field: 'is_active',
       headerName: 'Status ',
-      width: 130,
+      width: 100,
       renderCell: (params: GridCellParams | any) => (
         <Chip
           className={styles[params.value ? 'cpFalse' : 'cpActive']}
