@@ -3,28 +3,33 @@ import jwt from 'jsonwebtoken';
 // import styles from './styles.module.scss'
 import  Cookies  from 'js-cookie';
 
+
+function parseJwt(token: any) {
+  if (!token) {
+    return;
+  }
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace("-", "+").replace("_", "/");
+  return JSON.parse(window.atob(base64));
+}
 const AccountComponents = () => {
+  
   useEffect(() => {
 
     
-    const secretKey = 'your_secret_key';
-
     const token = Cookies.get('token');
-
-    // if (token) {
-    //   try {
-    //     const decodedToken = jwt.verify(token, secretKey);
-    //     console.log(decodedToken);
-    //   } catch (error) {
-    //     console.error('Ошибка разархивации токена:',);
-    //   }
-    // } else {
-    //   console.error('Токен не найден.');
-    // }
-    
+    const decodedToken = parseJwt(token);
+    console.log(decodedToken)
   }, [])
 
-  return <div>AccountComponents</div>
+  
+  
+  
+
+  return
+   <div>
+    
+  </div>
 }
 
 export default AccountComponents
