@@ -1,4 +1,20 @@
-.icon {
-  width: 20px;
-  height: 20px;
+.icons {
+  background: #333;
+  display: flex;
+  justify-content: space-evenly;
+  > button > * {
+    width: 20px;
+    height: 20px;
+    color: #fc0;
+    cursor: pointer;
+  }
+  > button {
+    &:hover {
+      > * {
+        color: #333;
+      }
+      background: #fc0;
+      color: #333;
+    }
+  }
 }

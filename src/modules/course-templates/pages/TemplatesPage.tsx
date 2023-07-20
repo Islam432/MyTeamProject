@@ -1,3 +1,6 @@
-export default function TemplatesPage(){
-  return <h1>Course Templates</h1>
+import { useEffect, useState } from 'react'
+import CoursePage from '../components/CoursePage/Course-page'
+
+export default function TemplatesPage() {
+  return <CoursePage />
 }
