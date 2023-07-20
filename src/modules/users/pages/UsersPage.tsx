@@ -1,3 +1,5 @@
-export default function UsersPage() {
-  return <h1>Users</h1>
-}
+import Users from '../components/User/Users'
+import { memo } from 'react'
+export default memo(function UsersPage() {
+  return <Users />
+})

@@ -1,5 +1,4 @@
 import CardDash from '../CardDash/CardDash'
-import { mokData } from './mokData'
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'

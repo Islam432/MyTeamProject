@@ -1,6 +1,6 @@
 import { TextField, styled } from '@mui/material'
 
-export const CssTextField = styled(TextField)({
+export const CssTextField = styled(TextField)(({ theme }) => ({
   '& label.Mui-focused': {
     color: '#fc0',
     zIndex: '9',
@@ -10,13 +10,12 @@ export const CssTextField = styled(TextField)({
   },
   '& input': {
     zIndex: '1',
-    color: '#333',
+    color: '#666',
     transition: '.5s all',
     borderColor: '#ccc',
-    padding: '15px',
   },
   '& label': {
-    color: '#333',
+    color: '#666',
     zIndex: '999999',
   },
   '& .MuiInput-underline:after': {
@@ -38,4 +37,6 @@ export const CssTextField = styled(TextField)({
       borderColor: '#fc0',
     },
   },
-})
+}))
+
+

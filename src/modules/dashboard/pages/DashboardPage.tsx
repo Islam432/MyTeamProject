@@ -1,7 +1,6 @@
-import Dashboard from '../components/DashBoard/DashBoard'
+import Dashboard from '../components/Dashboard/Dashboard'
+import { memo } from 'react'
 
-export default function DashboardPage() {
-  return (
-      <Dashboard />
-  )
-}
+export default memo(function DashboardPage() {
+  return <Dashboard />
+})

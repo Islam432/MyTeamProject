@@ -3,6 +3,9 @@
   > * > ul {
     height: 100vh !important;
   }
+  > div {
+    height: 100vh !important;
+  }
 
   svg {
     color: #ffcc00;
@@ -17,6 +20,9 @@
   color: white;
 }
 
-.logo {
-  margin-right: 1rem;
+.link {
+  color: #666;
+  &:hover{
+    text-decoration: underline;
+  }
 }
