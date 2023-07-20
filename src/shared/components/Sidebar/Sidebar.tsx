@@ -28,7 +28,7 @@ import { memo, useState } from 'react'
 import { MouseEvent } from 'react'
 import { SnackbarProps } from '../../../App'
 
-const drawerWidth = 240
+const drawerWidth = 220
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -118,13 +118,13 @@ const links = [
     icon: <BsFolder />,
   },
   {
-    title: 'Course templates',
-    path: '/templates',
+    title: 'Courses',
+    path: '/courses',
     icon: <BiBookBookmark />,
   },
   {
-    title: 'Courses',
-    path: '/courses',
+    title: 'Classes',
+    path: '/classes',
     icon: <PiStudent />,
   },
   {
