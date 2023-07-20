@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
@@ -6,7 +5,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import List from '@mui/material/List'
 import CssBaseline from '@mui/material/CssBaseline'
-import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -16,16 +14,19 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Link from '@mui/material/Link'
+import { Link } from 'react-router-dom'
 import { LuUsers, LuLayoutDashboard } from 'react-icons/lu'
 import { BsCalendarDate } from 'react-icons/bs'
 import { PiStudent } from 'react-icons/pi'
 import { BiBookBookmark } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { FaUserAstronaut } from 'react-icons/fa'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useOutletContext } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
+import { memo, useState } from 'react'
+import { MouseEvent } from 'react'
+import { SnackbarProps } from '../../../App'
 
 const drawerWidth = 240
 
@@ -50,7 +51,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 })
 
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+function handleClick(event: MouseEvent) {
   event.preventDefault()
   console.info('You clicked a breadcrumb.')
 }
@@ -60,7 +61,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
 
@@ -139,9 +139,12 @@ const links = [
   },
 ]
 
-export default function ResponsiveDrawer() {
+export default memo(function ResponsiveDrawer() {
+  const context = useOutletContext<SnackbarProps>()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const localtion = useLocation()
+  const paths = localtion.pathname.split('/').filter((path: string) => path !== '')
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -172,42 +175,30 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon sx={{ color: '#333' }} />
           </IconButton>
-          <Typography
-            sx={{ color: '#333' }}
-            variant='h6'
-            noWrap
-            component='div'
+          <div
+            role='presentation'
+            onClick={handleClick}
           >
-            <div
-              role='presentation'
-              onClick={handleClick}
-            >
-              <Breadcrumbs aria-label='breadcrumb'>
-                <Link
-                  underline='hover'
-                  color='inherit'
-                  href='/'
-                >
-                  HOME
-                </Link>
-                <Link
-                  underline='hover'
-                  color='inherit'
-                  href='/material-ui/getting-started/installation/'
-                >
-                  Account
-                </Link>
-                <Link
-                  underline='hover'
-                  color='text.primary'
-                  href='/signup'
-                  aria-current='page'
-                >
-                  Breadcrumbs
-                </Link>
-              </Breadcrumbs>
-            </div>
-          </Typography>
+            <Breadcrumbs aria-label='breadcrumb'>
+              <Link
+                className={styles.link}
+                to='/'
+              >
+                HOME
+              </Link>
+              {paths.map((path: string, indx: number) => (
+                <div key={indx}>
+                  <Link
+                    className={styles.link}
+                    to={`/${paths.slice(0, indx + 1).join('/')}`}
+                  >
+                    {' '}
+                    {path.toUpperCase()}
+                  </Link>
+                </div>
+              ))}
+            </Breadcrumbs>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -221,13 +212,11 @@ export default function ResponsiveDrawer() {
             src="'../../../../public/logo-light.svg"
             alt=''
           />
-
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-
         <List sx={{ bgcolor: '#333' }}>
           {links.map((data, index) => (
             <ListItem
@@ -240,7 +229,6 @@ export default function ResponsiveDrawer() {
                 to={data.path}
               >
                 <ListItemIcon>{data.icon}</ListItemIcon>
-                {/* <ListItemText primary={text} onClick={} /> */}
                 <p className={styles.pcolor}>{data.title}</p>
               </ListItemButton>
             </ListItem>
@@ -254,8 +242,8 @@ export default function ResponsiveDrawer() {
         sx={{ flexGrow: 1, p: 3 }}
       >
         <DrawerHeader />
-        <Outlet />
+        <Outlet context={context} />
       </Box>
     </Box>
   )
-}
+})

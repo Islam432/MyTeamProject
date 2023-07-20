@@ -23,3 +23,10 @@
 .logo {
   margin-right: 1rem;
 }
+
+.link {
+  color: #666;
+  &:hover{
+    text-decoration: underline;
+  }
+}
