@@ -4,7 +4,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { PiStudentFill } from 'react-icons/pi'
-import { LiaFileSolid } from 'react-icons/lia'
+import { BsFolder } from 'react-icons/bs'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { Card } from '@mui/material'
 import styles from './CardDash.module.scss'
@@ -18,7 +18,7 @@ interface CardDashProps {
   color2: string
   bt: string
 }
-export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }: CardDashProps){
+export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }: CardDashProps) {
   return (
     <Card
       key={id}
@@ -60,7 +60,7 @@ export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }:
           />
         </Button>
         <Button size='small'>
-          <LiaFileSolid
+          <BsFolder
             style={{ color: bt }}
             className={styles.icon}
           />

@@ -5,12 +5,11 @@ export const UserSchema = z.object({
   last_name: z.string().min(2, 'Слишком короткая фамилия'),
   email: z.string().email('Некорректный адрес электронной почты'),
   contact_number: z.string().length(10, 'Некорректный номер телефона'),
-  date_of_birth: z.string().refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
-    message: 'Некорректный формат даты',
-  }),
+  date_of_birth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Некорректный формат даты'),
   password: z
     .string()
     .min(8, 'Слишком короткий пароль')
     .regex(/.*[A-Z].*/, 'Пароль должен содержать хотя бы одну заглавную букву')
     .regex(/^(?=.*\d).*$/, 'Пароль должен содержать как минимум одну цифру'),
 })
+

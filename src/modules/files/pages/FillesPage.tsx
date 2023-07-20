@@ -1,5 +1,5 @@
 import FileManager from '../components/FileManager/FileManager'
-
-export default function FilesPage() {
+import { memo } from 'react'
+export default memo(function FilesPage() {
   return <FileManager />
-}
+})
