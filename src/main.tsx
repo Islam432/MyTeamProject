@@ -15,6 +15,7 @@ import UsersPage from './modules/users/pages/UsersPage.tsx'
 import CalendarPage from './modules/calendar/pages/CalendarPage.tsx'
 import AuthPage from './modules/authentication/pages/Auth/AuthPage.tsx'
 import { registerLicense } from '@syncfusion/ej2-base'
+import ProtectedRoute from './shared/components/ProtectedRoute.tsx'
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <ResponsiveDrawer />,
+        element: <ProtectedRoute children={<ResponsiveDrawer />} />,
         children: [
           { index: true, element: <DashboardPage /> },
           { path: 'account', element: <AccountPage /> },

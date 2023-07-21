@@ -1,10 +1,11 @@
 import { DataGrid, GridColDef, GridCellParams } from '@mui/x-data-grid'
-import { useState, useEffect, useMemo, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect, useMemo, Dispatch, SetStateAction, useContext } from 'react'
 import { Chip } from '@mui/material'
-import Snack from '../../../../shared/components/Snackbar/Snackbar'
 import styles from './Users.module.scss'
 import { toggleUser, getUsers } from '../../services/user.service'
 import { MouseEvent } from 'react'
+import { AppContext } from '../../../../App'
+import { AxiosError } from 'axios'
 
 type UserTableEntry = {
   id: number
@@ -50,29 +51,26 @@ const handleToggle = async (
   params: GridCellParams,
   rows: UserTableEntry[],
   setRows: Dispatch<SetStateAction<UserTableEntry[]>>,
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setSnackbarMessage: Dispatch<SetStateAction<string>>
 ) => {
   event.stopPropagation()
   event.preventDefault()
   const { row } = params
   try {
     await toggleUser(row.id, { is_active: !row.is_active })
-    const newU = rows.map((item) => {
+    const newUsers = rows.map((item) => {
       if (item.id == row.id) return { ...item, is_active: !item.is_active }
       return item
     })
-    console.log(newU)
-    setRows(newU)
-    setOpen(false)
-  } catch (error) {
-    console.log(error)
-    setOpen(true)
+    setRows(newUsers)
+  } catch (error: AxiosError | any) {
+    setSnackbarMessage(error.response.data.message)
   }
 }
 
 export default function Users() {
-  const [open, setOpen] = useState<boolean>(false)
   const [rows, setRows] = useState<UserTableEntry[]>([])
+  const { setSnackbarMessage } = useContext(AppContext)
 
   useEffect(() => {
     const xz = async () => {
@@ -105,7 +103,7 @@ export default function Users() {
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
             label={params.value ? 'Active' : 'Inactive'}
             size='small'
-            onClick={(event) => handleToggle(event, params, rows, setRows, setOpen)}
+            onClick={(event) => handleToggle(event, params, rows, setRows, setSnackbarMessage)}
           />
         ),
       },
@@ -119,6 +117,7 @@ export default function Users() {
         <DataGrid
           rows={rows}
           columns={columns}
+          editMode='row'
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 25 },
@@ -128,7 +127,6 @@ export default function Users() {
           checkboxSelection
           density='compact'
         />
-        <Snack open={open}>message</Snack>
       </div>
     </>
   )

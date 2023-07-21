@@ -21,12 +21,11 @@ import { PiStudent } from 'react-icons/pi'
 import { BiBookBookmark } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { FaUserAstronaut } from 'react-icons/fa'
-import { NavLink, useLocation, useOutletContext } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import { memo, useState } from 'react'
 import { MouseEvent } from 'react'
-import { SnackbarProps } from '../../../App'
 
 const drawerWidth = 220
 
@@ -140,7 +139,6 @@ const links = [
 ]
 
 export default memo(function ResponsiveDrawer() {
-  const context = useOutletContext<SnackbarProps>()
   const theme = useTheme()
   const [open, setOpen] = useState(false)
   const localtion = useLocation()
@@ -242,7 +240,7 @@ export default memo(function ResponsiveDrawer() {
         sx={{ flexGrow: 1, p: 3 }}
       >
         <DrawerHeader />
-        <Outlet context={context} />
+        <Outlet/>
       </Box>
     </Box>
   )
