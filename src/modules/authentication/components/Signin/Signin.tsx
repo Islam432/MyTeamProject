@@ -1,43 +1,37 @@
-import { useState } from 'react'
+import { memo, useCallback, useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Alert, Button, IconButton, Snackbar, TextField } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Button, IconButton, InputAdornment } from '@mui/material'
+import { NavLink } from 'react-router-dom'
 import { authorization } from '../../services/auth.service'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import styles from './Signin.module.scss'
 import { AxiosError } from 'axios'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
-import Cookies from 'js-cookie'
+import { AppContext } from '../../../../App'
 
 export interface FormAuth {
   email: string
   password: string
 }
 
-export default function Signin() {
-  const [open, setOpen] = useState<boolean>(false)
+export default memo(function Signin() {
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [err, setErr] = useState<string>('')
-  const nav = useNavigate()
-
+  const { auth, setSnackbarMessage } = useContext(AppContext)
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormAuth>()
 
-  const onSubmit = async (data: FormAuth) => {
+  const onSubmit = useCallback(async (formAuthData: FormAuth) => {
     try {
-      const response = await authorization(data)
-      Cookies.set('token', response.data.token)
-      nav('/')
-      setOpen(false)
+      const { data } = await authorization(formAuthData)
+      auth.login(data.token)
     } catch (error: AxiosError | any) {
-      setOpen(true)
-      setErr(error.response.data.message)
+      setSnackbarMessage(error.response.data.message)
     }
-  }
+  }, [])
 
   return (
     <div className={styles.signIn}>
@@ -55,6 +49,7 @@ export default function Signin() {
         >
           <div>
             <CssTextField
+              size='small'
               label='Email'
               type='email'
               {...register('email', {
@@ -67,18 +62,26 @@ export default function Signin() {
           </div>
           <div>
             <CssTextField
+              size='small'
               label='Пароль'
               type={showPassword ? 'text' : 'password'}
               {...register('password', { required: true })}
               error={!!errors.password}
               helperText={errors.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge='end'
+                    >
+                      {showPassword ? <FaRegEyeSlash /> : <BiShow />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <IconButton
-              aria-label='toggle password visibility'
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaRegEyeSlash /> : <BiShow />}
-            </IconButton>
           </div>
           <Button
             type='submit'
@@ -94,21 +97,7 @@ export default function Signin() {
             Если у вас нет аккаунта, то вы можете <NavLink to='/signup'>Зарегистрироваться</NavLink>
           </p>
         </div>
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={() => setOpen(false)}
-        >
-          <Alert
-            onClose={() => setOpen(false)}
-            severity='error'
-            className={styles.signIn__snackbar}
-          >
-            {err}
-          </Alert>
-        </Snackbar>
       </div>
     </div>
   )
-}
-
+})

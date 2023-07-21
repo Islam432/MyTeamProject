@@ -1,7 +1,12 @@
+
 import AccountComponents from "../../../shared/components/AccountComponents/AccountComponents";
 
-export default function AccountPage(){
+
+import { memo } from 'react'
+
+export default memo(function AccountPage() {
   return <div>
-    <AccountComponents/>
-  </div>
-}
+  <AccountComponents/>
+</div>
+})
+

@@ -103,21 +103,6 @@
       text-decoration: underline;
     }
   }
-  &__snackbar {
-    width: 100%;
-    font-size: 22px !important;
-    background: #ff000081 !important;
-    display: flex;
-    align-items: center;
-    svg {
-      width: 50px !important;
-      font-size: 34px !important;
-      fill: #fff !important;
-    }
-    > * {
-      color: #fff !important;
-    }
-  }
 }
 
 @media screen and (max-width: 31.25rem) {

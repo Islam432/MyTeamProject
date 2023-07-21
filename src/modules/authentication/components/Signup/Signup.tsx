@@ -1,25 +1,24 @@
 import { useForm } from 'react-hook-form'
-import { Alert, Button, IconButton, Input, Snackbar } from '@mui/material'
+import { Button, IconButton, InputAdornment } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerUser } from '../../services/auth.service'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
 import z from 'zod'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import styles from './Signup.module.scss'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
+import { AppContext } from '../../../../App'
 
 export type FormData = z.infer<typeof UserSchema>
 
 export default function Signup() {
-  const [open, setOpen] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(false)
-  const [err, setErr] = useState<string>('')
-
-  const redirect = useNavigate()
+  const navigate = useNavigate()
+  const { setSnackbarMessage } = useContext(AppContext)
 
   const {
     register,
@@ -29,15 +28,12 @@ export default function Signup() {
     resolver: zodResolver(UserSchema),
   })
 
-  const onSubmit = async (data: FormData) => {
-    UserSchema.parse(data)
+  const onSubmit = async (formData: FormData) => {
     try {
-      const response = await registerUser(data)
-      redirect('/signin')
-      setOpen(false)
+      await registerUser(formData)
+      navigate('/signin')
     } catch (error: AxiosError | any) {
-      setOpen(true)
-      setErr(error.response.message)
+      setSnackbarMessage(error.response.message)
     }
   }
 
@@ -57,6 +53,7 @@ export default function Signup() {
         >
           <div>
             <CssTextField
+              size='small'
               label='Имя'
               type='text'
               {...register('first_name')}
@@ -66,6 +63,7 @@ export default function Signup() {
           </div>
           <div>
             <CssTextField
+              size='small'
               label='Фамилия'
               type='text'
               {...register('last_name')}
@@ -75,6 +73,7 @@ export default function Signup() {
           </div>
           <div>
             <CssTextField
+              size='small'
               label='Email'
               type='email'
               {...register('email', {
@@ -87,20 +86,29 @@ export default function Signup() {
           </div>
           <div>
             <CssTextField
+              size='small'
               label='Пароль'
               type={!show ? 'password' : 'text'}
               {...register('password')}
               error={!!errors.password}
               helperText={errors.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={() => setShow(!show)}
+                      edge='end'
+                    >
+                      {show ? <FaRegEyeSlash /> : <BiShow />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <IconButton
-              aria-label='toggle password visibility'
-              onClick={() => setShow(!show)}
-            >
-              {show ? <FaRegEyeSlash /> : <BiShow />}
-            </IconButton>
           </div>
           <CssTextField
+            size='small'
             label='Дата рождения'
             type='date'
             {...register('date_of_birth')}
@@ -112,6 +120,7 @@ export default function Signup() {
           />
           <div>
             <CssTextField
+              size='small'
               label='Контактный номер'
               type='number'
               inputProps={{ maxLength: 10 }}
@@ -136,19 +145,6 @@ export default function Signup() {
           </p>
         </div>
       </div>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={() => setOpen(false)}
-      >
-        <Alert
-          onClose={() => setOpen(false)}
-          severity='error'
-          className={styles.signUp__snackbar}
-        >
-          E-mail уже зарегистрирован
-        </Alert>
-      </Snackbar>
     </div>
   )
 }

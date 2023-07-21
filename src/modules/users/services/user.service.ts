@@ -12,8 +12,8 @@ export function getUsers() {
   })
 }
 
-export function toggleUser(data: any) {
-  return axios.post(`${apiUrl}/user/${data.id}/toggle`, data, {
+export function toggleUser(id: number, data: { is_active: boolean }) {
+  return axios.post(`${apiUrl}/user/${id}/toggle`, data, {
     headers: {
       Authorization: token,
     },
