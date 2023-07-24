@@ -8,7 +8,7 @@ import React from 'react'
 interface CardDashProps {
   id: number
   title: string
-  img: string
+  image: string
   bc1: string
   bc2: string
   color: string
@@ -17,7 +17,7 @@ interface CardDashProps {
   children: React.ReactNode
   icon: React.ReactNode
 }
-export default function CardDash({ id, title, img, bc1, bc2, color, color2, bt, children, icon }: CardDashProps) {
+export default function CardDash({ id, title, image, bc1, bc2, color, color2, bt, children, icon }: CardDashProps) {
   return (
     <Card
       key={id}
@@ -27,7 +27,7 @@ export default function CardDash({ id, title, img, bc1, bc2, color, color2, bt, 
         component='img'
         alt='green iguana'
         height='150'
-        image={img}
+        image={image}
       />
       <CardContent sx={{ background: bc1, color: color, height: '100%' }}>
         <Typography

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Alert, Button, IconButton, Snackbar, InputAdornment } from '@mui/material'
+import { Button, IconButton, InputAdornment } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerUser } from '../../services/auth.service'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
@@ -11,14 +11,14 @@ import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import { SnackbarContext } from '../../../../App'
+import { AppContext } from '../../../../App'
 
 export type FormData = z.infer<typeof UserSchema>
 
 export default function Signup() {
   const [show, setShow] = useState<boolean>(false)
-  const redirect = useNavigate()
-  const { setError, setOpenSnackbar } = useContext(SnackbarContext)
+  const navigate = useNavigate()
+  const { setSnackbarMessage } = useContext(AppContext)
 
   const {
     register,
@@ -30,12 +30,10 @@ export default function Signup() {
 
   const onSubmit = async (formData: FormData) => {
     try {
-      const { data } = await registerUser(formData)
-      setOpenSnackbar(false)
-      redirect('/signin')
+      await registerUser(formData)
+      navigate('/signin')
     } catch (error: AxiosError | any) {
-      setOpenSnackbar(true)
-      setError(error.response.message)
+      setSnackbarMessage(error.response.message)
     }
   }
 

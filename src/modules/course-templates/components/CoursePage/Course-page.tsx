@@ -6,12 +6,12 @@ import styles from './style.module.scss'
 import '../../../../shared/components/CustomMUI/custom.scss'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
-import { Button, InputLabel, MenuItem, Select } from '@mui/material'
+import { Button, InputLabel, MenuItem, Select, FormControl } from '@mui/material'
 import Modal from '../../../../shared/components/Modal/Modal'
-import { CssTextField } from 'src/shared/components/CustomMUI'
+import { CssTextField } from './../../../../shared/components/CustomMUI'
 
 interface CourseTemplate {
-  name: stringsrc/shared/components/Modal/Modal
+  name: string 
   course_id: number
   level_name: string
   description: string
@@ -53,7 +53,7 @@ export default function CoursePage() {
         {course.map((data: CourseTemplate) => {
           return (
             <CardDash
-              img='./ger3.jpg'
+              image='./ger3.jpg'
               id={data.course_id}
               bc1='#fc0'
               bc2='#333'

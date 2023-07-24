@@ -3,7 +3,7 @@ import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
-import { LiaFileSolid } from 'react-icons/lia'
+import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
 export default function Dashboard() {
   const soft = mokData
@@ -30,23 +30,27 @@ export default function Dashboard() {
                       />
                     </Button>
                     <Button size='small'>
-                      <LiaFileSolid className={styles.icon} />
+                      <BsFolder className={styles.icon} />
                     </Button>
                     <Button size='small'>
                       <BiShareAlt className={styles.icon} />
                     </Button>
                   </>
                 }
-                id={item.id}
-                img={item.image}
-                bc1={item.bc1}
-                bc2={item.bc2}
-                title='xz'
-                color={item.color}
-                color2={item.color2}
-                bt={item.bt}
+                // id={item.id}
+                // image={item.image}
+                // bc1={item.bc1}
+                // bc2={item.bc2}
+                // title={item.title}
+                // color={item.color}
+                // color2={item.color2}
+                // bt={item.bt}
+                {...item}
               >
-                <p>{item.title}</p>
+                <p>
+                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                  continents except Antarctica
+                </p>
               </CardDash>
             </div>
           ))}
