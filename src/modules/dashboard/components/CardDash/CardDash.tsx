@@ -21,7 +21,7 @@ export default function CardDash({ id, title, img, bc1, bc2, color, color2, bt, 
   return (
     <Card
       key={id}
-      sx={{ maxWidth: 320 }}
+      sx={{ maxWidth: 320, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
     >
       <CardMedia
         component='img'
@@ -29,7 +29,7 @@ export default function CardDash({ id, title, img, bc1, bc2, color, color2, bt, 
         height='150'
         image={img}
       />
-      <CardContent sx={{ background: bc1, color: color }}>
+      <CardContent sx={{ background: bc1, color: color, height: '100%' }}>
         <Typography
           gutterBottom
           variant='h5'

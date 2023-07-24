@@ -3,19 +3,24 @@ import Cookies from 'js-cookie'
 import { deleteCourse, findCourse } from '../../services/course.services'
 import CardDash from '../../../dashboard/components/CardDash/CardDash'
 import styles from './style.module.scss'
+import '../../../../shared/components/CustomMUI/custom.scss'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
-import { Button } from '@mui/material'
+import { Button, InputLabel, MenuItem, Select } from '@mui/material'
+import Modal from '../../../../shared/components/Modal/Modal'
+import { CssTextField } from 'src/shared/components/CustomMUI'
 
 interface CourseTemplate {
-  name: string
+  name: stringsrc/shared/components/Modal/Modal
   course_id: number
   level_name: string
   description: string
   agenda: string
 }
+
 export default function CoursePage() {
   const [course, setCourse] = useState<CourseTemplate[] | any>([])
+  const [open, setOpen] = useState<boolean>(false)
   const token = Cookies.get('token')
 
   const dropCourse = async (id: number) => {
@@ -41,7 +46,6 @@ export default function CoursePage() {
     request()
   }, [])
   console.log(course)
-
   return (
     <div>
       <h1>Страница шаблонов курсов</h1>
@@ -62,7 +66,7 @@ export default function CoursePage() {
                   <Button onClick={() => dropCourse(data.course_id)}>
                     <MdDelete />
                   </Button>
-                  <Button>
+                  <Button onClick={() => setOpen(true)}>
                     <FaEdit />
                   </Button>
                 </>
@@ -81,6 +85,51 @@ export default function CoursePage() {
           )
         })}
       </div>
+      <Modal
+        title='dasdasdas'
+        desc='asdsadasd'
+        isOpen={open}
+        btn={
+          <>
+            <Button
+              onClick={() => setOpen(false)}
+              sx={{ color: '#fc0' }}
+            >
+              Отменить
+            </Button>
+            <Button
+              onClick={() => setOpen(false)}
+              sx={{ color: '#fc0' }}
+            >
+              Изменить
+            </Button>
+          </>
+        }
+      >
+        <CssTextField
+          label='Заголовок'
+          type='name'
+        />
+        <CssTextField
+          label='Описание'
+          type='description'
+        />
+        <FormControl>
+          <InputLabel id='demo-simple-select-label'>Age</InputLabel>
+          <Select
+            className={styles.course__age}
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            // value={age}
+            label='Age'
+            // onChange={handleChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+      </Modal>
     </div>
   )
 }

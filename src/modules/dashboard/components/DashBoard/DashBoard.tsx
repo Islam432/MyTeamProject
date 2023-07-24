@@ -4,7 +4,7 @@ import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { LiaFileSolid } from 'react-icons/lia'
-
+import { mokData } from './mokData'
 export default function Dashboard() {
   const soft = mokData
   return (
