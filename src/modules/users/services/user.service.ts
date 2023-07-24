@@ -9,7 +9,7 @@ export function getUsers() {
     headers: {
       Authorization: token,
     },
-  })
+  }) 
 }
 
 export function toggleUser(id: number, data: { is_active: boolean }) {

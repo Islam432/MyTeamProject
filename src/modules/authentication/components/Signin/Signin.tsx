@@ -29,7 +29,7 @@ export default memo(function Signin() {
       const { data } = await authorization(formAuthData)
       auth.login(data.token)
     } catch (error: AxiosError | any) {
-      setSnackbarMessage(error.response.data.message)
+      setSnackbarMessage(error?.response?.data?.message)
     }
   }, [])
 
