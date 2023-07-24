@@ -1,15 +1,14 @@
 import { memo, useCallback, useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, IconButton, InputAdornment } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { authorization } from '../../services/auth.service'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import styles from './Signin.module.scss'
 import { AxiosError } from 'axios'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
-import Cookies from 'js-cookie'
-import { SnackbarContext } from '../../../../App'
+import { AppContext } from '../../../../App'
 
 export interface FormAuth {
   email: string
@@ -18,8 +17,7 @@ export interface FormAuth {
 
 export default memo(function Signin() {
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const { setError, setOpenSnackbar } = useContext(SnackbarContext)
-  const nav = useNavigate()
+  const { auth, setSnackbarMessage } = useContext(AppContext)
   const {
     handleSubmit,
     register,
@@ -29,11 +27,9 @@ export default memo(function Signin() {
   const onSubmit = useCallback(async (formAuthData: FormAuth) => {
     try {
       const { data } = await authorization(formAuthData)
-      Cookies.set('token', data.token)
-      nav('/')
+      auth.login(data.token)
     } catch (error: AxiosError | any) {
-      setError(error.response.data.message)
-      setOpenSnackbar(true)
+      setSnackbarMessage(error.response.data.message)
     }
   }, [])
 
