@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
-import { Button, IconButton, InputAdornment } from '@mui/material'
+import { IconButton, InputAdornment } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerUser } from '../../services/auth.service'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
 import z from 'zod'
 import { useContext, useState } from 'react'
 import styles from './Signup.module.scss'
-import { CssTextField } from '../../../../shared/components/CustomMUI'
+import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -130,14 +130,14 @@ export default function Signup() {
               helperText={errors.contact_number?.message}
             />
           </div>
-          <Button
+          <CssButton
             type='submit'
             variant='contained'
             color='primary'
-            className={styles.signUp__btn}
+            fullWidth
           >
             Зарегистрироваться
-          </Button>
+          </CssButton>
         </form>
         <div className={styles.signUp__help}>
           <p>

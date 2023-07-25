@@ -1,8 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 
 interface ModalProps {
-  title: string
-  desc: string
+  title?: string
+  desc?: string
   isOpen: boolean
   children: React.ReactNode
   btn?: React.ReactNode
@@ -15,12 +15,12 @@ export default function Modal({ title, desc, isOpen, children, btn, onClose }: M
       open={isOpen}
       onClose={onClose}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle sx={{ textAlign: 'center' }}>{title}</DialogTitle>
       <DialogContent sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <DialogContentText>{desc}</DialogContentText>
         {children}
       </DialogContent>
-      <DialogActions>{btn}</DialogActions>
+      <DialogActions sx={{ display: 'flex', gap: '10px' }}>{btn}</DialogActions>
     </Dialog>
   )
 }
