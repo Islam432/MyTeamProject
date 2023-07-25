@@ -7,6 +7,7 @@ import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
 import { useState } from 'react'
 import Modal from '../../../../shared/components/Modal/Modal'
+import CardAddForm from './CardAddForm'
 export default function Dashboard() {
   const [open, setOpen] = useState<boolean>(false)
 
@@ -35,7 +36,7 @@ export default function Dashboard() {
           onClose={handleCloseModal}
           btn={''}
         >
-          title
+          <CardAddForm />
         </Modal>
       </div>
       <div className={styles.wrapper}>
