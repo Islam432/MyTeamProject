@@ -11,7 +11,7 @@ import Modal from '../../../../shared/components/Modal/Modal'
 import { CssTextField } from './../../../../shared/components/CustomMUI'
 
 interface CourseTemplate {
-  name: string 
+  name: string
   course_id: number
   level_name: string
   description: string
