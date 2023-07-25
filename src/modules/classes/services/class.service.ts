@@ -12,7 +12,7 @@ export function getClasses() {
   })
 }
 
-export function toggler(id: number, data: { open_for_enrollment: boolean }) {
+export function toggleEnrollment(id: number, data: { open_for_enrollment: boolean }) {
   return axios.post(`${apiUrl}/classes/${id}/toggle`, data, {
     headers: {
       Authorization: token,
