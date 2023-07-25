@@ -51,7 +51,7 @@ const AccountComponents = () => {
 
           <div className={styles.cardMedia}>
             <div className={styles.curcle}>
-             <img style={{ width: "100%", height: "auto" , objectFit: 'cover'}} src="../../../../../public/default-ava.avif" alt="" />
+             <img className={styles.img}  src="../../../../../public/default-ava.avif" alt="" />
             </div>
           </div>
           {/* <CardMedia

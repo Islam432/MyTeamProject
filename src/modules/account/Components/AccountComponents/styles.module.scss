@@ -55,7 +55,14 @@
 }
 .curcle {
   width: 160px;
+
   height: 160px;
-  border-radius: 80px;
+  border-radius: 50%;
  
+}
+.img{
+width: 100%;
+object-fit: cover;
+border-radius: 50%;
+height: 100%;
 }
