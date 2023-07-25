@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-
 const apiUrl = import.meta.env.VITE_API_URL
 const token = Cookies.get('token')
 
@@ -10,13 +9,13 @@ export function getClasses() {
     headers: {
       Authorization: token,
     },
-  }) 
+  })
 }
 
-export function toggler( id: number, data: { open_for_enrollment: boolean},  ) {
+export function toggler(id: number, data: { open_for_enrollment: boolean }) {
   return axios.post(`${apiUrl}/classes/${id}/toggle`, data, {
     headers: {
       Authorization: token,
     },
-  });
+  })
 }
