@@ -1,4 +1,3 @@
-import CardDash from '../CardDash/CardDash'
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
@@ -50,30 +49,19 @@ export default function Dashboard() {
                 icon={
                   <>
                     <Button size='small'>
-                      <PiStudentFill className={styles.icon} />
+                      <PiStudentFill />
                     </Button>
                     <Button size='small'>
-                      <BiBell
-                        class
-                        Name={styles.icon}
-                      />
+                      <BiBell />
                     </Button>
                     <Button size='small'>
-                      <BsFolder className={styles.icon} />
+                      <BsFolder />
                     </Button>
                     <Button size='small'>
-                      <BiShareAlt className={styles.icon} />
+                      <BiShareAlt />
                     </Button>
                   </>
                 }
-                // id={item.id}
-                // image={item.image}
-                // bc1={item.bc1}
-                // bc2={item.bc2}
-                // title={item.title}
-                // color={item.color}
-                // color2={item.color2}
-                // bt={item.bt}
                 {...item}
               >
                 <p>
