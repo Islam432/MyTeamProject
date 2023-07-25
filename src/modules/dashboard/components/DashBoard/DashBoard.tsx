@@ -5,11 +5,39 @@ import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
+import { useState } from 'react'
+import Modal from '../../../../shared/components/Modal/Modal'
 export default function Dashboard() {
+  const [open, setOpen] = useState<boolean>(false)
+
   const soft = mokData
+  const handleCloseModal = () => {
+    setOpen(false)
+  }
   return (
     <>
-      <h1>Dashboard</h1>
+      <div className={styles.title}>
+        <h1>Dashboard</h1>
+        <Button
+          variant='contained'
+          color='primary'
+          className={styles.addbtn}
+          onClick={() => {
+            setOpen(!open)
+          }}
+        >
+          Добавить новый курс
+        </Button>
+        <Modal
+          title='Добавить новый курс'
+          desc=''
+          isOpen={open}
+          onClose={handleCloseModal}
+          btn={''}
+        >
+          title
+        </Modal>
+      </div>
       <div className={styles.wrapper}>
         <div className={styles.container}>
           {soft.map((item, indx) => (

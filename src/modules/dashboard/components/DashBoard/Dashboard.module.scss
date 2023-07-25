@@ -1,7 +1,16 @@
 .wrapper {
   padding: 1rem 4%;
 }
-
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+.addbtn {
+  background: #fc0 !important;
+  padding: 5px 10px !important;
+  font-size: 16px !important;
+  text-transform: none !important;
+}
 .container {
   width: 100%;
   display: flex;
@@ -12,7 +21,7 @@
 }
 
 .card {
-  min-width: calc(33% - 2rem/3);
+  min-width: calc(33% - 2rem / 3);
   display: flex;
   justify-content: center;
 
@@ -21,6 +30,6 @@
   }
 
   @media screen and (max-width: 1200px) {
-    min-width: calc(50% - 1rem/2);
+    min-width: calc(50% - 1rem / 2);
   }
 }
