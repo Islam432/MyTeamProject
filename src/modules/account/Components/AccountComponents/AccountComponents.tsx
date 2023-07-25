@@ -36,9 +36,15 @@ const AccountComponents = () => {
 
     async function request() {
       try {
-        const { data } = await getOneUsers(decodedToken, token)
+        const { data } = await getOneUsers(decodedToken, token) 
+      
         console.log(data)
-        setData(data)
+        setData(()=> {
+          return{
+            ...data,
+            date_of_birth: data.date_of_birth.substring(0, 10),
+          }
+        })
       } catch (error) {}
     }
     request()
