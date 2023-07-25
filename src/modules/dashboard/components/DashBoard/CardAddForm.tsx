@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import CustomSelect from '../../../../shared/components/Select/Select'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { ClassesSchema } from '../../../../shared/schemas/classes.schema'
 import styles from './DashBoard.module.scss'
@@ -19,40 +20,48 @@ const CardAddForm = () => {
         // onSubmit={handleSubmit(onSubmit)}
       >
         <div>
-          <CssTextField
-            size='small'
+          <CustomSelect
             label='Названия группы'
-            type='number'
-            inputProps={{ maxLength: 10 }}
-            placeholder='Пример:0555-555-555'
-            {...register('course_code')}
-            error={!!errors.course_code}
-            helperText={errors.course_code?.message}
-          />
+            idInput='course_code'
+            change={() => {
+              return
+            }}
+
+            // {...register('course_code')}
+            // error={!!errors.course_code}
+            // helperText={errors.course_code?.message}
+          >
+            d
+          </CustomSelect>
         </div>
         <div>
-          <CssTextField
-            size='small'
+          <CustomSelect
             label='Названия улицы'
-            type='number'
-            inputProps={{ maxLength: 10 }}
-            placeholder='Пример:0555-555-555'
-            {...register('branch_name')}
-            error={!!errors.branch_name}
-            helperText={errors.branch_name?.message}
-          />
+            idInput='branch_name'
+            change={() => {
+              return
+            }}
+
+            // {...register('branch_name')}
+            // error={!!errors.branch_name}
+            // helperText={errors.branch_name?.message}
+          >
+            d
+          </CustomSelect>
         </div>
         <div>
-          <CssTextField
-            size='small'
+          <CustomSelect
             label='Названия курса'
-            type='number'
-            inputProps={{ maxLength: 10 }}
-            placeholder='Пример:0555-555-555'
-            {...register('course_name')}
-            error={!!errors.course_name}
-            helperText={errors.course_name?.message}
-          />
+            idInput='course_name'
+            change={() => {
+              return
+            }}
+            // {...register('course_name')}
+            // error={!!errors.course_name}
+            // helperText={errors.course_name?.message}
+          >
+            d
+          </CustomSelect>
         </div>
         <div>
           <CssTextField
