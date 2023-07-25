@@ -1,5 +1,5 @@
-import { memo } from 'react'
+import Classes from '../components/Classes/Classes'
 
-export default memo(function ClassesPage() {
-  return <h1>Courses</h1>
-})
+export default function ClassesPage() {
+  return <Classes />
+}

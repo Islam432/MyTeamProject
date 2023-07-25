@@ -4,16 +4,16 @@ import Cookies from 'js-cookie'
 const apiUrl = import.meta.env.VITE_API_URL
 const token = Cookies.get('token')
 
-export function getUsers() {
-  return axios.get(`${apiUrl}/user`, {
+export function getClasses() {
+  return axios.get(`${apiUrl}/classes`, {
     headers: {
       Authorization: token,
     },
-  }) 
+  })
 }
 
-export function toggleUser(id: number, data: { is_active: boolean }) {
-  return axios.post(`${apiUrl}/user/${id}/toggle`, data, {
+export function toggleEnrollment(id: number, data: { open_for_enrollment: boolean }) {
+  return axios.post(`${apiUrl}/classes/${id}/toggle`, data, {
     headers: {
       Authorization: token,
     },
