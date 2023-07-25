@@ -8,6 +8,8 @@ import { BsFolder } from 'react-icons/bs'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { Card } from '@mui/material'
 import styles from './CardDash.module.scss'
+import ky from 'ky'
+import { useState } from 'react'
 interface CardDashProps {
   id: number
   text: string
@@ -18,7 +20,32 @@ interface CardDashProps {
   color2: string
   bt: string
 }
+
+interface cardDate {
+  id: number
+  course_code: string
+  description: string
+}
 export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }: CardDashProps) {
+  const [classes, setClasses] = useState<cardDate[]>([])
+
+  // useEffect(() => {
+  //   // Define your API URL
+  //   const apiUrl = 'http://localhost:3000/api/v1/classes'
+
+  //   // Perform the HTTP GET request using Ky
+  //   ky.get(apiUrl)
+  //     .json<Class[]>()
+  //     .then((data) => {
+  //       // Handle the successful response and update the state
+  //       setClasses(data)
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors if needed
+  //       console.error('Ошибка при получении данных из базы данных', error)
+  //     })
+  // }, [])
+
   return (
     <Card
       key={id}
