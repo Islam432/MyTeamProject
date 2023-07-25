@@ -11,7 +11,7 @@ import { Button, CardActions } from '@mui/material'
 
 interface Contact {
   contact_number: string
-  date_of_birth: string // Используем string для даты, так как в образце указано значение с временной зоной
+  date_of_birth: string 
   email: string
   first_name: string
   id: number
