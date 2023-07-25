@@ -48,13 +48,19 @@ const AccountComponents = () => {
     <div className={styles.cont}>
       <div className={styles.box}>
         <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
+
+          <div className={styles.cardMedia}>
+            <div className={styles.curcle}>
+             <img style={{ width: "100%", height: "auto" , objectFit: 'cover'}} src="../../../../../public/default-ava.avif" alt="" />
+            </div>
+          </div>
+          {/* <CardMedia
             className={styles.img}
             component='img'
             alt='green iguana'
             height='140'
             image='../../../../public/nonePhotoUsers.avif'
-          />
+          /> */}
           <CardContent sx={{ border: 'none' }}>
             <Typography
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}

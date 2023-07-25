@@ -47,3 +47,15 @@
 .button:hover {
   box-shadow: 0px 0px 5px 1px #ffcc00 !important;
 }
+.cardMedia {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.curcle {
+  width: 160px;
+  height: 160px;
+  border-radius: 80px;
+ 
+}
