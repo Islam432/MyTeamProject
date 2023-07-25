@@ -1,5 +1,5 @@
 
-import AccountComponents from "../Components/AccountComponents/AccountComponents";
+import AccountComponents from "../components/AccountComponents/Account";
 
 
 import { memo } from 'react'
