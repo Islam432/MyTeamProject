@@ -11,7 +11,7 @@ import { Button, CardActions } from '@mui/material'
 
 interface Contact {
   contact_number: string
-  date_of_birth: string 
+  date_of_birth: string
   email: string
   first_name: string
   id: number
@@ -47,14 +47,13 @@ const AccountComponents = () => {
   return (
     <div className={styles.cont}>
       <div className={styles.box}>
-        <Card sx={{ maxWidth: 345, boxShadow: 'none' }}>
+        <Card sx={{ maxWidth: 345 }}>
           <CardMedia
             className={styles.img}
             component='img'
             alt='green iguana'
             height='140'
             image='../../../../public/nonePhotoUsers.avif'
-            // {data.picture ? data.pucture : "../../../../public/nonePhotoUsers.avif"}
           />
           <CardContent sx={{ border: 'none' }}>
             <Typography
@@ -63,8 +62,8 @@ const AccountComponents = () => {
               variant='h5'
               component='div'
             >
-              <p className={styles.par}> {data?.first_name} </p>
-              <p className={styles.par}> {data?.last_name}</p>
+              <p style={{ margin: '4px' }}> {data?.first_name} </p>
+              <p style={{ margin: '4px' }}> {data?.last_name}</p>
             </Typography>
             <Typography
               variant='body2'
@@ -116,7 +115,6 @@ const AccountComponents = () => {
           <h4 className={styles.label}>Status:</h4>
           <p className={styles.datatext}>{data?.role_name}</p>
         </div>
-        <hr className={styles.hr1} />
       </Card>
     </div>
   )
