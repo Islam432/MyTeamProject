@@ -24,20 +24,22 @@ const columnsLst: GridColDef[] = [
     width: 90,
   },
   {
-    field:  'description',
-    headerName: 'Description',
-    width: 170,
-  },
-  {
-    field:  'branch_name',
-    headerName: 'Branch-Name',
-    width: 170,
-  },
-  {
     field:  'course_code',
     headerName: 'Name',
+    width: 140,
+  },
+  
+  {
+    field:  'branch_name',
+    headerName: 'Adress office',
     width: 170,
   },
+  {
+    field:  'description',
+    headerName: 'Description',
+    width: 200,
+  },
+ 
   {
     field:  'start_date',
     headerName: 'Start Date',
@@ -107,7 +109,7 @@ export default function DataGridDemo() {
         renderCell: (params: GridCellParams | any) => (
           <Chip
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
-            label={params.value ? 'Active' : 'Inactive'}
+            label={params.value ? 'Open' : 'Clouse'}
             size='small'
             onClick={(event) => handleToggle(event, params, rowss, setRowss, setSnackbarMessage)}
           />
