@@ -8,8 +8,7 @@ import { BsFolder } from 'react-icons/bs'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { Card } from '@mui/material'
 import styles from './CardDash.module.scss'
-import ky from 'ky'
-import { useState } from 'react'
+
 interface CardDashProps {
   id: number
   text: string
@@ -19,33 +18,22 @@ interface CardDashProps {
   color: string
   color2: string
   bt: string
-}
-
-interface cardDate {
-  id: number
-  course_code: string
+  course_name: string
   description: string
 }
-export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }: CardDashProps) {
-  const [classes, setClasses] = useState<cardDate[]>([])
 
-  // useEffect(() => {
-  //   // Define your API URL
-  //   const apiUrl = 'http://localhost:3000/api/v1/classes'
-
-  //   // Perform the HTTP GET request using Ky
-  //   ky.get(apiUrl)
-  //     .json<Class[]>()
-  //     .then((data) => {
-  //       // Handle the successful response and update the state
-  //       setClasses(data)
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors if needed
-  //       console.error('Ошибка при получении данных из базы данных', error)
-  //     })
-  // }, [])
-
+export default function CardDash({
+  id,
+  text,
+  img,
+  bc1,
+  bc2,
+  color,
+  color2,
+  bt,
+  description,
+  course_name,
+}: CardDashProps) {
   return (
     <Card
       key={id}
@@ -58,6 +46,8 @@ export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }:
         image={img}
       />
       <CardContent sx={{ background: bc1, color: color }}>
+        {course_name}
+
         <Typography
           gutterBottom
           variant='h5'
@@ -69,8 +59,7 @@ export default function CardDash({ id, text, img, bc1, bc2, color, color2, bt }:
           variant='body2'
           color={color2}
         >
-          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents
-          except Antarctica
+          {description}
         </Typography>
       </CardContent>
       <CardActions sx={{ background: bc2, display: 'flex', justifyContent: 'space-evenly' }}>
