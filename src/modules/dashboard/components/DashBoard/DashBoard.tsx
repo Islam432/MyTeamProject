@@ -7,6 +7,7 @@ import { mokData } from './mokData'
 import { useState } from 'react'
 import Modal from '../../../../shared/components/Modal/Modal'
 import CardAddForm from './CardAddForm'
+import CardDash from '../../../../shared/components/CardDash/CardDash'
 export default function Dashboard() {
   const [open, setOpen] = useState<boolean>(false)
 

@@ -15,7 +15,7 @@ export default function CustomSelect({ label, children, change, idInput }: Props
       <InputLabel id={idInput}>{label}</InputLabel>
       <Select
         label={label}
-        labelId='idInput'
+        labelId={idInput}
         onChange={change}
       >
         {children}
