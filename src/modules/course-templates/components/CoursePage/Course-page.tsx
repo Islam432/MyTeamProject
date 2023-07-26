@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { deleteCourse, findCourse } from '../../services/course.services'
-import CardDash from '../../../dashboard/components/CardDash/CardDash'
+import { deleteCourse, findCourse, findaAllLevel } from '../../services/course.services'
 import styles from './style.module.scss'
-import '../../../../shared/components/CustomMUI/custom.scss'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
 import { Button, InputLabel, MenuItem, Select, FormControl } from '@mui/material'
 import Modal from '../../../../shared/components/Modal/Modal'
-import { CssTextField } from './../../../../shared/components/CustomMUI'
+import { CssButton, CssTextField } from './../../../../shared/components/CustomMUI'
+import CardDash from '../../../../shared/components/CardDash/CardDash'
+import CustomSelect from '../../../../shared/components/Select/Select'
 
 interface CourseTemplate {
   name: string
@@ -17,9 +17,14 @@ interface CourseTemplate {
   description: string
   agenda: string
 }
+interface level {
+  id: number
+  level_name: string
+}
 
 export default function CoursePage() {
   const [course, setCourse] = useState<CourseTemplate[] | any>([])
+  const [level, setLevel] = useState<string[] | any>([])
   const [open, setOpen] = useState<boolean>(false)
   const token = Cookies.get('token')
 
@@ -34,18 +39,25 @@ export default function CoursePage() {
     }
   }
 
+  const updateCourse = async (id: number) => {
+    try {
+    } catch {}
+  }
+
   useEffect(() => {
     async function request() {
       try {
         const response = await findCourse(token)
+        const resLevel = await findaAllLevel(token)
         setCourse(response.data)
+        setLevel(resLevel.data)
       } catch (error) {
         console.log(error)
       }
     }
     request()
   }, [])
-  console.log(course)
+  console.log(level)
   return (
     <div>
       <h1>Страница шаблонов курсов</h1>
@@ -86,49 +98,53 @@ export default function CoursePage() {
         })}
       </div>
       <Modal
-        title='dasdasdas'
-        desc='asdsadasd'
+        title='Заполните поля'
         isOpen={open}
+        onClose={() => setOpen(false)}
         btn={
           <>
-            <Button
+            <CssButton
+              fullWidth
+              type='submit'
+              variant='contained'
+              sx={{ background: 'tomato !important' }}
               onClick={() => setOpen(false)}
-              sx={{ color: '#fc0' }}
             >
               Отменить
-            </Button>
-            <Button
+            </CssButton>
+            <CssButton
+              fullWidth
+              type='submit'
+              sx={{ margin: 0 }}
+              variant='contained'
               onClick={() => setOpen(false)}
-              sx={{ color: '#fc0' }}
             >
               Изменить
-            </Button>
+            </CssButton>
           </>
         }
       >
         <CssTextField
           label='Заголовок'
-          type='name'
+          type='text'
         />
         <CssTextField
           label='Описание'
-          type='description'
+          type='text'
         />
-        <FormControl>
-          <InputLabel id='demo-simple-select-label'>Age</InputLabel>
-          <Select
-            className={styles.course__age}
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            // value={age}
-            label='Age'
-            // onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+        <CustomSelect
+          idInput='xz'
+          label='asdas'
+          change={() => console.log('asdsa')}
+        >
+          {level.map((data: level) => {
+            return <MenuItem value={data.id}>{data.level_name}</MenuItem>
+          })}
+        </CustomSelect>
+        <CssTextField
+          label='Повестка дня'
+          type='text'
+        />
       </Modal>
     </div>
   )

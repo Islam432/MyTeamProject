@@ -1,13 +1,13 @@
 import { memo, useCallback, useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, IconButton, InputAdornment } from '@mui/material'
+import { IconButton, InputAdornment } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { authorization } from '../../services/auth.service'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import styles from './Signin.module.scss'
 import { AxiosError } from 'axios'
-import { CssTextField } from '../../../../shared/components/CustomMUI'
+import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import { AppContext } from '../../../../App'
 
 export interface FormAuth {
@@ -83,14 +83,15 @@ export default memo(function Signin() {
               }}
             />
           </div>
-          <Button
+          <CssButton
+            fullWidth
             type='submit'
             variant='contained'
             color='primary'
             className={styles.signIn__btn}
           >
             Авторизироваться
-          </Button>
+          </CssButton>
         </form>
         <div className={styles.signIn__help}>
           <p>
