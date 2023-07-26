@@ -25,8 +25,8 @@ interface CardDashProps {
 export default function CardDash({
   id,
   text,
-  img,
-  bc1,
+  // img,
+  // bc1,
   bc2,
   color,
   color2,
@@ -43,9 +43,9 @@ export default function CardDash({
         component='img'
         alt='green iguana'
         height='150'
-        image={img}
+        image='/brit.jpg'
       />
-      <CardContent sx={{ background: bc1, color: color }}>
+      <CardContent sx={{ background: '#ffcc00', color: color }}>
         {course_name}
 
         <Typography
@@ -62,7 +62,9 @@ export default function CardDash({
           {description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ background: bc2, display: 'flex', justifyContent: 'space-evenly' }}>
+      <CardActions
+        sx={{ background: bc2, display: 'flex', justifyContent: 'space-evenly', backgroundColor: '#333333' }}
+      >
         <Button size='small'>
           <PiStudentFill
             style={{ color: bt }}
