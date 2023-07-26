@@ -5,7 +5,7 @@ import { Chip } from '@mui/material'
 import { AxiosError } from 'axios'
 import { MouseEvent } from 'react'
 import { getClasses, toggleEnrollment } from '../../services/class.service'
-import { AppContext } from './../../../../App'
+import { AppContext, SnackInfo } from './../../../../App'
 import styles from './Classes.module.scss'
 
 type ClassType = {
@@ -20,8 +20,8 @@ type ClassType = {
 
 const columnsLst: GridColDef[] = [
   {
-    field: 'id',
-    headerName: 'ID',
+    field: 'index',
+    headerName: 'Index',
     width: 60,
   },
   {
@@ -61,34 +61,44 @@ const handleToggle = async (
   params: GridCellParams,
   rows: ClassType[],
   setRows: Dispatch<SetStateAction<ClassType[]>>,
-  setSnackbarMessage: Dispatch<SetStateAction<string>>
+  setSnack: Dispatch<SetStateAction<SnackInfo>>
 ) => {
   event.stopPropagation()
   event.preventDefault()
   const { row } = params
   try {
-    await toggleEnrollment(row.id, { open_for_enrollment: !row.open_for_enrollment })
+    const { data } = await toggleEnrollment(row.id, { open_for_enrollment: !row.open_for_enrollment })
     const newUsers = rows.map((item) => {
       if (item.id == row.id) return { ...item, open_for_enrollment: !item.open_for_enrollment }
       return item
     })
     setRows(newUsers)
+    setSnack({
+      open: true,
+      type: 'success',
+      message: data.message,
+    } as SnackInfo)
   } catch (error: AxiosError | any) {
-    setSnackbarMessage(error.response.data.message)
+    setSnack({
+      open: true,
+      type: 'error',
+      message: error.response.data?.message,
+    } as SnackInfo)
   }
 }
 
 export default memo(function Classes() {
   const [rows, setRows] = useState<ClassType[]>([])
-  const { setSnackbarMessage } = useContext(AppContext)
+  const { setSnack } = useContext(AppContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getClasses()
-        const modifiedRows = data.map((row: any) => {
+        const modifiedRows = data.map((row: any, indx: number) => {
           return {
             ...row,
+            index: indx + 1,
             start_date: row.start_date.substring(0, 10),
             end_date: row.end_date.substring(0, 10),
           }
@@ -113,7 +123,7 @@ export default memo(function Classes() {
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
             label={params.value ? 'Open' : 'Closed'}
             size='small'
-            onClick={(event) => handleToggle(event, params, rows, setRows, setSnackbarMessage)}
+            onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
           />
         ),
       },

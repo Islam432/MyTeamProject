@@ -6,6 +6,7 @@ import { toggleUser, getUsers } from '../../services/user.service'
 import { MouseEvent } from 'react'
 import { AppContext } from '../../../../App'
 import { AxiosError } from 'axios'
+import { SnackInfo } from '../../../../App'
 
 type UserTableEntry = {
   id: number
@@ -19,7 +20,7 @@ type UserTableEntry = {
 }
 
 const columnsLst: GridColDef[] = [
-  { field: 'Index', headerName: 'ID', width: 60 },
+  { field: 'Index', headerName: 'Index', width: 60 },
   { field: 'first_name', headerName: 'First name', width: 170 },
   { field: 'last_name', headerName: 'Last name', width: 170 },
   {
@@ -51,7 +52,7 @@ const handleToggle = async (
   params: GridCellParams,
   rows: UserTableEntry[],
   setRows: Dispatch<SetStateAction<UserTableEntry[]>>,
-  setSnackbarMessage: Dispatch<SetStateAction<string>>
+  setSnack: Dispatch<SetStateAction<SnackInfo>>
 ) => {
   event.stopPropagation()
   event.preventDefault()
@@ -64,13 +65,17 @@ const handleToggle = async (
     })
     setRows(newUsers)
   } catch (error: AxiosError | any) {
-    setSnackbarMessage(error.response.data.message)
+    setSnack({
+      open: true,
+      type: 'error',
+      message: error.response.data.message,
+    } as SnackInfo)
   }
 }
 
 export default function Users() {
   const [rows, setRows] = useState<UserTableEntry[]>([])
-  const { setSnackbarMessage } = useContext(AppContext)
+  const { setSnack } = useContext(AppContext)
 
   useEffect(() => {
     const xz = async () => {
@@ -80,7 +85,7 @@ export default function Users() {
           return {
             ...row,
             date_of_birth: row.date_of_birth.substring(0, 10),
-            Index: (index + 1).toString(),
+            Index: index + 1,
           }
         })
         setRows(modifiedRows)
@@ -103,7 +108,7 @@ export default function Users() {
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
             label={params.value ? 'Active' : 'Inactive'}
             size='small'
-            onClick={(event) => handleToggle(event, params, rows, setRows, setSnackbarMessage)}
+            onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
           />
         ),
       },

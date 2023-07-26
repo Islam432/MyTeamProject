@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { getOneUser } from '../../services/account.service'
-import { AppContext } from './../../../../App'
+import { AppContext, SnackInfo } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
 import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
+import { AxiosError } from 'axios'
 
 interface Contact {
   id: number
@@ -17,16 +18,21 @@ interface Contact {
 }
 
 export default function Account() {
-  const [data, setData] = useState<Contact>()
-  const { auth } = useContext(AppContext)
+  const [data, setData] = useState<Contact>({} as Contact)
+  const { auth, setSnack } = useContext(AppContext)
 
   useEffect(() => {
     async function request() {
       try {
         const { data } = await getOneUser(auth.user.id)
-        console.log(data)
         setData(data)
-      } catch (error) {}
+      } catch (error: AxiosError | any) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error.response.data?.message,
+        } as SnackInfo)
+      }
     }
     request()
   }, [])
@@ -97,7 +103,7 @@ export default function Account() {
           <hr />
           <div>
             <h4>Date:</h4>
-            <p>{data?.date_of_birth.slice(0, 10)}</p>
+            <p>{data?.date_of_birth?.slice(0, 10)}</p>
           </div>
           <hr />
           <div>
@@ -111,7 +117,6 @@ export default function Account() {
               <Chip
                 className={styles[data?.is_active ? 'cpActive' : 'cpFalse']}
                 label={data?.is_active ? 'Active' : 'Inactive'}
-                size='small'
               />
             </p>
           </div>
