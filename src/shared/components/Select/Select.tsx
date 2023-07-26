@@ -4,7 +4,7 @@ import { Children } from 'react'
 
 interface PropsSelect {
   label: string
-  change: () => void
+  change?: () => void
   children: React.ReactNode
   idInput: string
 }

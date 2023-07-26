@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@mui/material'
+import { Button, MenuItem } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import CustomSelect from '../../../../shared/components/Select/Select'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
@@ -8,7 +8,9 @@ import styles from './DashBoard.module.scss'
 import { AppContext } from '../../../../App'
 import { useContext } from 'react'
 import { AxiosError } from 'axios'
-export type FormData = z.infer<typeof ClassesSchema>
+import { z } from 'zod'
+export type FormCardAdd = z.infer<typeof ClassesSchema>
+
 const CardAddForm = () => {
   const { setSnackbarMessage } = useContext(AppContext)
 
@@ -16,16 +18,18 @@ const CardAddForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormCardAdd>({
     resolver: zodResolver(ClassesSchema),
   })
-  const onSubmit = async (formData: FormData) => {
+
+  const onSubmit = async (formData: FormCardAdd) => {
     try {
-      await addCard(formData)
+      console.log('formData')
     } catch (error: AxiosError | any) {
       setSnackbarMessage(error.response.message)
     }
   }
+
   return (
     <>
       <form
@@ -35,44 +39,37 @@ const CardAddForm = () => {
         <div>
           <CssTextField
             label='Названия группы'
-            idInput='course_code'
-            change={() => {
-              return
-            }}
-            {...register('course_code')}
-            error={!!errors.course_code}
-            helperText={errors.course_code?.message}
+            type='text'
+            {...register('course_code')} // Привязываем input к форме по имени поля 'course_code'
+            error={!!errors.course_code} // Проверяем, есть ли ошибка для данного поля
+            helperText={errors.course_code?.message} // Выводим сообщение об ошибке (если есть)
           >
-            <option>hello</option>
+            <MenuItem>hello</MenuItem>
           </CssTextField>
+
           <CustomSelect
             label='Названия улицы'
             idInput='branch_name'
-            change={() => {
-              return
-            }}
             {...register('branch_name')}
             error={!!errors.branch_name}
             helperText={errors.branch_name?.message}
           >
-            <option>hello</option>
+            <option value='hello'>Hello</option>
           </CustomSelect>
+
           <CustomSelect
             label='Категория курса'
             idInput='course_name'
-            change={() => {
-              return
-            }}
             {...register('course_name')}
             error={!!errors.course_name}
             helperText={errors.course_name?.message}
           >
-            <option>hello</option>
+            <option value='hello'>Hello</option>
           </CustomSelect>
         </div>
+
         <div>
           <CssTextField
-            size='small'
             label='Описания курса'
             type='text'
             fullWidth
@@ -86,7 +83,6 @@ const CardAddForm = () => {
 
         <div>
           <CssTextField
-            size='small'
             label='Начало курсов'
             type='date'
             {...register('start_date')}
@@ -97,7 +93,6 @@ const CardAddForm = () => {
             }}
           />
           <CssTextField
-            size='small'
             label='Конец курсов'
             type='date'
             {...register('end_date')}
@@ -107,10 +102,10 @@ const CardAddForm = () => {
               shrink: true,
             }}
           />
+
           <CssTextField
-            size='small'
             label='Открыть курс'
-            type='date'
+            type='checkbox'
             {...register('open_for_enrollment')}
             error={!!errors.open_for_enrollment}
             helperText={errors.open_for_enrollment?.message}
