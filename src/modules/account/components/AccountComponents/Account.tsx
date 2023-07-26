@@ -1,12 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { getOneUser } from '../../services/account.service'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Typography from '@mui/material/Typography'
-import { Button, CardActions } from '@mui/material'
 import { AppContext } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
+import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
 
 interface Contact {
   id: number
@@ -19,7 +16,7 @@ interface Contact {
   role_name: string
 }
 
-const AccountComponents = () => {
+export default function Account() {
   const [data, setData] = useState<Contact>()
   const { auth } = useContext(AppContext)
 
@@ -104,18 +101,22 @@ const AccountComponents = () => {
           </div>
           <hr />
           <div>
-            <h4>Status:</h4>
+            <h4>Role:</h4>
             <p>{data?.role_name}</p>
           </div>
           <hr />
           <div>
-            <h4>Is active: </h4>
-            <p>{data?.is_active.toString()}</p>
+            <h4>Status: </h4>
+            <p>
+              <Chip
+                className={styles[data?.is_active ? 'cpActive' : 'cpFalse']}
+                label={data?.is_active ? 'Active' : 'Inactive'}
+                size='small'
+              />
+            </p>
           </div>
         </Card>
       </div>
     </>
   )
 }
-
-export default AccountComponents
