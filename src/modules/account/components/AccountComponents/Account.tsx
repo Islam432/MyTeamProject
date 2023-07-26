@@ -4,6 +4,7 @@ import { AppContext } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
 import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
+import Modal from 'src/shared/components/Modal/Modal'
 
 interface Contact {
   id: number
@@ -17,6 +18,7 @@ interface Contact {
 }
 
 export default function Account() {
+  const [show , setShow] = useState(false)
   const [data, setData] = useState<Contact>()
   const { auth } = useContext(AppContext)
 
@@ -31,8 +33,13 @@ export default function Account() {
     request()
   }, [])
 
+const submitUbdate = () => {
+  setShow((show) => !show);
+}
+
   return (
     <>
+    <Modal isOpen={show}>hello</Modal>
       <h1>User profile</h1>
       <div className={styles.content}>
         <Card sx={{ maxWidth: 345, minHeight: 450 }}>
@@ -64,7 +71,8 @@ export default function Account() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button
+            <Button  
+              onClick={submitUbdate}
               className={styles.button}
               sx={{ display: 'block', margin: 'auto', color: '#ffcc00' }}
               size='small'
