@@ -1,12 +1,15 @@
 import { memo } from 'react'
-import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react'
 import { Chip } from '@mui/material'
 import { AxiosError } from 'axios'
 import { MouseEvent } from 'react'
 import { getClasses, toggleEnrollment } from '../../services/class.service'
 import { AppContext, SnackInfo } from './../../../../App'
+import { FaEdit } from 'react-icons/fa'
+import { MdDelete } from 'react-icons/md'
 import styles from './Classes.module.scss'
+import { Link } from 'react-router-dom'
 
 type ClassType = {
   id: number
@@ -28,6 +31,7 @@ const columnsLst: GridColDef[] = [
     field: 'course_code',
     headerName: 'Code',
     width: 100,
+    renderCell: (params: GridRenderCellParams) => <Link to={`/classes/${params.id}`}>{params.value}</Link>,
   },
   {
     field: 'course_name',
@@ -37,12 +41,12 @@ const columnsLst: GridColDef[] = [
   {
     field: 'branch_name',
     headerName: 'Branch Office',
-    width: 160,
+    width: 120,
   },
   {
     field: 'description',
     headerName: 'Description',
-    width: 200,
+    width: 170,
   },
   {
     field: 'start_date',
@@ -118,20 +122,41 @@ export default memo(function Classes() {
         field: 'open_for_enrollment',
         headerName: 'Enrollment',
         width: 100,
-        renderCell: (params: GridCellParams | any) => (
-          <Chip
-            className={styles[params.value ? 'cpActive' : 'cpFalse']}
-            label={params.value ? 'Open' : 'Closed'}
-            size='small'
-            onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
-          />
+        renderCell: (params: GridRenderCellParams) => {
+          return (
+            <Chip
+              className={styles[params.value ? 'cpActive' : 'cpFalse']}
+              label={params.value ? 'Open' : 'Closed'}
+              size='small'
+              onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
+            />
+          )
+        },
+      } as GridColDef,
+      {
+        field: 'action',
+        headerName: 'Action',
+        width: 100,
+        type: 'actions',
+        align: 'center',
+        renderCell: () => (
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly' }}>
+            <FaEdit
+              color='#333'
+              fontSize='1.5rem'
+            />
+            <MdDelete
+              color='#333'
+              fontSize='1.5rem'
+            />
+          </div>
         ),
-      },
+      } as GridColDef,
     ]
   }, [rows])
 
   return (
-    <>
+    <div style={{ padding: '1.5rem' }}>
       <h1>Classes</h1>
       <div style={{ width: '100%', padding: '1rem 0' }}>
         <DataGrid
@@ -148,6 +173,6 @@ export default memo(function Classes() {
           density='compact'
         />
       </div>
-    </>
+    </div>
   )
 })

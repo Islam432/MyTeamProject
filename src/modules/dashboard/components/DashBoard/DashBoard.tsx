@@ -5,6 +5,7 @@ import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
+
 export default function Dashboard() {
   const soft = mokData
   return (
@@ -21,19 +22,16 @@ export default function Dashboard() {
                 icon={
                   <>
                     <Button size='small'>
-                      <PiStudentFill className={styles.icon} />
+                      <PiStudentFill />
                     </Button>
                     <Button size='small'>
-                      <BiBell
-                        class
-                        Name={styles.icon}
-                      />
+                      <BiBell />
                     </Button>
                     <Button size='small'>
-                      <BsFolder className={styles.icon} />
+                      <BsFolder />
                     </Button>
                     <Button size='small'>
-                      <BiShareAlt className={styles.icon} />
+                      <BiShareAlt />
                     </Button>
                   </>
                 }
