@@ -1,5 +1,6 @@
-import Classes from '../components/Classes/Classes'
+import { memo } from 'react'
+import { Outlet } from 'react-router-dom'
 
-export default function ClassesPage() {
-  return <Classes />
-}
+export default memo(function ClassesPage() {
+  return <Outlet />
+})

@@ -11,6 +11,7 @@ import { HiChevronRight, HiChevronLeft, HiMenu } from 'react-icons/hi'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
+import { ListItemText } from '@mui/material'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import { Link } from 'react-router-dom'
 import { LuUsers, LuLayoutDashboard } from 'react-icons/lu'
@@ -138,7 +139,7 @@ const links = [
 
 export default memo(function ResponsiveDrawer() {
   const theme = useTheme()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const localtion = useLocation()
   const paths = localtion.pathname.split('/').filter((path: string) => path !== '')
 
@@ -189,7 +190,6 @@ export default memo(function ResponsiveDrawer() {
                     className={styles.link}
                     to={`/${paths.slice(0, indx + 1).join('/')}`}
                   >
-                    {' '}
                     {path.toUpperCase()}
                   </Link>
                 </div>
@@ -227,6 +227,7 @@ export default memo(function ResponsiveDrawer() {
               >
                 <ListItemIcon>{data.icon}</ListItemIcon>
                 <p className={styles.pcolor}>{data.title}</p>
+                {/* <ListItemText className={styles.pcolor} primary={data.title} /> */}
               </ListItemButton>
             </ListItem>
           ))}
@@ -236,7 +237,7 @@ export default memo(function ResponsiveDrawer() {
       </Drawer>
       <Box
         component='main'
-        sx={{ flexGrow: 1, p: 3 }}
+        sx={{ flexGrow: 1 }}
       >
         <DrawerHeader />
         <Outlet />

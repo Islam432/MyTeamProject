@@ -16,6 +16,8 @@ import CalendarPage from './modules/calendar/pages/CalendarPage.tsx'
 import AuthPage from './modules/authentication/pages/Auth/AuthPage.tsx'
 import { registerLicense } from '@syncfusion/ej2-base'
 import ProtectedRoute from './shared/components/ProtectedRoute.tsx'
+import Classes from './modules/classes/components/Classes/Classes.tsx'
+import Class from './modules/classes/components/Class/Class.tsx'
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,14 @@ const router = createBrowserRouter([
           { path: 'dashboard', element: <DashboardPage /> },
           { path: 'files', element: <FilesPage /> },
           { path: 'courses', element: <CoursesPage /> },
-          { path: 'classes', element: <ClassesPage /> },
+          {
+            path: 'classes',
+            element: <ClassesPage />,
+            children: [
+              { index: true, element: <Classes /> },
+              { path: ':id', element: <Class /> },
+            ],
+          },
           { path: 'users', element: <UsersPage /> },
           { path: 'calendar', element: <CalendarPage /> },
         ],
