@@ -23,28 +23,10 @@ const columnsLst: GridColDef[] = [
   { field: 'Index', headerName: 'Index', width: 60 },
   { field: 'first_name', headerName: 'First name', width: 170 },
   { field: 'last_name', headerName: 'Last name', width: 170 },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 170,
-  },
-  {
-    field: 'contact_number',
-    headerName: 'Contact number',
-    type: 'number',
-    width: 160,
-  },
-  {
-    field: 'role_name',
-    headerName: 'Role',
-    width: 100,
-  },
-  {
-    field: 'date_of_birth',
-    headerName: 'Date of birth',
-    width: 170,
-    editable: true,
-  },
+  { field: 'email', headerName: 'Email', width: 170 },
+  { field: 'contact_number', headerName: 'Contact number', type: 'number', width: 160 },
+  { field: 'role_name', headerName: 'Role', width: 100 },
+  { field: 'date_of_birth', headerName: 'Date of birth', width: 170, editable: true },
 ]
 
 const handleToggle = async (
