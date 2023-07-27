@@ -1,4 +1,4 @@
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
+import { styled, useTheme, Theme, CSSObject, createTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -24,6 +24,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import { memo, useState } from 'react'
+import { ThemeProvider } from '@mui/material/styles'
 import { MouseEvent } from 'react'
 
 const drawerWidth = 220
@@ -137,11 +138,26 @@ const links = [
   },
 ]
 
+const theme = createTheme({
+  palette: { primary: { main: '#ffcc00' } },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            color: '#ffcc00',
+          },
+        },
+      },
+    },
+  },
+})
+
 export default memo(function ResponsiveDrawer() {
-  const theme = useTheme()
+  // const theme = useTheme()
   const [open, setOpen] = useState(true)
-  const localtion = useLocation()
-  const paths = localtion.pathname.split('/').filter((path: string) => path !== '')
+  const location = useLocation()
+  const paths = location.pathname.split('/').filter((path: string) => path !== '')
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -214,24 +230,31 @@ export default memo(function ResponsiveDrawer() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ bgcolor: '#333' }}>
-          {links.map((data, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              sx={{ display: 'block' }}
-            >
-              <ListItemButton
-                component={NavLink}
-                to={data.path}
+
+        <ThemeProvider theme={theme}>
+          <List sx={{ bgcolor: '#333' }}>
+            {links.map((data, index) => (
+              <ListItem
+                key={index}
+                disablePadding
+                sx={{ display: 'block' }}
               >
-                <ListItemIcon>{data.icon}</ListItemIcon>
-                <p className={styles.pcolor}>{data.title}</p>
-                {/* <ListItemText className={styles.pcolor} primary={data.title} /> */}
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+                <ListItemButton
+                  selected={data.path === location.pathname.slice(0, data.path.length)}
+                  component={NavLink}
+                  to={data.path}
+                >
+                  <ListItemIcon>{data.icon}</ListItemIcon>
+                  {/* <p className={styles.pcolor}>{data.title}</p> */}
+                  <ListItemText
+                    primary={data.title}
+                    sx={{ color: 'white', margin: '0.8rem 0' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </ThemeProvider>
 
         <Divider />
       </Drawer>
