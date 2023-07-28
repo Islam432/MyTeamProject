@@ -4,7 +4,7 @@ import { Children } from 'react'
 
 interface PropsSelect {
   label: string
-  change?: () => void
+  change: () => void
   children: React.ReactNode
   idInput: string
 }
@@ -15,8 +15,8 @@ export default function CustomSelect({ label, children, change, idInput }: Props
       <InputLabel id={idInput}>{label}</InputLabel>
       <Select
         label={label}
-        labelId={idInput}
-        onChange={change}
+        labelId='idInput'
+        {...change}
       >
         {children}
       </Select>
