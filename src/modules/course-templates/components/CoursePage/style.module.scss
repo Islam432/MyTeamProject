@@ -1,11 +1,14 @@
+.wrapper {
+  padding: 1rem 4%;
+}
+
 .course {
   position: relative;
   &__cards {
-    margin-top: 35px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     // grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    gap: 70px;
+    gap: 2rem 1rem;
     > div {
       min-width: 320px;
       height: 100%;

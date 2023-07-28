@@ -7,9 +7,6 @@ import List from '@mui/material/List'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -171,7 +168,8 @@ export default memo(function ResponsiveDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon sx={{ color: '#333' }} />
+            {/* <MenuIcon sx={{ color: '#333' }} />/ */}
+            +
           </IconButton>
           <div
             role='presentation'
@@ -211,7 +209,7 @@ export default memo(function ResponsiveDrawer() {
             alt=''
           />
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
+            {theme.direction === 'rtl' ? <div /> : <div className={styles.iconRight} />}
           </IconButton>
         </DrawerHeader>
         <Divider />
