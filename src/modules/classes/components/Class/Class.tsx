@@ -8,8 +8,10 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { memo } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
+import { createTheme } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
 
 const drawerWidth = 200
 
@@ -56,7 +58,23 @@ const links = [
   },
 ]
 
+const theme = createTheme({
+  palette: { primary: { main: '#ffcc00' } },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            color: '#ffcc00',
+          },
+        },
+      },
+    },
+  },
+})
+
 export default memo(function Class() {
+  const location = useLocation()
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -79,22 +97,28 @@ export default memo(function Class() {
         anchor='left'
       >
         <Divider />
-        <List>
-          {links.map((link, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-            >
-              <ListItemButton
-                component={NavLink}
-                to={link.path}
+        <ThemeProvider theme={theme}>
+          <List>
+            {links.map((link, index) => (
+              <ListItem
+                key={index}
+                disablePadding
               >
-                {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-                <ListItemText primary={link.title} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+                <ListItemButton
+                  component={NavLink}
+                  selected={link.path.split('/').pop() === location.pathname.split('/').pop()}
+                  to={link.path}
+                >
+                  {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+                  <ListItemText
+                    primary={link.title}
+                    sx={{ color: '#333' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </ThemeProvider>
       </Drawer>
       <Box
         component='main'
