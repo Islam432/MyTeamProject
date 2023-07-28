@@ -54,6 +54,16 @@ export default function Account() {
   return (
     <>
       <Modal
+      btn={<CssButton
+        className={styles.ButtonModal}
+            type='submit'
+            variant='contained'
+            color='primary'
+            onClick={submitUbdate}
+            fullWidth
+          >
+            изменить данные
+          </CssButton>}
      
         onClose={() => setvisibl(false)}
         isOpen={visbl}
@@ -128,16 +138,7 @@ export default function Account() {
               helperText={errors.contact_number?.message}
             />
           </div>
-          <CssButton
-        className={styles.ButtonModal}
-            type='submit'
-            variant='contained'
-            color='primary'
-            onClick={submitUbdate}
-            fullWidth
-          >
-            изменить данные
-          </CssButton>
+          
         </form>
       </Modal>
       <h1>User profile</h1>
