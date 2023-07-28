@@ -7,8 +7,9 @@
     // grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 70px;
     > div {
-      min-width: 100%;
+      min-width: 320px;
       height: 100%;
+      margin: auto;
     }
   }
   &__add {
