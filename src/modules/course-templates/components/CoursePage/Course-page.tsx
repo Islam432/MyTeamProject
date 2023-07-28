@@ -75,6 +75,7 @@ export default function CoursePage() {
       const response = await addCourse(token, formCourseNew)
       setAdd(false)
       request()
+      reset()
     } catch (error: AxiosError | any) {
       console.log(error)
     }
@@ -113,6 +114,7 @@ export default function CoursePage() {
       <CssButton
         className={styles.course__add}
         onClick={() => setAdd(true)}
+        sx={{ minWidth: '60px' }}
       >
         <AiOutlinePlus style={{ fontSize: '30px', width: 'max-content' }} />
       </CssButton>
@@ -242,7 +244,7 @@ export default function CoursePage() {
         submit={handleSubmit(addCourses)}
         title='Заполните поля'
         isOpen={add}
-        onClose={() => setOpen(add)}
+        onClose={() => setAdd(false)}
         btn={
           <>
             <CssButton
