@@ -1,4 +1,4 @@
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
+import { styled, useTheme, Theme, CSSObject, createTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -7,12 +7,11 @@ import List from '@mui/material/List'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { HiChevronRight, HiChevronLeft, HiMenu } from 'react-icons/hi'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
+import { ListItemText } from '@mui/material'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import { Link } from 'react-router-dom'
 import { LuUsers, LuLayoutDashboard } from 'react-icons/lu'
@@ -25,6 +24,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import { memo, useState } from 'react'
+import { ThemeProvider } from '@mui/material/styles'
 import { MouseEvent } from 'react'
 
 const drawerWidth = 220
@@ -138,11 +138,26 @@ const links = [
   },
 ]
 
+const theme = createTheme({
+  palette: { primary: { main: '#ffcc00' } },
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            color: '#ffcc00',
+          },
+        },
+      },
+    },
+  },
+})
+
 export default memo(function ResponsiveDrawer() {
-  const theme = useTheme()
-  const [open, setOpen] = useState(false)
-  const localtion = useLocation()
-  const paths = localtion.pathname.split('/').filter((path: string) => path !== '')
+  // const theme = useTheme()
+  const [open, setOpen] = useState(true)
+  const location = useLocation()
+  const paths = location.pathname.split('/').filter((path: string) => path !== '')
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -171,7 +186,8 @@ export default memo(function ResponsiveDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon sx={{ color: '#333' }} />
+            {/* <MenuIcon sx={{ color: '#333' }} /> */}
+            <HiMenu color='#333' />
           </IconButton>
           <div
             role='presentation'
@@ -190,7 +206,6 @@ export default memo(function ResponsiveDrawer() {
                     className={styles.link}
                     to={`/${paths.slice(0, indx + 1).join('/')}`}
                   >
-                    {' '}
                     {path.toUpperCase()}
                   </Link>
                 </div>
@@ -211,36 +226,44 @@ export default memo(function ResponsiveDrawer() {
             alt=''
           />
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon className={styles.iconRight} />}
+            {theme.direction === 'rtl' ? <HiChevronRight /> : <HiChevronLeft className={styles.iconRight} />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ bgcolor: '#333' }}>
-          {links.map((data, index) => (
-            <ListItem
-              key={index}
-              disablePadding
-              sx={{ display: 'block' }}
-            >
-              <ListItemButton
-                component={NavLink}
-                to={data.path}
+
+        <ThemeProvider theme={theme}>
+          <List sx={{ bgcolor: '#333' }}>
+            {links.map((data, index) => (
+              <ListItem
+                key={index}
+                disablePadding
+                sx={{ display: 'block' }}
               >
-                <ListItemIcon>{data.icon}</ListItemIcon>
-                <p className={styles.pcolor}>{data.title}</p>
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+                <ListItemButton
+                  selected={data.path === location.pathname.slice(0, data.path.length)}
+                  component={NavLink}
+                  to={data.path}
+                >
+                  <ListItemIcon>{data.icon}</ListItemIcon>
+                  {/* <p className={styles.pcolor}>{data.title}</p> */}
+                  <ListItemText
+                    primary={data.title}
+                    sx={{ color: 'white', margin: '0.8rem 0' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </ThemeProvider>
 
         <Divider />
       </Drawer>
       <Box
         component='main'
-        sx={{ flexGrow: 1, p: 3 }}
+        sx={{ flexGrow: 1 }}
       >
         <DrawerHeader />
-        <Outlet/>
+        <Outlet />
       </Box>
     </Box>
   )

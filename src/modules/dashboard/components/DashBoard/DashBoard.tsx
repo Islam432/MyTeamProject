@@ -1,24 +1,11 @@
 import { useEffect, useState } from 'react'
 import CardDash from '../CardDash/CardDash'
 import styles from './Dashboard.module.scss'
-// import { mokData } from './mokData'
-import { getClassesCard } from '../../services/dashboard.services'
-
-interface ClassesCard {
-  id: number
-  description: string
-  start_date: string
-  end_date: string
-  open_for_enrollment: boolean
-  course_code: string
-  branch_name: string
-  course_name: string
-  bc1: string
-  bc2: string
-  color: string
-  color2: string
-  bt: string
-}
+import { PiStudentFill } from 'react-icons/pi'
+import { Button } from '@mui/material'
+import { BiBell, BiShareAlt } from 'react-icons/bi'
+import { BsFolder } from 'react-icons/bs'
+import { mokData } from './mokData'
 
 export default function Dashboard() {
   const [classes, setClasses] = useState<ClassesCard[]>([])
@@ -54,17 +41,37 @@ export default function Dashboard() {
               className={styles.card}
             >
               <CardDash
-                id={item.id}
-                text={item.course_code}
-                description={item.description}
-                course_name={item.course_name}
-                // img={item.image}
-                bc1={item.bc1}
-                bc2={item.bc2}
-                color={item.color}
-                color2={item.color2}
-                bt={item.bt}
-              />
+                icon={
+                  <>
+                    <Button size='small'>
+                      <PiStudentFill />
+                    </Button>
+                    <Button size='small'>
+                      <BiBell />
+                    </Button>
+                    <Button size='small'>
+                      <BsFolder />
+                    </Button>
+                    <Button size='small'>
+                      <BiShareAlt />
+                    </Button>
+                  </>
+                }
+                // id={item.id}
+                // image={item.image}
+                // bc1={item.bc1}
+                // bc2={item.bc2}
+                // title={item.title}
+                // color={item.color}
+                // color2={item.color2}
+                // bt={item.bt}
+                {...item}
+              >
+                <p>
+                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                  continents except Antarctica
+                </p>
+              </CardDash>
             </div>
           ))}
         </div>
