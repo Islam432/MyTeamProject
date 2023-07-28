@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridCellParams } from '@mui/x-data-grid'
+import { GridColDef, GridCellParams } from '@mui/x-data-grid'
 import { useState, useEffect, useMemo, Dispatch, SetStateAction, useContext } from 'react'
 import { Chip } from '@mui/material'
 import styles from './Users.module.scss'
@@ -6,6 +6,7 @@ import { toggleUser, getUsers } from '../../services/user.service'
 import { MouseEvent } from 'react'
 import { AppContext } from '../../../../App'
 import { AxiosError } from 'axios'
+import UserTable from '../UserTable'
 
 type UserTableEntry = {
   id: number
@@ -114,18 +115,10 @@ export default function Users() {
     <>
       <h1>Users</h1>
       <div style={{ width: '100%', padding: '1rem 0' }}>
-        <DataGrid
-          rows={rows}
+        <UserTable
           columns={columns}
-          editMode='row'
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 25 },
-            },
-          }}
-          pageSizeOptions={[10, 25, 50]}
-          checkboxSelection
-          density='compact'
+          rows={rows}
+          height={200}
         />
       </div>
     </>
