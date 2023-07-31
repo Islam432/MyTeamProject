@@ -19,9 +19,15 @@ import { findCourse } from '../../../../modules/course-templates/services/course
 import Cookies from 'js-cookie'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { CourseTemplate } from 'src/modules/course-templates/components/CoursePage/Course-page'
+import { findOffice } from '../../services/dashboard.services'
 
 interface Course {
   course_id: number
+  name: string
+}
+
+interface Office {
+  id: number
   name: string
 }
 
@@ -29,6 +35,7 @@ export type FormCardAdd = z.infer<typeof ClassesSchema>
 export default function Dashboard() {
   const [open, setOpen] = useState<boolean>(false)
   const [course, setCourse] = useState<Course[]>([])
+  const [office, setOffice] = useState<Office[]>([])
   const { setSnackbarMessage } = useContext(AppContext)
   const token = Cookies.get('token')
   const {
@@ -61,8 +68,20 @@ export default function Dashboard() {
     }
   }
   useEffect(() => {
+    const request = async () => {
+      try {
+        const res = await findCourse(token)
+        const resOffice = await findOffice(token)
+        setOffice(resOffice.data)
+        setCourse(res.data)
+      } catch (error: any) {
+        setSnackbarMessage(error.message)
+      }
+    }
     request()
   }, [])
+  console.log(office)
+
   return (
     <>
       <div className={styles.title}>
@@ -112,7 +131,9 @@ export default function Dashboard() {
             error={!!errors.branch_name}
             helperText={errors.branch_name?.message}
           >
-            <option value='hello'>Hello</option>
+            {office.map((data) => {
+              return <MenuItem value={data.id}>{data.name}</MenuItem>
+            })}
           </CustomSelect>
           <CustomSelect
             label='Группа'
@@ -134,6 +155,36 @@ export default function Dashboard() {
             {...register('description')}
             error={!!errors.description}
             helperText={errors.description?.message}
+          />
+          <CssTextField
+            label='Начало курсов'
+            type='date'
+            {...register('start_date')}
+            error={!!errors.start_date}
+            helperText={errors.start_date?.message}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <CssTextField
+            label='Конец курсов'
+            type='date'
+            {...register('end_date')}
+            error={!!errors.end_date}
+            helperText={errors.end_date?.message}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <CssTextField
+            label='Открыть курс'
+            type='checkbox'
+            {...register('open_for_enrollment')}
+            error={!!errors.open_for_enrollment}
+            helperText={errors.open_for_enrollment?.message}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Modal>
       </div>
