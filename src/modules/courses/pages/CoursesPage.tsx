@@ -1,7 +1,12 @@
-import { useEffect, useState } from 'react'
 import CoursePage from '../components/CoursePage/Courses'
-// import CoursePage from '../components/CoursePage/Course-page'
+import { memo } from 'react'
 
-export default function TemplatesPage() {
-  return <CoursePage />
-}
+const CoursesPage = memo(function () {
+  return (
+    <div style={{ padding: '1.5rem' }}>
+      <CoursePage />
+    </div>
+  )
+})
+
+export default CoursesPage

@@ -12,10 +12,7 @@
     font-size: 1.7rem;
   }
 }
-.pcolor {
-  color: white;
-  margin: 0.8rem 0;
-}
+
 .iconRight {
   color: white;
 }
@@ -26,3 +23,7 @@
     text-decoration: underline;
   }
 }
+.active {
+  color: #ffcc00 !important; 
+}
+

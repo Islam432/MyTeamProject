@@ -7,13 +7,13 @@ import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { Button, IconButton, InputAdornment } from '@mui/material'
 import { useContext, useState } from 'react'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
-import { AppContext } from '../../../../App'
-import { AxiosError } from 'axios'
+import { AppContext, SnackInfo } from '../../../../App'
 import { FormData } from '../../../authentication/components/Signup/Signup'
 import styles from './Users.module.scss'
+import { AxiosError } from 'axios'
 
 const UsersRegForm = () => {
-  const { setSnackbarMessage } = useContext(AppContext)
+  const { setSnack } = useContext(AppContext)
   const [show, setShow] = useState<boolean>(false)
 
   const {
@@ -27,8 +27,14 @@ const UsersRegForm = () => {
   const onSubmit = async (formData: FormData) => {
     try {
       await registerUser(formData)
-    } catch (error: AxiosError | any) {
-      setSnackbarMessage(error.response.message)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
     }
   }
   return (

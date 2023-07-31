@@ -1,18 +1,68 @@
+<<<<<<< HEAD
+=======
+import { useContext, useEffect, useState } from 'react'
+import CardDash from '../CardDash/CardDash'
+>>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
+<<<<<<< HEAD
 import { mokData } from './mokData'
 import CardDash from '../../../../shared/components/CardDash/CardDash'
+=======
+import { getClasses } from '../../services/dashboard.services'
+import { AppContext, SnackInfo } from '../../../../App'
+import { AxiosError } from 'axios'
+
+type ClassInfo = {
+  id: number
+  description: string
+  start_date: string
+  end_date: string
+  open_for_enrollment: boolean
+  course_code: string
+  course_name: string
+  branch_name: string
+}
+
+>>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
 export default function Dashboard() {
-  const soft = mokData
+  const [classes, setClasses] = useState<ClassInfo[]>([])
+  const { setSnack } = useContext(AppContext)
+  useEffect(() => {
+    const classes = async () => {
+      try {
+        const { data } = await getClasses<ClassInfo[]>()
+        const modifiedRows = data.map((row: ClassInfo) => {
+          return {
+            ...row,
+            start_date: row.start_date.substring(0, 10),
+            end_date: row.end_date.substring(0, 10),
+          }
+        })
+        setClasses(modifiedRows)
+        console.log(modifiedRows)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          setSnack({
+            open: true,
+            type: 'error',
+            message: error.response?.data.message,
+          } as SnackInfo)
+        }
+      }
+    }
+    classes()
+  }, [])
+
   return (
     <>
       <h1>Dashboard</h1>
       <div className={styles.wrapper}>
         <div className={styles.container}>
-          {soft.map((item, indx) => (
+          {classes.map((item, indx) => (
             <div
               key={indx}
               className={styles.card}
@@ -34,12 +84,21 @@ export default function Dashboard() {
                     </Button>
                   </>
                 }
+<<<<<<< HEAD
                 {...item}
+=======
+                id={item.id}
+                heading={<span> {`${item.course_code} ${item.course_name}`} </span>}
+>>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
               >
-                <p>
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
-                  continents except Antarctica
-                </p>
+                {item.description ? (
+                  <p>{item.description}</p>
+                ) : (
+                  <p>
+                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                    continents except Antarctica
+                  </p>
+                )}
               </CardDash>
             </div>
           ))}

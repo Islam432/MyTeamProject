@@ -1,4 +1,4 @@
-import z from 'zod'
+import {z} from 'zod'
 
 export const UserSchema = z.object({
   first_name: z.string().min(2, 'Слишком короткое имя'),
