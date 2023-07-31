@@ -5,20 +5,10 @@ import styles from './Users.module.scss'
 import { toggleUser, getUsers } from '../../services/user.service'
 import { MouseEvent } from 'react'
 import { AppContext } from '../../../../App'
-import { AxiosError } from 'axios'
 import { SnackInfo } from '../../../../App'
-import UserTable from '../UserTable'
-
-type UserTableEntry = {
-  id: number
-  Index: number
-  first_name: string
-  last_name: string
-  contact_number: string
-  role_name: string
-  date_of_birth: string
-  is_active: boolean
-}
+import UserTable from '../UserTable/UserTable'
+import { AxiosError } from 'axios'
+import { UserTableEntry } from '../../models/User.model'
 
 const columnsLst: GridColDef[] = [
   { field: 'Index', headerName: 'Index', width: 60 },
@@ -47,12 +37,14 @@ const handleToggle = async (
       return item
     })
     setRows(newUsers)
-  } catch (error: AxiosError | any) {
-    setSnack({
-      open: true,
-      type: 'error',
-      message: error.response.data.message,
-    } as SnackInfo)
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      setSnack({
+        open: true,
+        type: 'error',
+        message: error.response?.data.message,
+      } as SnackInfo)
+    }
   }
 }
 
@@ -63,8 +55,8 @@ export default function Users() {
   useEffect(() => {
     const xz = async () => {
       try {
-        const { data } = await getUsers()
-        const modifiedRows = data.map((row: any, index: number) => {
+        const { data } = await getUsers<UserTableEntry[]>()
+        const modifiedRows = data.map((row: UserTableEntry, index: number) => {
           return {
             ...row,
             date_of_birth: row.date_of_birth.substring(0, 10),
@@ -86,7 +78,7 @@ export default function Users() {
         field: 'is_active',
         headerName: 'Status',
         width: 100,
-        renderCell: (params: GridCellParams | any) => (
+        renderCell: (params: GridCellParams) => (
           <Chip
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
             label={params.value ? 'Active' : 'Inactive'}

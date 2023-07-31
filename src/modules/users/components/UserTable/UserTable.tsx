@@ -1,7 +1,14 @@
-import { DataGrid } from '@mui/x-data-grid'
-// import styles from '../User/Users.module.scss'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { UserTableEntry } from '../../models/User.model'
+import { memo } from 'react'
 
-const UserTable = ({ columns, rows, height }) => {
+type UserTableProps = {
+  columns: GridColDef[]
+  rows: UserTableEntry[]
+  height: number
+}
+
+const UserTable = memo(function ({ columns, rows, height }: UserTableProps) {
   return (
     <DataGrid
       sx={{
@@ -20,6 +27,6 @@ const UserTable = ({ columns, rows, height }) => {
       density='compact'
     />
   )
-}
+})
 
 export default UserTable
