@@ -75,6 +75,7 @@ export default function CoursePage() {
       const response = await addCourse(token, formCourseNew)
       setAdd(false)
       request()
+      reset()
     } catch (error: AxiosError | any) {
       console.log(error)
     }
@@ -113,77 +114,81 @@ export default function CoursePage() {
       <CssButton
         className={styles.course__add}
         onClick={() => setAdd(true)}
+        sx={{ minWidth: '60px' }}
       >
         <AiOutlinePlus style={{ fontSize: '30px', width: 'max-content' }} />
       </CssButton>
-      <div className={styles.course__cards}>
-        {course.map((data: CourseTemplate) => {
-          return (
-            <>
-              <CardDash
-                image='./ger3.jpg'
-                id={data.course_id}
-                bc1='#fc0'
-                bc2='#333'
-                color='#1e1e1e'
-                color2='#333'
-                bt='#fc0'
-                title={data.name}
-                icon={
-                  <>
-                    <Button onClick={() => setAlert(true)}>
-                      <MdDelete />
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setOpen(true)
-                        setIdChangeCourse(data.course_id)
-                      }}
-                    >
-                      <FaEdit />
-                    </Button>
-                    <Button onClick={() => moreCourse(data.course_id)}>
-                      <CgMoreO />
-                    </Button>
-                  </>
-                }
-              >
-                <span>
-                  <b>Уровень:</b> {data.description}
-                </span>
-              </CardDash>
-              <Modal
-                title='Вы точно хотите удалить'
-                onClose={() => setAlert(false)}
-                isOpen={alert}
-                btn={
-                  <>
-                    <CssButton
-                      fullWidth
-                      onClick={() => {
-                        dropCourse(data.course_id)
-                        setAlert(false)
-                      }}
-                    >
-                      Да
-                    </CssButton>
-                    <CssButton
-                      fullWidth
-                      sx={{ background: 'tomato !important' }}
-                      onClick={() => setAlert(false)}
-                    >
-                      Нет
-                    </CssButton>
-                  </>
-                }
-              >
-                <p>
-                  <b>Курс:</b> {data.name}
-                </p>
-              </Modal>
-            </>
-          )
-        })}
+
+      <div className={styles.wrapper}>
+        <div className={styles.course__cards}>
+          {course.map((data: CourseTemplate) => {
+            return (
+              <>
+                <CardDash
+                  image='./ger3.jpg'
+                  id={data.course_id}
+                  bc1='#fc0'
+                  bc2='#333'
+                  color='#1e1e1e'
+                  color2='#333'
+                  bt='#fc0'
+                  title={data.name}
+                  icon={
+                    <>
+                      <Button onClick={() => setAlert(true)}>
+                        <MdDelete />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setOpen(true)
+                          setIdChangeCourse(data.course_id)
+                        }}
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Button onClick={() => moreCourse(data.course_id)}>
+                        <CgMoreO />
+                      </Button>
+                    </>
+                  }
+                >
+                  <span>
+                    <b>Уровень:</b> {data.description}
+                  </span>
+                </CardDash>
+                <Modal
+                  title='Вы точно хотите удалить'
+                  onClose={() => setAlert(false)}
+                  isOpen={alert}
+                  btn={
+                    <>
+                      <CssButton
+                        fullWidth
+                        onClick={() => {
+                          dropCourse(data.course_id)
+                          setAlert(false)
+                        }}
+                      >
+                        Да
+                      </CssButton>
+                      <CssButton
+                        fullWidth
+                        sx={{ background: 'tomato !important' }}
+                        onClick={() => setAlert(false)}
+                      >
+                        Нет
+                      </CssButton>
+                    </>
+                  }
+                >
+                  <p>
+                    <b>Курс:</b> {data.name}
+                  </p>
+                </Modal>
+              </>
+            )
+          })}
+        </div>
       </div>
       <Modal
         submit={handleSubmit(onSubmit)}
@@ -224,9 +229,9 @@ export default function CoursePage() {
           rows={3}
         />
         <CustomSelect
-          idInput='xz'
+          id='xz'
           label='Уровень'
-          change={{ ...register('level') }}
+          {...register('level')}
         >
           {level.map((data: Level) => {
             return <MenuItem value={data.id}>{data.level_name}</MenuItem>
@@ -242,7 +247,7 @@ export default function CoursePage() {
         submit={handleSubmit(addCourses)}
         title='Заполните поля'
         isOpen={add}
-        onClose={() => setOpen(add)}
+        onClose={() => setAdd(false)}
         btn={
           <>
             <CssButton
@@ -277,9 +282,9 @@ export default function CoursePage() {
           rows={3}
         />
         <CustomSelect
-          idInput='xz'
+          id='xz'
           label='Уровень'
-          change={{ ...register('level') }}
+          {...register('level')}
         >
           {level.map((data: Level) => {
             return <MenuItem value={data.id}>{data.level_name}</MenuItem>

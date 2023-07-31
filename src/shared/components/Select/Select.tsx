@@ -4,21 +4,23 @@ import { Children } from 'react'
 
 interface PropsSelect {
   label: string
+<<<<<<< HEAD
   change: () => void
+=======
+>>>>>>> origin/feature/lms-16
   children: React.ReactNode
-  idInput: string
+  id: string
 }
 
-export default function CustomSelect({ label, children, change, idInput }: PropsSelect) {
+export default function CustomSelect(props: PropsSelect) {
   return (
     <FormControl>
-      <InputLabel id={idInput}>{label}</InputLabel>
+      <InputLabel id={props.id}>{props.label}</InputLabel>
       <Select
-        label={label}
-        labelId='idInput'
-        {...change}
+        labelId={props.id}
+        {...props}
       >
-        {children}
+        {props.children}
       </Select>
     </FormControl>
   )
