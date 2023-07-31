@@ -10,7 +10,7 @@ import {
 } from '../../services/course.services'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
-import { Button, InputLabel, MenuItem, Select, FormControl } from '@mui/material'
+import { Button, MenuItem } from '@mui/material'
 import Modal from '../../../../shared/components/Modal/Modal'
 import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import CardDash from '../../../../shared/components/CardDash/CardDash'
@@ -20,9 +20,9 @@ import { CgMoreO } from 'react-icons/cg'
 import { useForm } from 'react-hook-form'
 import { AxiosError } from 'axios'
 import { CgClose } from 'react-icons/cg'
-import { AiFillCloseSquare } from 'react-icons/ai'
+// import { AiFillCloseSquare } from 'react-icons/ai'
 import styles from './Courses.module.scss'
-import { AppContext } from '../../../../App'
+import { AppContext, SnackInfo } from '../../../../App'
 
 interface CourseTemplate {
   name: string
@@ -49,10 +49,10 @@ interface Level {
 }
 
 export default function CoursePage() {
-  const [course, setCourse] = useState<CourseTemplate[] | any>([])
-  const [level, setLevel] = useState<string[] | any>([])
+  const [course, setCourse] = useState<CourseTemplate[]>([])
+  const [level, setLevel] = useState<Level[]>([])
   const [open, setOpen] = useState<boolean>(false)
-  const [add, setAdd] = useState<boolean>(false)
+  // const [add, setAdd] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
   const [edit, setEdit] = useState<boolean>(false)
   const [more, setMore] = useState<boolean>(false)
@@ -76,7 +76,7 @@ export default function CoursePage() {
       request()
       reset()
     } catch (error) {
-      if(error instanceof AxiosError){
+      if (error instanceof AxiosError) {
         setSnack({} as SnackInfo)
       }
     }
@@ -84,21 +84,32 @@ export default function CoursePage() {
 
   const addCourses = async (formCourseNew: CourseTemplateManipulate) => {
     try {
-      const response = await addCourse(token, formCourseNew)
+      await addCourse(token, formCourseNew)
       setOpen(false)
       request()
       reset()
-    } catch (error: AxiosError | any) {
-      console.log(error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
     }
   }
 
   const dropCourse = async (id: number) => {
     try {
-      const response = await deleteCourse(token, id)
+      await deleteCourse(token, id)
       request()
     } catch (error) {
       if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
       }
     }
   }
@@ -108,7 +119,15 @@ export default function CoursePage() {
     try {
       const response = await findOneCourse(token, id)
       setOneCourse(response.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
 
   async function request() {
@@ -117,14 +136,22 @@ export default function CoursePage() {
       const resLevel = await findaAllLevel(token)
       setCourse(response.data)
       setLevel(resLevel.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
   useEffect(() => {
     request()
   }, [])
 
   return (
-    <div className={course}>
+    <div className={styles.course}>
       <h1>Страница шаблонов курсов</h1>
       <CssButton
         className={styles.course__add}
@@ -140,14 +167,8 @@ export default function CoursePage() {
             return (
               <>
                 <CardDash
-                  image='./ger3.jpg'
                   id={data.course_id}
-                  bc1='#fc0'
-                  bc2='#333'
-                  color='#1e1e1e'
-                  color2='#333'
-                  bt='#fc0'
-                  title={data.name}
+                  heading={data.name}
                   icon={
                     <>
                       <Button onClick={() => setAlert(true)}>

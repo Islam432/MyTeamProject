@@ -1,4 +1,4 @@
-import { styled, useTheme, Theme, CSSObject, createTheme } from '@mui/material/styles'
+import { styled, Theme, CSSObject, createTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -7,10 +7,7 @@ import List from '@mui/material/List'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-<<<<<<< HEAD
-=======
 import { HiChevronRight, HiChevronLeft, HiMenu } from 'react-icons/hi'
->>>>>>> 9cb11c62f8205abdcadd5ccf42d74147b71c42fb
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -156,7 +153,7 @@ const theme = createTheme({
   },
 })
 
-export default memo(function ResponsiveDrawer() {
+const ResponsiveDrawer = memo(function () {
   // const theme = useTheme()
   const [open, setOpen] = useState(true)
   const location = useLocation()
@@ -189,13 +186,8 @@ export default memo(function ResponsiveDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-<<<<<<< HEAD
-            {/* <MenuIcon sx={{ color: '#333' }} />/ */}
-            +
-=======
             {/* <MenuIcon sx={{ color: '#333' }} /> */}
             <HiMenu color='#333' />
->>>>>>> 9cb11c62f8205abdcadd5ccf42d74147b71c42fb
           </IconButton>
           <div
             role='presentation'
@@ -234,11 +226,7 @@ export default memo(function ResponsiveDrawer() {
             alt=''
           />
           <IconButton onClick={handleDrawerClose}>
-<<<<<<< HEAD
-            {theme.direction === 'rtl' ? <div /> : <div className={styles.iconRight} />}
-=======
             {theme.direction === 'rtl' ? <HiChevronRight /> : <HiChevronLeft className={styles.iconRight} />}
->>>>>>> 9cb11c62f8205abdcadd5ccf42d74147b71c42fb
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -280,3 +268,5 @@ export default memo(function ResponsiveDrawer() {
     </Box>
   )
 })
+
+export default ResponsiveDrawer

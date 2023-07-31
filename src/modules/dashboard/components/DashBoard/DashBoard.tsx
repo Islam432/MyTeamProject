@@ -1,20 +1,13 @@
-<<<<<<< HEAD
-=======
 import { useContext, useEffect, useState } from 'react'
-import CardDash from '../CardDash/CardDash'
->>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
-<<<<<<< HEAD
-import { mokData } from './mokData'
-import CardDash from '../../../../shared/components/CardDash/CardDash'
-=======
 import { getClasses } from '../../services/dashboard.services'
 import { AppContext, SnackInfo } from '../../../../App'
 import { AxiosError } from 'axios'
+import CardDash from '../../../../shared/components/CardDash/CardDash'
 
 type ClassInfo = {
   id: number
@@ -27,7 +20,6 @@ type ClassInfo = {
   branch_name: string
 }
 
->>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
 export default function Dashboard() {
   const [classes, setClasses] = useState<ClassInfo[]>([])
   const { setSnack } = useContext(AppContext)
@@ -84,12 +76,8 @@ export default function Dashboard() {
                     </Button>
                   </>
                 }
-<<<<<<< HEAD
-                {...item}
-=======
                 id={item.id}
                 heading={<span> {`${item.course_code} ${item.course_name}`} </span>}
->>>>>>> 50a1f33d83d95cdc3f9670231e653771570b9fee
               >
                 {item.description ? (
                   <p>{item.description}</p>
