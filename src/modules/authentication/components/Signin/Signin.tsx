@@ -8,7 +8,7 @@ import { BiShow } from 'react-icons/bi'
 import styles from './Signin.module.scss'
 import { AxiosError } from 'axios'
 import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
-import { AppContext } from '../../../../App'
+import { AppContext, SnackInfo } from '../../../../App'
 
 export interface FormAuth {
   email: string
@@ -17,7 +17,7 @@ export interface FormAuth {
 
 export default memo(function Signin() {
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const { auth, setSnackbarMessage } = useContext(AppContext)
+  const { auth, setSnack } = useContext(AppContext)
   const {
     handleSubmit,
     register,
@@ -29,7 +29,12 @@ export default memo(function Signin() {
       const { data } = await authorization(formAuthData)
       auth.login(data.token)
     } catch (error: AxiosError | any) {
-      setSnackbarMessage(error.response.data.message)
+      const { data } = error.response
+      setSnack({
+        open: true,
+        type: 'error',
+        message: data.message,
+      } as SnackInfo)
     }
   }, [])
 

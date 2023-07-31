@@ -11,14 +11,14 @@ import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import { AppContext } from '../../../../App'
+import { AppContext, SnackInfo } from '../../../../App'
 
 export type FormData = z.infer<typeof UserSchema>
 
 export default function Signup() {
   const [show, setShow] = useState<boolean>(false)
   const navigate = useNavigate()
-  const { setSnackbarMessage } = useContext(AppContext)
+  const { setSnack } = useContext(AppContext)
 
   const {
     register,
@@ -30,10 +30,20 @@ export default function Signup() {
 
   const onSubmit = async (formData: FormData) => {
     try {
-      await registerUser(formData)
+      const { data } = await registerUser(formData)
+      setSnack({
+        open: true,
+        type: 'success',
+        message: data.message,
+      } as SnackInfo)
       navigate('/signin')
     } catch (error: AxiosError | any) {
-      setSnackbarMessage(error.response.message)
+      const { data } = error.response
+      setSnack({
+        open: true,
+        type: 'error',
+        message: data.message,
+      } as SnackInfo)
     }
   }
 

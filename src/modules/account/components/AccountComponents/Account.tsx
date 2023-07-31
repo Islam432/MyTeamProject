@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
 import { UbdateUser, getOneUser } from '../../services/account.service'
-import { AppContext } from './../../../../App'
+import { AppContext, SnackInfo } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
 import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
 import Modal from '../../../../../src/shared/components/Modal/Modal'
 import { useForm } from 'react-hook-form'
 import { CssButton, CssTextField } from '../../../../../src/shared/components/CustomMUI'
+import { AxiosError } from 'axios'
 
 export interface Contact {
   id?: number
@@ -21,8 +22,8 @@ export interface Contact {
 
 export default function Account() {
   const [visbl, setvisibl] = useState<boolean>(false)
-  const [data, setData] = useState<Contact>()
-  const { auth } = useContext(AppContext)
+  const [data, setData] = useState<Contact>({} as Contact)
+  const { auth, setSnack } = useContext(AppContext)
 
   const {
     register,
@@ -35,7 +36,15 @@ export default function Account() {
       const { data } = await getOneUser(auth.user.id)
       console.log(data)
       setData(data)
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
   useEffect(() => {
     request()
@@ -49,7 +58,15 @@ export default function Account() {
     try {
       await UbdateUser(auth.user.id, contact)
       request()
-    } catch (error: any) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
   return (
     <>
@@ -204,7 +221,7 @@ export default function Account() {
           <hr />
           <div>
             <h4>Date:</h4>
-            <p>{data?.date_of_birth.slice(0, 10)}</p>
+            <p>{data?.date_of_birth?.slice(0, 10)}</p>
           </div>
           <hr />
           <div>
@@ -218,7 +235,6 @@ export default function Account() {
               <Chip
                 className={styles[data?.is_active ? 'cpActive' : 'cpFalse']}
                 label={data?.is_active ? 'Active' : 'Inactive'}
-                size='small'
               />
             </p>
           </div>

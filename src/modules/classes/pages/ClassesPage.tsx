@@ -1,5 +1,6 @@
 import { memo } from 'react'
+import { Outlet } from 'react-router-dom'
 
 export default memo(function ClassesPage() {
-  return <h1>Courses</h1>
+  return <Outlet />
 })

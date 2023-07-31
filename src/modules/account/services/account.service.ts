@@ -3,12 +3,11 @@ import Cookies from 'js-cookie'
 import { Contact } from '../components/AccountComponents/Account'
 
 const apiUrl = import.meta.env.VITE_API_URL
-const token = Cookies.get('token')
 
 export async function getOneUser(id: number) {
   return axios.get(`${apiUrl}/user/${id}`, {
     headers: {
-      Authorization: token,
+      Authorization: Cookies.get('token'),
     },
   })
 }
