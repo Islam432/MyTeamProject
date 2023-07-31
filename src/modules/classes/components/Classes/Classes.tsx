@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { DataGrid, GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react'
 import { Chip } from '@mui/material'
 import { AxiosError } from 'axios'
@@ -10,6 +10,7 @@ import { FaEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 import styles from './Classes.module.scss'
 import { Link } from 'react-router-dom'
+import ClassesTable from '../ClassesTable'
 
 type ClassType = {
   id: number
@@ -158,21 +159,10 @@ export default memo(function Classes() {
   return (
     <div style={{ padding: '1.5rem' }}>
       <h1>Classes</h1>
-      <div style={{ width: '100%', padding: '1rem 0' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 25 },
-            },
-          }}
-          pageSizeOptions={[10, 25, 50]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          density='compact'
-        />
-      </div>
+      <ClassesTable
+        columns={columns}
+        rows={rows}
+      />
     </div>
   )
 })
