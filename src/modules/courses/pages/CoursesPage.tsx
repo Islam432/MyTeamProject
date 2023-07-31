@@ -1,10 +1,12 @@
+import CoursePage from '../components/CoursePage/Courses'
 import { memo } from 'react'
-import CoursePage from '../../course-templates/components/CoursePage/Course-page'
 
-export default memo(function CoursesPage() {
+const CoursesPage = memo(function () {
   return (
     <div style={{ padding: '1.5rem' }}>
       <CoursePage />
     </div>
   )
 })
+
+export default CoursesPage

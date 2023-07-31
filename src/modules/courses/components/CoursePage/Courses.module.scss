@@ -1,0 +1,50 @@
+.wrapper {
+  padding: 1rem 4%;
+}
+
+.course {
+  position: relative;
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    // grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 2rem 1rem;
+    > div {
+      min-width: 320px;
+      height: 100%;
+      margin: auto;
+    }
+  }
+  &__add {
+    border-radius: 100% !important;
+    width: 40px !important;
+    height: 60px !important;
+    position: absolute !important;
+    right: 24px;
+    top: 80px;
+  }
+  &__form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    > div {
+      min-width: 100%;
+    }
+  }
+  &__closeModal {
+    position: absolute !important;
+    top: 17px;
+    right: 17px;
+    background: tomato !important;
+    font-size: 85px;
+    width: 20px !important;
+    padding: 4px 2px !important;
+    > * {
+      font-size: 25px !important;
+      color: #fff !important;
+      width: 20px;
+    }
+  }
+}

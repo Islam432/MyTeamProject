@@ -1,4 +1,4 @@
-import { styled, useTheme, Theme, CSSObject, createTheme } from '@mui/material/styles'
+import { styled, Theme, CSSObject, createTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -153,7 +153,7 @@ const theme = createTheme({
   },
 })
 
-export default memo(function ResponsiveDrawer() {
+const ResponsiveDrawer = memo(function () {
   // const theme = useTheme()
   const [open, setOpen] = useState(true)
   const location = useLocation()
@@ -268,3 +268,5 @@ export default memo(function ResponsiveDrawer() {
     </Box>
   )
 })
+
+export default ResponsiveDrawer
