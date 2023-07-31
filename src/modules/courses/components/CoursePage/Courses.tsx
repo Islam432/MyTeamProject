@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
   addCourse,
@@ -77,7 +77,11 @@ export default function CoursePage() {
       reset()
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({} as SnackInfo)
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
       }
     }
   }
@@ -163,9 +167,9 @@ export default function CoursePage() {
 
       <div className={styles.wrapper}>
         <div className={styles.course__cards}>
-          {course.map((data: CourseTemplate) => {
+          {course.map((data: CourseTemplate, index: number) => {
             return (
-              <>
+              <Fragment key={index}>
                 <CardDash
                   id={data.course_id}
                   heading={data.name}
@@ -272,9 +276,11 @@ export default function CoursePage() {
                     label={`Уровень ${edit ? data.level_name : ``}`}
                     {...register('level')}
                   >
-                    {level.map((data: Level) => {
-                      return <MenuItem value={data.id}>{data.level_name}</MenuItem>
-                    })}
+                    {level.map((data: Level, index: number) => (
+                      <Fragment key={index}>
+                        <MenuItem value={data.id}>{data.level_name}</MenuItem>
+                      </Fragment>
+                    ))}
                   </CustomSelect>
                   <CssTextField
                     label='Структура курса'
@@ -311,7 +317,7 @@ export default function CoursePage() {
                     <b>Повестка дня:</b> {oneCourse?.description}
                   </p>
                 </Modal>
-              </>
+              </Fragment>
             )
           })}
         </div>
