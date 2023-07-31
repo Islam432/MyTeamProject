@@ -7,6 +7,7 @@ import { MouseEvent } from 'react'
 import { AppContext } from '../../../../App'
 import { AxiosError } from 'axios'
 import { SnackInfo } from '../../../../App'
+import UserTable from '../UserTable'
 
 type UserTableEntry = {
   id: number

@@ -14,10 +14,24 @@ interface CardDashProps {
   color: string
   color2: string
   bt: string
+  course_name: string
+  description: string
   children: React.ReactNode
   icon: React.ReactNode
 }
-export default function CardDash({ id, title, image, bc1, bc2, color, color2, bt, children, icon }: CardDashProps) {
+export default function CardDash({
+  id,
+  // title,
+  image,
+  bc1,
+  course_name,
+  color,
+  color2,
+  // bt,
+  description,
+  children,
+  icon,
+}: CardDashProps) {
   return (
     <Card
       key={id}
@@ -27,7 +41,7 @@ export default function CardDash({ id, title, image, bc1, bc2, color, color2, bt
         component='img'
         alt='green iguana'
         height='150'
-        image={image}
+        image='/brit.jpg'
       />
       <CardContent sx={{ background: bc1, color: color, height: '100%' }}>
         <Typography
@@ -35,7 +49,7 @@ export default function CardDash({ id, title, image, bc1, bc2, color, color2, bt
           variant='h5'
           component='div'
         >
-          {title}
+          {course_name}
         </Typography>
         <Typography
           variant='body2'
