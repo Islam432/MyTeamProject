@@ -4,8 +4,16 @@ import { createContext, useCallback, useMemo, useState } from 'react'
 import { Dispatch, SetStateAction } from 'react'
 import useUserToken from './shared/hooks/useUserToken'
 
+type User = {
+  exp: number
+  iat: number
+  id: number
+  role_name: string
+  sub: string
+}
+
 type Auth = {
-  user: any
+  user: User
   login: (token: string) => void
   logout: () => void
 }

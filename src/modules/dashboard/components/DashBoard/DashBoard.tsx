@@ -1,37 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import CardDash from '../CardDash/CardDash'
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
-import { getClassesCard } from '../../services/dashboard.services'
-// import { mokData } from './mokData'
+import { getClasses } from '../../services/dashboard.services'
+import { AppContext, SnackInfo } from '../../../../App'
+import { AxiosError } from 'axios'
 
-interface ClassesCard {
+type ClassInfo = {
   id: number
   description: string
   start_date: string
   end_date: string
   open_for_enrollment: boolean
   course_code: string
-  branch_name: string
   course_name: string
-  bc1: string
-  bc2: string
-  color: string
-  color2: string
-  bt: string
+  branch_name: string
 }
 
 export default function Dashboard() {
-  const [classes, setClasses] = useState<ClassesCard[]>([])
-  // const soft = mokData
+  const [classes, setClasses] = useState<ClassInfo[]>([])
+  const { setSnack } = useContext(AppContext)
   useEffect(() => {
     const classes = async () => {
       try {
-        const { data } = await getClassesCard()
-        const modifiedRows = data.map((row: any) => {
+        const { data } = await getClasses<ClassInfo[]>()
+        const modifiedRows = data.map((row: ClassInfo) => {
           return {
             ...row,
             start_date: row.start_date.substring(0, 10),
@@ -39,13 +35,19 @@ export default function Dashboard() {
           }
         })
         setClasses(modifiedRows)
+        console.log(modifiedRows)
       } catch (error) {
-        console.log(error)
+        if (error instanceof AxiosError) {
+          setSnack({
+            open: true,
+            type: 'error',
+            message: error.response?.data.message,
+          } as SnackInfo)
+        }
       }
     }
     classes()
   }, [])
-  console.log(classes)
 
   return (
     <>
@@ -75,28 +77,16 @@ export default function Dashboard() {
                   </>
                 }
                 id={item.id}
-                text={item.course_code}
-                description={item.description}
-                course_name={item.course_name}
-                // img={item.image}
-                bc1={item.bc1}
-                bc2={item.bc2}
-                color={item.color}
-                color2={item.color2}
-                bt={item.bt}
-                // id={item.id}
-                // image={item.image}
-                // bc1={item.bc1}
-                // bc2={item.bc2}
-                // title={item.title}
-                // color={item.color}
-                // color2={item.color2}
-                // bt={item.bt}
+                heading={<span> {`${item.course_code} ${item.course_name}`} </span>}
               >
-                <p>
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
-                  continents except Antarctica
-                </p>
+                {item.description ? (
+                  <p>{item.description}</p>
+                ) : (
+                  <p>
+                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                    continents except Antarctica
+                  </p>
+                )}
               </CardDash>
             </div>
           ))}

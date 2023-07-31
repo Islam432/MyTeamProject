@@ -7,31 +7,11 @@ import styles from './CardDash.module.scss'
 import React from 'react'
 interface CardDashProps {
   id: number
-  title: string
-  image: string
-  bc1: string
-  bc2: string
-  color: string
-  color2: string
-  bt: string
-  course_name: string
-  description: string
+  heading: React.ReactNode
   children: React.ReactNode
   icon: React.ReactNode
 }
-export default function CardDash({
-  id,
-  // title,
-  image,
-  bc1,
-  course_name,
-  color,
-  color2,
-  // bt,
-  description,
-  children,
-  icon,
-}: CardDashProps) {
+export default function CardDash({ id, heading, children, icon }: CardDashProps) {
   return (
     <Card
       key={id}
@@ -43,17 +23,18 @@ export default function CardDash({
         height='150'
         image='/brit.jpg'
       />
-      <CardContent sx={{ background: bc1, color: color, height: '100%' }}>
+      <CardContent sx={{ background: '#ffcc00', color: '#1e1e1e', height: '100%' }}>
         <Typography
           gutterBottom
           variant='h5'
           component='div'
+          color='#333333'
         >
-          {course_name}
+          {heading}
         </Typography>
         <Typography
           variant='body2'
-          color={color2}
+          color='#333333'
         >
           {children}
         </Typography>
