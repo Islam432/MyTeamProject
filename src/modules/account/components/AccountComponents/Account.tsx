@@ -54,8 +54,9 @@ export default function Account() {
   return (
     <>
       <Modal
-      btn={<CssButton
-        className={styles.ButtonModal}
+        btn={
+          <CssButton
+            className={styles.ButtonModal}
             type='submit'
             variant='contained'
             color='primary'
@@ -63,19 +64,17 @@ export default function Account() {
             fullWidth
           >
             изменить данные
-          </CssButton>}
-     
+          </CssButton>
+        }
+        title='Изменить профиль'
         onClose={() => setvisibl(false)}
         isOpen={visbl}
       >
-        <form
-          
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <CssTextField
-             className={styles.input}
-             fullWidth 
+              className={styles.input}
+              fullWidth
               size='small'
               label='Имя'
               type='text'
@@ -86,8 +85,8 @@ export default function Account() {
           </div>
           <div>
             <CssTextField
-             className={styles.input}
-              fullWidth 
+              className={styles.input}
+              fullWidth
               size='small'
               label='Фамилия'
               type='text'
@@ -98,8 +97,8 @@ export default function Account() {
           </div>
           <div>
             <CssTextField
-             className={styles.input}
-             fullWidth 
+              className={styles.input}
+              fullWidth
               size='small'
               label='Email'
               type='email'
@@ -112,8 +111,8 @@ export default function Account() {
           </div>
 
           <CssTextField
-           className={styles.input}
-           fullWidth 
+            className={styles.input}
+            fullWidth
             size='small'
             label='Дата рождения'
             type='date'
@@ -126,8 +125,8 @@ export default function Account() {
           />
           <div>
             <CssTextField
-            className={styles.input}
-             fullWidth 
+              className={styles.input}
+              fullWidth
               size='small'
               label='Контактный номер'
               type='phone'
@@ -138,7 +137,6 @@ export default function Account() {
               helperText={errors.contact_number?.message}
             />
           </div>
-          
         </form>
       </Modal>
       <h1>User profile</h1>
