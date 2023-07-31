@@ -3,8 +3,8 @@ import Cookies from 'js-cookie'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
-export function getUsers() {
-  return axios.get(`${apiUrl}/user`, {
+export function getUsers<T>() {
+  return axios.get<T>(`${apiUrl}/user`, {
     headers: {
       Authorization: Cookies.get('token'),
     },

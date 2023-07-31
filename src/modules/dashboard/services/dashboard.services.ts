@@ -10,11 +10,3 @@ export function getClasses<T>() {
     },
   })
 }
-
-export function toggleEnrollment(id: number, data: { open_for_enrollment: boolean }) {
-  return axios.post(`${apiUrl}/classes/${id}/toggle`, data, {
-    headers: {
-      Authorization: Cookies.get('token'),
-    },
-  })
-}

@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { DataGrid, GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react'
 import { Chip } from '@mui/material'
 import { AxiosError } from 'axios'
@@ -10,16 +10,9 @@ import { FaEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 import styles from './Classes.module.scss'
 import { Link } from 'react-router-dom'
+import ClassTable from '../ClassTable/ClassTable'
+import { ClassTableEntry } from '../../models/Class.model'
 
-type ClassType = {
-  id: number
-  description: string
-  branch_name: string
-  course_code: string
-  start_date: any
-  end_date: any
-  open_for_enrollment: boolean
-}
 
 const columnsLst: GridColDef[] = [
   {
@@ -63,8 +56,8 @@ const columnsLst: GridColDef[] = [
 const handleToggle = async (
   event: MouseEvent,
   params: GridCellParams,
-  rows: ClassType[],
-  setRows: Dispatch<SetStateAction<ClassType[]>>,
+  rows: ClassTableEntry[],
+  setRows: Dispatch<SetStateAction<ClassTableEntry[]>>,
   setSnack: Dispatch<SetStateAction<SnackInfo>>
 ) => {
   event.stopPropagation()
@@ -82,24 +75,26 @@ const handleToggle = async (
       type: 'success',
       message: data.message,
     } as SnackInfo)
-  } catch (error: AxiosError | any) {
-    setSnack({
-      open: true,
-      type: 'error',
-      message: error.response.data?.message,
-    } as SnackInfo)
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      setSnack({
+        open: true,
+        type: 'error',
+        message: error.response?.data?.message,
+      } as SnackInfo)
+    }
   }
 }
 
-export default memo(function Classes() {
-  const [rows, setRows] = useState<ClassType[]>([])
+const Classes = memo(function () {
+  const [rows, setRows] = useState<ClassTableEntry[]>([])
   const { setSnack } = useContext(AppContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClasses()
-        const modifiedRows = data.map((row: any, indx: number) => {
+        const { data } = await getClasses<ClassTableEntry[]>()
+        const modifiedRows = data.map((row: ClassTableEntry, indx: number) => {
           return {
             ...row,
             index: indx + 1,
@@ -158,21 +153,12 @@ export default memo(function Classes() {
   return (
     <div style={{ padding: '1.5rem' }}>
       <h1>Classes</h1>
-      <div style={{ width: '100%', padding: '1rem 0' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 25 },
-            },
-          }}
-          pageSizeOptions={[10, 25, 50]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          density='compact'
-        />
-      </div>
+      <ClassTable
+        columns={columns}
+        rows={rows}
+      />
     </div>
   )
 })
+
+export default Classes
