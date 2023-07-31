@@ -1,6 +1,6 @@
 import { GridColDef, GridCellParams } from '@mui/x-data-grid'
 import { useState, useEffect, useMemo, Dispatch, SetStateAction, useContext } from 'react'
-import { Chip } from '@mui/material'
+import { Button, Chip } from '@mui/material'
 import styles from './Users.module.scss'
 import { toggleUser, getUsers } from '../../services/user.service'
 import { MouseEvent } from 'react'
@@ -8,7 +8,13 @@ import { AppContext } from '../../../../App'
 import { SnackInfo } from '../../../../App'
 import UserTable from '../UserTable/UserTable'
 import { AxiosError } from 'axios'
+import Modal from '../../../../shared/components/Modal/Modal'
+import { UserSchema } from '../../../../shared/schemas/user.schema'
+import { z } from 'zod'
+import UsersRegForm from './UsersRegForm'
 import { UserTableEntry } from '../../models/User.model'
+
+export type FormData = z.infer<typeof UserSchema>
 
 const columnsLst: GridColDef[] = [
   { field: 'Index', headerName: 'Index', width: 60 },
@@ -51,6 +57,7 @@ const handleToggle = async (
 export default function Users() {
   const [rows, setRows] = useState<UserTableEntry[]>([])
   const { setSnack } = useContext(AppContext)
+  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const xz = async () => {
@@ -90,14 +97,38 @@ export default function Users() {
     ]
   }, [rows])
 
+  const handleCloseModal = () => {
+    setOpen(false)
+  }
+
   return (
     <>
-      <h1>Users</h1>
+      <div className={styles.users}>
+        <h1>Users</h1>
+        <Button
+          variant='contained'
+          color='primary'
+          className={styles.users__addbtn}
+          onClick={() => {
+            setOpen(!open)
+          }}
+        >
+          Добавить пользователя
+        </Button>
+        <Modal
+          title='Добавить нового пользователя'
+          desc=''
+          isOpen={open}
+          onClose={handleCloseModal}
+          btn={''}
+        >
+          <UsersRegForm />
+        </Modal>
+      </div>
       <div style={{ width: '100%', padding: '1rem 0' }}>
         <UserTable
           columns={columns}
           rows={rows}
-          height={200}
         />
       </div>
     </>

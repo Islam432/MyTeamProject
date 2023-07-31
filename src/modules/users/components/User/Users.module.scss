@@ -1,3 +1,60 @@
+.users {
+  display: flex;
+  justify-content: space-between;
+  &__addbtn {
+    background: #fc0 !important;
+    padding: 5px 10px !important;
+    font-size: 16px !important;
+    text-transform: none !important;
+  }
+}
+.signUp {
+  &__form {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    > div {
+      position: relative;
+      width: 100%;
+      > input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+      }
+      input[type='date'] {
+        position: relative;
+      }
+      input[type='date']::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        color: transparent;
+        background: transparent;
+      }
+      > div {
+        width: 100%;
+      }
+      > button {
+        position: absolute;
+        top: 7px;
+        right: 5px;
+        z-index: 9;
+      }
+    }
+  }
+  &__btn {
+    background: #fc0 !important;
+    width: 100%;
+    padding: 12px !important;
+    font-size: 16px !important;
+    text-transform: none !important;
+  }
+}
 .cpActive {
   color: green !important;
   background: rgba(126, 252, 0, 0.4) !important;

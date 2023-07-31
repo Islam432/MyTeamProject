@@ -1,27 +1,26 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import React, { useState } from 'react'
 
 interface ModalProps {
-  title: string
-  desc: string
+  title?: string
+  desc?: string
   isOpen: boolean
   children: React.ReactNode
-  btn: React.ReactNode
+  btn?: React.ReactNode
+  onClose: () => void
 }
 
-export default function Modal({ title, desc, isOpen, children, btn }: ModalProps) {
-  const [open, setOpen] = useState<boolean>(isOpen)
+export default function Modal({ title, desc, isOpen, children, btn, onClose }: ModalProps) {
   return (
     <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
+      open={isOpen}
+      onClose={onClose}
     >
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <DialogTitle sx={{ textAlign: 'center' }}>{title}</DialogTitle>
+      <DialogContent sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <DialogContentText>{desc}</DialogContentText>
         {children}
       </DialogContent>
-      <DialogActions>{btn}</DialogActions>
+      <DialogActions sx={{ display: 'flex', gap: '10px' }}>{btn}</DialogActions>
     </Dialog>
   )
 }

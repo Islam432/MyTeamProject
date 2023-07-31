@@ -1,44 +1,161 @@
 import { useContext, useEffect, useState } from 'react'
-import { getOneUser } from '../../services/account.service'
+import { UbdateUser, getOneUser } from '../../services/account.service'
 import { AppContext, SnackInfo } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
 import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
+import Modal from '../../../../../src/shared/components/Modal/Modal'
+import { useForm } from 'react-hook-form'
+import { CssButton, CssTextField } from '../../../../../src/shared/components/CustomMUI'
 import { AxiosError } from 'axios'
 
-interface Contact {
-  id: number
+export interface Contact {
+  id?: number
   first_name: string
   last_name: string
   contact_number: string
   date_of_birth: string
   email: string
-  is_active: boolean
-  role_name: string
+  is_active?: boolean
+  role_name?: string
 }
 
 export default function Account() {
+  const [visbl, setvisibl] = useState<boolean>(false)
   const [data, setData] = useState<Contact>({} as Contact)
   const { auth, setSnack } = useContext(AppContext)
 
-  useEffect(() => {
-    async function request() {
-      try {
-        const { data } = await getOneUser(auth.user.id)
-        setData(data)
-      } catch (error: AxiosError | any) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Contact>()
+
+  async function request() {
+    try {
+      const { data } = await getOneUser(auth.user.id)
+      console.log(data)
+      setData(data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
         setSnack({
           open: true,
           type: 'error',
-          message: error.response.data?.message,
+          message: error?.response?.data.message,
         } as SnackInfo)
       }
     }
+  }
+  useEffect(() => {
     request()
   }, [])
 
+  const submitUbdate = () => {
+    setvisibl((visbl) => !visbl)
+  }
+
+  const onSubmit = async (contact: Contact) => {
+    try {
+      await UbdateUser(auth.user.id, contact)
+      request()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
+  }
   return (
     <>
+      <Modal
+        btn={
+          <CssButton
+            className={styles.ButtonModal}
+            type='submit'
+            variant='contained'
+            color='primary'
+            onClick={submitUbdate}
+            fullWidth
+          >
+            изменить данные
+          </CssButton>
+        }
+        title='Изменить профиль'
+        onClose={() => setvisibl(false)}
+        isOpen={visbl}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <CssTextField
+              className={styles.input}
+              fullWidth
+              size='small'
+              label='Имя'
+              type='text'
+              {...register('first_name')}
+              error={!!errors.first_name}
+              helperText={errors.first_name?.message}
+            />
+          </div>
+          <div>
+            <CssTextField
+              className={styles.input}
+              fullWidth
+              size='small'
+              label='Фамилия'
+              type='text'
+              {...register('last_name')}
+              error={!!errors.last_name}
+              helperText={errors.last_name?.message}
+            />
+          </div>
+          <div>
+            <CssTextField
+              className={styles.input}
+              fullWidth
+              size='small'
+              label='Email'
+              type='email'
+              {...register('email', {
+                pattern: /^\S+@\S+$/i,
+              })}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+          </div>
+
+          <CssTextField
+            className={styles.input}
+            fullWidth
+            size='small'
+            label='Дата рождения'
+            type='date'
+            {...register('date_of_birth')}
+            error={!!errors.date_of_birth}
+            helperText={errors.date_of_birth?.message}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <div>
+            <CssTextField
+              className={styles.input}
+              fullWidth
+              size='small'
+              label='Контактный номер'
+              type='phone'
+              inputProps={{ maxLength: 10 }}
+              placeholder='Пример: 0555-555-555'
+              {...register('contact_number')}
+              error={!!errors.contact_number}
+              helperText={errors.contact_number?.message}
+            />
+          </div>
+        </form>
+      </Modal>
       <h1>User profile</h1>
       <div className={styles.content}>
         <Card sx={{ maxWidth: 345, minHeight: 450 }}>
@@ -71,6 +188,7 @@ export default function Account() {
           </CardContent>
           <CardActions>
             <Button
+              onClick={submitUbdate}
               className={styles.button}
               sx={{ display: 'block', margin: 'auto', color: '#ffcc00' }}
               size='small'
