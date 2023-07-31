@@ -240,7 +240,7 @@ export default function CoursePage() {
                   />
                   <CustomSelect
                     id='xz'
-                    label={`Уровень: ${edit && data.level_name}`}
+                    label={`Уровень ${edit ? data.level_name : ``}`}
                     {...register('level')}
                   >
                     {level.map((data: Level) => {
