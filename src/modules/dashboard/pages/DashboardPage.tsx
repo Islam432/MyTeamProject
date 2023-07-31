@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import Dashboard from '../components/Dashboard/DashBoard'
+import Dashboard from '../components/Dashboard/Dashboard'
 
 const DashboardPage = memo(function () {
   return (
