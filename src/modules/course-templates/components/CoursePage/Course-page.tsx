@@ -40,12 +40,19 @@ export interface CourseTemplateManipulate {
   level: number
   agenda: string
 }
+
+interface Level {
+  id: number
+  level_name: string
+}
+
 export default function CoursePage() {
   const [course, setCourse] = useState<CourseTemplate[] | any>([])
   const [level, setLevel] = useState<string[] | any>([])
   const [open, setOpen] = useState<boolean>(false)
   const [add, setAdd] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
+  const [edit, setEdit] = useState<boolean>(false)
   const [more, setMore] = useState<boolean>(false)
   const [idChangeCourse, setIdChangeCourse] = useState<number>(0)
   const [oneCourse, setOneCourse] = useState<CourseTemplate>()
@@ -73,7 +80,7 @@ export default function CoursePage() {
   const addCourses = async (formCourseNew: CourseTemplateManipulate) => {
     try {
       const response = await addCourse(token, formCourseNew)
-      setAdd(false)
+      setOpen(false)
       request()
       reset()
     } catch (error: AxiosError | any) {
@@ -113,7 +120,7 @@ export default function CoursePage() {
       <h1>Страница шаблонов курсов</h1>
       <CssButton
         className={styles.course__add}
-        onClick={() => setAdd(true)}
+        onClick={() => setOpen(true)}
         sx={{ minWidth: '60px' }}
       >
         <AiOutlinePlus style={{ fontSize: '30px', width: 'max-content' }} />
@@ -141,6 +148,7 @@ export default function CoursePage() {
                       <Button
                         onClick={() => {
                           setOpen(true)
+                          setEdit(true)
                           setIdChangeCourse(data.course_id)
                         }}
                       >
@@ -153,7 +161,7 @@ export default function CoursePage() {
                   }
                 >
                   <span>
-                    <b>Уровень:</b> {data.description}
+                    <b>Уровень:</b> {data.level_name}
                   </span>
                 </CardDash>
                 <Modal
@@ -185,146 +193,100 @@ export default function CoursePage() {
                     <b>Курс:</b> {data.name}
                   </p>
                 </Modal>
+                <Modal
+                  submit={handleSubmit(edit ? onSubmit : addCourses)}
+                  title={edit ? `Вы изменяете курс: ${data.name}` : 'Заполните поля'}
+                  isOpen={open}
+                  onClose={() => {
+                    setOpen(false)
+                    edit && setEdit(false)
+                    reset()
+                  }}
+                  btn={
+                    <>
+                      <CssButton
+                        fullWidth
+                        variant='contained'
+                        sx={{ background: 'tomato !important' }}
+                        onClick={() => {
+                          setOpen(false)
+                          reset()
+                        }}
+                      >
+                        Отменить
+                      </CssButton>
+                      <CssButton
+                        fullWidth
+                        type='submit'
+                        variant='contained'
+                        sx={{ margin: 0 }}
+                      >
+                        {edit ? 'Изменить' : 'Добавить'}
+                      </CssButton>
+                    </>
+                  }
+                >
+                  <CssTextField
+                    label='Заголовок'
+                    type='text'
+                    {...register('name')}
+                  />
+                  <CssTextField
+                    label='Описание'
+                    type='text'
+                    {...register('description')}
+                    multiline
+                    rows={3}
+                  />
+                  <CustomSelect
+                    id='xz'
+                    label={`Уровень: ${edit && data.level_name}`}
+                    {...register('level')}
+                  >
+                    {level.map((data: Level) => {
+                      return <MenuItem value={data.id}>{data.level_name}</MenuItem>
+                    })}
+                  </CustomSelect>
+                  <CssTextField
+                    label='Структура курса'
+                    type='text'
+                    {...register('agenda')}
+                  />
+                </Modal>
+                <Modal
+                  title={`Курс: ${oneCourse?.name}`}
+                  isOpen={more}
+                  btn={
+                    <CssButton
+                      fullWidth={false}
+                      className={styles.course__closeModal}
+                      onClick={() => setMore(false)}
+                    >
+                      <CgClose />
+                    </CssButton>
+                  }
+                  onClose={() => setMore(false)}
+                >
+                  <img
+                    src='./ger3.jpg'
+                    alt=''
+                    style={{ borderRadius: '8px' }}
+                  />
+                  <p>
+                    <b>Уровень:</b> {oneCourse?.level_name}
+                  </p>
+                  <p>
+                    <b>Описание:</b> {oneCourse?.description}
+                  </p>
+                  <p>
+                    <b>Повестка дня:</b> {oneCourse?.description}
+                  </p>
+                </Modal>
               </>
             )
           })}
         </div>
       </div>
-      <Modal
-        submit={handleSubmit(onSubmit)}
-        title='Заполните поля'
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        btn={
-          <>
-            <CssButton
-              fullWidth
-              variant='contained'
-              sx={{ background: 'tomato !important' }}
-              onClick={() => setOpen(false)}
-            >
-              Отменить
-            </CssButton>
-            <CssButton
-              fullWidth
-              type='submit'
-              variant='contained'
-              sx={{ margin: 0 }}
-            >
-              Изменить
-            </CssButton>
-          </>
-        }
-      >
-        <CssTextField
-          label='Заголовок'
-          type='text'
-          {...register('name')}
-        />
-        <CssTextField
-          label='Описание'
-          type='text'
-          {...register('description')}
-          multiline
-          rows={3}
-        />
-        <CustomSelect
-          id='xz'
-          label='Уровень'
-          {...register('level')}
-        >
-          {level.map((data: Level) => {
-            return <MenuItem value={data.id}>{data.level_name}</MenuItem>
-          })}
-        </CustomSelect>
-        <CssTextField
-          label='Структура курса'
-          type='text'
-          {...register('agenda')}
-        />
-      </Modal>
-      <Modal
-        submit={handleSubmit(addCourses)}
-        title='Заполните поля'
-        isOpen={add}
-        onClose={() => setAdd(false)}
-        btn={
-          <>
-            <CssButton
-              fullWidth
-              variant='contained'
-              sx={{ background: 'tomato !important' }}
-              onClick={() => setAdd(false)}
-            >
-              Отменить
-            </CssButton>
-            <CssButton
-              fullWidth
-              type='submit'
-              variant='contained'
-              sx={{ margin: 0 }}
-            >
-              Добавить
-            </CssButton>
-          </>
-        }
-      >
-        <CssTextField
-          label='Заголовок'
-          type='text'
-          {...register('name')}
-        />
-        <CssTextField
-          label='Описание'
-          type='text'
-          {...register('description')}
-          multiline
-          rows={3}
-        />
-        <CustomSelect
-          id='xz'
-          label='Уровень'
-          {...register('level')}
-        >
-          {level.map((data: Level) => {
-            return <MenuItem value={data.id}>{data.level_name}</MenuItem>
-          })}
-        </CustomSelect>
-        <CssTextField
-          label='Структура курса'
-          type='text'
-          {...register('agenda')}
-        />
-      </Modal>
-      <Modal
-        title={`Курс: ${oneCourse?.name}`}
-        isOpen={more}
-        btn={
-          <CssButton
-            fullWidth={false}
-            className={styles.course__closeModal}
-            onClick={() => setMore(false)}
-          >
-            <CgClose />
-          </CssButton>
-        }
-        onClose={() => setMore(false)}
-      >
-        <img
-          src='./ger3.jpg'
-          alt=''
-          style={{ borderRadius: '8px' }}
-        />
-        <p>
-          <b>Уровень:</b> {oneCourse?.level_name}
-        </p>
-        <p>
-          <b>Описание:</b> {oneCourse?.description}
-        </p>
-        <p>
-          <b>Повестка дня:</b> {oneCourse?.description}
-        </p>
-      </Modal>
     </div>
   )
 }

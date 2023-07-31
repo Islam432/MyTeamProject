@@ -1,4 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import './style.module .scss'
 
 interface ModalProps {
   title?: string
@@ -13,6 +14,7 @@ interface ModalProps {
 export default function Modal({ title, desc, isOpen, children, btn, onClose, submit }: ModalProps) {
   return (
     <Dialog
+      sx={{ backgroundColor: '#0000002f !important' }}
       open={isOpen}
       onClose={onClose}
     >
