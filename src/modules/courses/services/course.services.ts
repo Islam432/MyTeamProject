@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { CourseTemplateManipulate } from '../components/CoursePage/Course-page'
+import { CourseTemplateManipulate } from '../components/CoursePage/Courses'
 
 const api = import.meta.env.VITE_API_URL
 

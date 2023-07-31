@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
   addCourse,
@@ -8,12 +8,11 @@ import {
   findaAllLevel,
   updateCourse,
 } from '../../services/course.services'
-import styles from './style.module.scss'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
 import { Button, InputLabel, MenuItem, Select, FormControl } from '@mui/material'
 import Modal from '../../../../shared/components/Modal/Modal'
-import { CssButton, CssTextField } from './../../../../shared/components/CustomMUI'
+import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import CardDash from '../../../../shared/components/CardDash/CardDash'
 import CustomSelect from '../../../../shared/components/Select/Select'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -22,6 +21,9 @@ import { useForm } from 'react-hook-form'
 import { AxiosError } from 'axios'
 import { CgClose } from 'react-icons/cg'
 import { AiFillCloseSquare } from 'react-icons/ai'
+import styles from './Courses.module.scss'
+import { AppContext } from '../../../../App'
+
 interface CourseTemplate {
   name: string
   course_id: number
@@ -57,23 +59,26 @@ export default function CoursePage() {
   const [idChangeCourse, setIdChangeCourse] = useState<number>(0)
   const [oneCourse, setOneCourse] = useState<CourseTemplate>()
   const token = Cookies.get('token')
+  const { setSnack } = useContext(AppContext)
 
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
-    watch,
+    // formState: { errors },
+    // watch,
   } = useForm<CourseTemplateManipulate>()
 
   const onSubmit = async (formCourse: CourseTemplateManipulate) => {
     try {
-      const response = await updateCourse(token, idChangeCourse, formCourse)
+      await updateCourse(token, idChangeCourse, formCourse)
       setOpen(false)
       request()
       reset()
-    } catch (error: AxiosError | any) {
-      console.log(error)
+    } catch (error) {
+      if(error instanceof AxiosError){
+        setSnack({} as SnackInfo)
+      }
     }
   }
 
@@ -92,7 +97,10 @@ export default function CoursePage() {
     try {
       const response = await deleteCourse(token, id)
       request()
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+      }
+    }
   }
 
   const moreCourse = async (id: number) => {
