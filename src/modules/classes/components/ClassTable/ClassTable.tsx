@@ -1,6 +1,13 @@
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { ClassTableEntry } from '../../models/Class.model'
+import { memo } from 'react'
 
-const ClassesTable = ({ columns, rows }) => {
+type ClassTableProps = {
+  columns: GridColDef[]
+  rows: ClassTableEntry[]
+}
+
+const ClassesTable = memo(function ({ columns, rows }: ClassTableProps) {
   return (
     <div style={{ width: '100%', padding: '1rem 0' }}>
       <DataGrid
@@ -18,6 +25,6 @@ const ClassesTable = ({ columns, rows }) => {
       />
     </div>
   )
-}
+})
 
 export default ClassesTable

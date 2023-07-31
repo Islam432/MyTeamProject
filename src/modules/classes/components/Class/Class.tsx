@@ -5,7 +5,7 @@ import List from '@mui/material/List'
 import Divider from '@mui/material/Divider'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
+// import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { memo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -73,7 +73,7 @@ const theme = createTheme({
   },
 })
 
-export default memo(function Class() {
+const Class = memo(function () {
   const location = useLocation()
   return (
     <Box sx={{ display: 'flex' }}>
@@ -129,3 +129,5 @@ export default memo(function Class() {
     </Box>
   )
 })
+
+export default Class

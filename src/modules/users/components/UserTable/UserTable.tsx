@@ -5,15 +5,11 @@ import { memo } from 'react'
 type UserTableProps = {
   columns: GridColDef[]
   rows: UserTableEntry[]
-  height: number
 }
 
-const UserTable = memo(function ({ columns, rows, height }: UserTableProps) {
+const UserTable = memo(function ({ columns, rows }: UserTableProps) {
   return (
     <DataGrid
-      sx={{
-        minHeight: `${height}px`,
-      }}
       rows={rows}
       columns={columns}
       editMode='row'
