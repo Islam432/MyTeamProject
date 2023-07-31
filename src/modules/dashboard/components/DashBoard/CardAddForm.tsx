@@ -9,7 +9,6 @@ import { AppContext } from '../../../../App'
 import { useContext } from 'react'
 import { AxiosError } from 'axios'
 import { z } from 'zod'
-export type FormCardAdd = z.infer<typeof ClassesSchema>
 
 const CardAddForm = () => {
   const { setSnackbarMessage } = useContext(AppContext)

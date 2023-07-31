@@ -4,10 +4,6 @@ import { Children } from 'react'
 
 interface PropsSelect {
   label: string
-<<<<<<< HEAD
-  change: () => void
-=======
->>>>>>> origin/feature/lms-16
   children: React.ReactNode
   id: string
 }
