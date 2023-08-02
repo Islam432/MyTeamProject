@@ -50,7 +50,7 @@ export const CssButton = styled(Button)(() => ({
   },
 }))
 
-export const CssFab = styled(Fab)(({ theme }) => ({
+export const CssFab = styled(Fab)(() => ({
   '&': {
     background: '#fc0',
     color: '#fff',

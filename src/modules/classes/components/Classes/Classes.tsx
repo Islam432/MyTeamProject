@@ -4,15 +4,14 @@ import { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } fr
 import { Chip } from '@mui/material'
 import { AxiosError } from 'axios'
 import { MouseEvent } from 'react'
-import { getClasses, toggleEnrollment } from '../../services/class.service'
-import { AppContext, SnackInfo } from './../../../../App'
+import { getClasses, toggleEnrollment } from '../../../../shared/services/class.service'
+import { AppContext } from './../../../../App'
 import { FaEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 import styles from './Classes.module.scss'
 import { Link } from 'react-router-dom'
 import ClassTable from '../ClassTable/ClassTable'
 import { ClassTableEntry } from '../../models/Class.model'
-
 
 const columnsLst: GridColDef[] = [
   {
@@ -58,7 +57,8 @@ const handleToggle = async (
   params: GridCellParams,
   rows: ClassTableEntry[],
   setRows: Dispatch<SetStateAction<ClassTableEntry[]>>,
-  setSnack: Dispatch<SetStateAction<SnackInfo>>
+  openErrorMessage: (message: string) => void,
+  openSuccessMessage: (message: string) => void
 ) => {
   event.stopPropagation()
   event.preventDefault()
@@ -70,25 +70,17 @@ const handleToggle = async (
       return item
     })
     setRows(newUsers)
-    setSnack({
-      open: true,
-      type: 'success',
-      message: data.message,
-    } as SnackInfo)
+    openSuccessMessage(data.message)
   } catch (error) {
     if (error instanceof AxiosError) {
-      setSnack({
-        open: true,
-        type: 'error',
-        message: error.response?.data?.message,
-      } as SnackInfo)
+      openErrorMessage(error.response?.data.message)
     }
   }
 }
 
 const Classes = memo(function () {
   const [rows, setRows] = useState<ClassTableEntry[]>([])
-  const { setSnack } = useContext(AppContext)
+  const { openErrorMessage, openSuccessMessage } = useContext(AppContext)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,7 +115,7 @@ const Classes = memo(function () {
               className={styles[params.value ? 'cpActive' : 'cpFalse']}
               label={params.value ? 'Open' : 'Closed'}
               size='small'
-              onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
+              onClick={(event) => handleToggle(event, params, rows, setRows, openErrorMessage, openSuccessMessage)}
             />
           )
         },
@@ -148,7 +140,7 @@ const Classes = memo(function () {
         ),
       } as GridColDef,
     ]
-  }, [rows])
+  }, [rows, openErrorMessage, openSuccessMessage])
 
   return (
     <div style={{ padding: '1.5rem' }}>

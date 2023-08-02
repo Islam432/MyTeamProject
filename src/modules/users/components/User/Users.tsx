@@ -2,10 +2,9 @@ import { GridColDef, GridCellParams } from '@mui/x-data-grid'
 import { useState, useEffect, useMemo, Dispatch, SetStateAction, useContext } from 'react'
 import { Button, Chip } from '@mui/material'
 import styles from './Users.module.scss'
-import { toggleUser, getUsers } from '../../services/user.service'
+import { toggleUser, getUsers } from '../../../../shared/services/user.service'
 import { MouseEvent } from 'react'
 import { AppContext } from '../../../../App'
-import { SnackInfo } from '../../../../App'
 import UserTable from '../UserTable/UserTable'
 import { AxiosError } from 'axios'
 import Modal from '../../../../shared/components/Modal/Modal'
@@ -31,7 +30,7 @@ const handleToggle = async (
   params: GridCellParams,
   rows: UserTableEntry[],
   setRows: Dispatch<SetStateAction<UserTableEntry[]>>,
-  setSnack: Dispatch<SetStateAction<SnackInfo>>
+  openErrorMessage: (message: string) => void
 ) => {
   event.stopPropagation()
   event.preventDefault()
@@ -45,18 +44,14 @@ const handleToggle = async (
     setRows(newUsers)
   } catch (error) {
     if (error instanceof AxiosError) {
-      setSnack({
-        open: true,
-        type: 'error',
-        message: error.response?.data.message,
-      } as SnackInfo)
+      openErrorMessage(error.response?.data.message)
     }
   }
 }
 
 export default function Users() {
   const [rows, setRows] = useState<UserTableEntry[]>([])
-  const { setSnack } = useContext(AppContext)
+  const { openErrorMessage } = useContext(AppContext)
   const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
@@ -90,7 +85,7 @@ export default function Users() {
             className={styles[params.value ? 'cpActive' : 'cpFalse']}
             label={params.value ? 'Active' : 'Inactive'}
             size='small'
-            onClick={(event) => handleToggle(event, params, rows, setRows, setSnack)}
+            onClick={(event) => handleToggle(event, params, rows, setRows, openErrorMessage)}
           />
         ),
       },

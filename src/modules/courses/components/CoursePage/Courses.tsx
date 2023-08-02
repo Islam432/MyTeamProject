@@ -1,5 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
 import {
   addCourse,
   deleteCourse,
@@ -7,7 +6,7 @@ import {
   findOneCourse,
   findaAllLevel,
   updateCourse,
-} from '../../services/course.services'
+} from '../../../../shared/services/course.services'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
 import { Button, MenuItem } from '@mui/material'
@@ -22,7 +21,7 @@ import { AxiosError } from 'axios'
 import { CgClose } from 'react-icons/cg'
 // import { AiFillCloseSquare } from 'react-icons/ai'
 import styles from './Courses.module.scss'
-import { AppContext, SnackInfo } from '../../../../App'
+import { AppContext } from '../../../../App'
 
 interface CourseTemplate {
   name: string
@@ -58,8 +57,7 @@ export default function CoursePage() {
   const [more, setMore] = useState<boolean>(false)
   const [idChangeCourse, setIdChangeCourse] = useState<number>(0)
   const [oneCourse, setOneCourse] = useState<CourseTemplate>()
-  const token = Cookies.get('token')
-  const { setSnack } = useContext(AppContext)
+  const { openErrorMessage } = useContext(AppContext)
 
   const {
     handleSubmit,
@@ -71,49 +69,37 @@ export default function CoursePage() {
 
   const onSubmit = async (formCourse: CourseTemplateManipulate) => {
     try {
-      await updateCourse(token, idChangeCourse, formCourse)
+      await updateCourse(idChangeCourse, formCourse)
       setOpen(false)
       request()
       reset()
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }
 
   const addCourses = async (formCourseNew: CourseTemplateManipulate) => {
     try {
-      await addCourse(token, formCourseNew)
+      await addCourse(formCourseNew)
       setOpen(false)
       request()
       reset()
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }
 
   const dropCourse = async (id: number) => {
     try {
-      await deleteCourse(token, id)
+      await deleteCourse(id)
       request()
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }
@@ -121,38 +107,34 @@ export default function CoursePage() {
   const moreCourse = async (id: number) => {
     setMore(true)
     try {
-      const response = await findOneCourse(token, id)
+      const response = await findOneCourse(id)
       setOneCourse(response.data)
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }
 
-  async function request() {
-    try {
-      const response = await findCourse(token)
-      const resLevel = await findaAllLevel(token)
-      setCourse(response.data)
-      setLevel(resLevel.data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+  const request = useCallback(
+    async function () {
+      try {
+        const response = await findCourse()
+        const resLevel = await findaAllLevel()
+        setCourse(response.data)
+        setLevel(resLevel.data)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          openErrorMessage(error.response?.data.message)
+        }
       }
-    }
-  }
+    },
+    [openErrorMessage]
+  )
+
   useEffect(() => {
     request()
-  }, [])
+  }, [request])
 
   return (
     <div className={styles.course}>

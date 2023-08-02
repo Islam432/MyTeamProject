@@ -1,19 +1,19 @@
 import { BiShow } from 'react-icons/bi'
 import { FaRegEyeSlash } from 'react-icons/fa'
-import { registerUser } from '../../../authentication/services/auth.service'
+import { registerUser } from '../../../../shared/services/auth.service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { CssTextField } from '../../../../shared/components/CustomMUI'
 import { Button, IconButton, InputAdornment } from '@mui/material'
 import { useContext, useState } from 'react'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
-import { AppContext, SnackInfo } from '../../../../App'
+import { AppContext } from '../../../../App'
 import { FormData } from '../../../authentication/components/Signup/Signup'
 import styles from './Users.module.scss'
 import { AxiosError } from 'axios'
 
 const UsersRegForm = () => {
-  const { setSnack } = useContext(AppContext)
+  const { openErrorMessage } = useContext(AppContext)
   const [show, setShow] = useState<boolean>(false)
 
   const {
@@ -29,11 +29,7 @@ const UsersRegForm = () => {
       await registerUser(formData)
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }

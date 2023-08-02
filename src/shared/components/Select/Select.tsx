@@ -5,7 +5,7 @@ interface PropsSelect {
   label: string
   children: React.ReactNode
   id: string
-  error: boolean
+  error?: boolean
   helperText?: string
 }
 
