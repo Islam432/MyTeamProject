@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import {
   addCourse,
@@ -8,12 +8,11 @@ import {
   findaAllLevel,
   updateCourse,
 } from '../../services/course.services'
-import styles from './style.module.scss'
 import { MdDelete } from 'react-icons/md'
 import { FaEdit } from 'react-icons/fa'
-import { Button, InputLabel, MenuItem, Select, FormControl } from '@mui/material'
+import { Button, MenuItem } from '@mui/material'
 import Modal from '../../../../shared/components/Modal/Modal'
-import { CssButton, CssTextField } from './../../../../shared/components/CustomMUI'
+import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import CardDash from '../../../../shared/components/CardDash/CardDash'
 import CustomSelect from '../../../../shared/components/Select/Select'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -21,7 +20,10 @@ import { CgMoreO } from 'react-icons/cg'
 import { useForm } from 'react-hook-form'
 import { AxiosError } from 'axios'
 import { CgClose } from 'react-icons/cg'
-import { AiFillCloseSquare } from 'react-icons/ai'
+// import { AiFillCloseSquare } from 'react-icons/ai'
+import styles from './Courses.module.scss'
+import { AppContext, SnackInfo } from '../../../../App'
+
 interface CourseTemplate {
   name: string
   course_id: number
@@ -47,52 +49,73 @@ interface Level {
 }
 
 export default function CoursePage() {
-  const [course, setCourse] = useState<CourseTemplate[] | any>([])
-  const [level, setLevel] = useState<string[] | any>([])
+  const [course, setCourse] = useState<CourseTemplate[]>([])
+  const [level, setLevel] = useState<Level[]>([])
   const [open, setOpen] = useState<boolean>(false)
-  const [add, setAdd] = useState<boolean>(false)
+  // const [add, setAdd] = useState<boolean>(false)
   const [alert, setAlert] = useState<boolean>(false)
   const [edit, setEdit] = useState<boolean>(false)
   const [more, setMore] = useState<boolean>(false)
   const [idChangeCourse, setIdChangeCourse] = useState<number>(0)
   const [oneCourse, setOneCourse] = useState<CourseTemplate>()
   const token = Cookies.get('token')
+  const { setSnack } = useContext(AppContext)
 
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
-    watch,
+    // formState: { errors },
+    // watch,
   } = useForm<CourseTemplateManipulate>()
 
   const onSubmit = async (formCourse: CourseTemplateManipulate) => {
     try {
-      const response = await updateCourse(token, idChangeCourse, formCourse)
+      await updateCourse(token, idChangeCourse, formCourse)
       setOpen(false)
       request()
       reset()
-    } catch (error: AxiosError | any) {
-      console.log(error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
     }
   }
 
   const addCourses = async (formCourseNew: CourseTemplateManipulate) => {
     try {
-      const response = await addCourse(token, formCourseNew)
+      await addCourse(token, formCourseNew)
       setOpen(false)
       request()
       reset()
-    } catch (error: AxiosError | any) {
-      console.log(error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
     }
   }
 
   const dropCourse = async (id: number) => {
     try {
-      const response = await deleteCourse(token, id)
+      await deleteCourse(token, id)
       request()
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
 
   const moreCourse = async (id: number) => {
@@ -100,7 +123,15 @@ export default function CoursePage() {
     try {
       const response = await findOneCourse(token, id)
       setOneCourse(response.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
 
   async function request() {
@@ -109,14 +140,22 @@ export default function CoursePage() {
       const resLevel = await findaAllLevel(token)
       setCourse(response.data)
       setLevel(resLevel.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: error?.response?.data.message,
+        } as SnackInfo)
+      }
+    }
   }
   useEffect(() => {
     request()
   }, [])
 
   return (
-    <div className={course}>
+    <div className={styles.course}>
       <h1>Страница шаблонов курсов</h1>
       <CssButton
         className={styles.course__add}
@@ -128,18 +167,12 @@ export default function CoursePage() {
 
       <div className={styles.wrapper}>
         <div className={styles.course__cards}>
-          {course.map((data: CourseTemplate) => {
+          {course.map((data: CourseTemplate, index: number) => {
             return (
-              <>
+              <Fragment key={index}>
                 <CardDash
-                  image='./ger3.jpg'
                   id={data.course_id}
-                  bc1='#fc0'
-                  bc2='#333'
-                  color='#1e1e1e'
-                  color2='#333'
-                  bt='#fc0'
-                  title={data.name}
+                  heading={data.name}
                   icon={
                     <>
                       <Button onClick={() => setAlert(true)}>
@@ -240,12 +273,14 @@ export default function CoursePage() {
                   />
                   <CustomSelect
                     id='xz'
-                    label={`Уровень: ${edit && data.level_name}`}
+                    label={`Уровень ${edit ? data.level_name : ``}`}
                     {...register('level')}
                   >
-                    {level.map((data: Level) => {
-                      return <MenuItem value={data.id}>{data.level_name}</MenuItem>
-                    })}
+                    {level.map((data: Level, index: number) => (
+                      <Fragment key={index}>
+                        <MenuItem value={data.id}>{data.level_name}</MenuItem>
+                      </Fragment>
+                    ))}
                   </CustomSelect>
                   <CssTextField
                     label='Структура курса'
@@ -282,7 +317,7 @@ export default function CoursePage() {
                     <b>Повестка дня:</b> {oneCourse?.description}
                   </p>
                 </Modal>
-              </>
+              </Fragment>
             )
           })}
         </div>

@@ -1,24 +1,23 @@
+import { useContext, useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
 import { Button, Checkbox, FormControlLabel, MenuItem } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
-import { mokData } from './mokData'
-import { useContext, useEffect, useState } from 'react'
 import Modal from '../../../../shared/components/Modal/Modal'
 import CardDash from '../../../../shared/components/CardDash/CardDash'
-import { AppContext } from '../../../../App'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AxiosError } from 'axios'
 import { CssButton, CssFab, CssTextField } from '../../../../shared/components/CustomMUI/index'
 import CustomSelect from '../../../../shared/components/Select/Select'
 import { z } from 'zod'
 import { ClassesSchema } from '../../../../shared/schemas/classes.schema'
-import { findCourse } from '../../../../modules/course-templates/services/course.services'
-import Cookies from 'js-cookie'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { findOffice, sendClass } from '../../services/dashboard.services'
+import { findOffice, sendClass } from '../../../../shared/services/dashboard.services'
+import { findCourse } from '../../../../shared/services/course.services'
+import { AxiosError } from 'axios'
+import { AppContext } from '../../../../App'
+import { getClasses } from '../../../../shared/services/class.service'
 
 interface Course {
   course_id: number
@@ -30,13 +29,25 @@ interface Office {
   name: string
 }
 
+interface ClassInfo {
+  id: number
+  description: string
+  start_date: string
+  end_date: string
+  open_for_enrollment: boolean
+  course_code: string
+  course_name: string
+  branch_name: string
+}
+
 export type FormCardAdd = z.infer<typeof ClassesSchema>
 export default function Dashboard() {
   const [open, setOpen] = useState<boolean>(false)
   const [course, setCourse] = useState<Course[]>([])
+  const [classes, setClasses] = useState<ClassInfo[]>([])
   const [office, setOffice] = useState<Office[]>([])
-  const { setSnackbarMessage } = useContext(AppContext)
-  const token = Cookies.get('token')
+  const { openErrorMessage } = useContext(AppContext)
+
   const {
     register,
     handleSubmit,
@@ -48,30 +59,54 @@ export default function Dashboard() {
 
   const onSubmit = async (formData: FormCardAdd) => {
     try {
-      const res = await sendClass(token, formData)
+      await sendClass(formData)
       reset()
       setOpen(false)
-    } catch (error: AxiosError | any) {
-      setSnackbarMessage(error.response.message)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        openErrorMessage(error.response?.data.message)
+      }
     }
   }
 
-  const soft = mokData
   const handleCloseModal = () => {
     setOpen(false)
   }
+
   useEffect(() => {
-    const request = async () => {
+    const classes = async () => {
       try {
-        const res = await findCourse(token)
-        const resOffice = await findOffice(token)
-        setOffice(resOffice.data)
-        setCourse(res.data)
-      } catch (error: any) {
-        setSnackbarMessage(error.message)
+        const { data } = await getClasses<ClassInfo[]>()
+        const modifiedRows = data.map((row: ClassInfo) => {
+          return {
+            ...row,
+            start_date: row.start_date.substring(0, 10),
+            end_date: row.end_date.substring(0, 10),
+          }
+        })
+        setClasses(modifiedRows)
+        console.log(modifiedRows)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          openErrorMessage(error.response?.data.message)
+        }
       }
     }
-    request()
+    classes()
+  }, [openErrorMessage])
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const res = await findCourse()
+        const resOffice = await findOffice()
+        setOffice(resOffice.data)
+        setCourse(res.data)
+      } catch (error) {
+        //
+      }
+    }
+    init()
   }, [])
 
   return (
@@ -79,7 +114,6 @@ export default function Dashboard() {
       <div className={styles.title}>
         <h1>Dashboard</h1>
         <CssFab
-          // className={styles.addbtn}
           onClick={() => {
             setOpen(!open)
           }}
@@ -166,26 +200,6 @@ export default function Dashboard() {
               shrink: true,
             }}
           />
-          {/* <CssTextField
-            label='Открыть курс'
-            sx={{
-              width: '100px',
-              margin: 'auto',
-              '& input': {
-                height: '90px',
-                width: '90px',
-                margin: 'auto',
-                backgroundColor: '#fc0',
-              },
-            }}
-            type='checkbox'
-            {...register('open_for_enrollment')}
-            error={!!errors.open_for_enrollment}
-            helperText={errors.open_for_enrollment?.message}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          /> */}
           <FormControlLabel
             {...register('open_for_enrollment')}
             control={<Checkbox defaultChecked />}
@@ -195,7 +209,7 @@ export default function Dashboard() {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.container}>
-          {soft.map((item, indx) => (
+          {classes.map((item, indx) => (
             <div
               key={indx}
               className={styles.card}
@@ -217,12 +231,17 @@ export default function Dashboard() {
                     </Button>
                   </>
                 }
-                {...item}
+                id={item.id}
+                heading={<span> {`${item.course_code} ${item.course_name}`} </span>}
               >
-                <p>
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
-                  continents except Antarctica
-                </p>
+                {item.description ? (
+                  <p>{item.description}</p>
+                ) : (
+                  <p>
+                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                    continents except Antarctica
+                  </p>
+                )}
               </CardDash>
             </div>
           ))}

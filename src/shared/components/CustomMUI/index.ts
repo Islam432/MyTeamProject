@@ -1,6 +1,6 @@
-import { Button, Fab, Select, TextField, styled } from '@mui/material'
+import { Button, Fab, TextField, styled } from '@mui/material'
 
-export const CssTextField = styled(TextField)(({ theme }) => ({
+export const CssTextField = styled(TextField)(() => ({
   '& label.Mui-focused': {
     color: '#fc0',
     zIndex: '9',
@@ -39,7 +39,7 @@ export const CssTextField = styled(TextField)(({ theme }) => ({
   },
 }))
 
-export const CssButton = styled(Button)(({ theme }) => ({
+export const CssButton = styled(Button)(() => ({
   '&&': {
     background: '#fc0',
     color: '#fff',
