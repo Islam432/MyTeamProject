@@ -1,6 +1,6 @@
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
-import { Button, Checkbox, Fab, FormControlLabel, MenuItem } from '@mui/material'
+import { Button, Checkbox, FormControlLabel, MenuItem } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
@@ -18,7 +18,6 @@ import { ClassesSchema } from '../../../../shared/schemas/classes.schema'
 import { findCourse } from '../../../../modules/course-templates/services/course.services'
 import Cookies from 'js-cookie'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { CourseTemplate } from 'src/modules/course-templates/components/CoursePage/Course-page'
 import { findOffice, sendClass } from '../../services/dashboard.services'
 
 interface Course {
@@ -117,7 +116,7 @@ export default function Dashboard() {
 
           <CustomSelect
             label='Офисы'
-            idInput='branch_name'
+            id='branch_name'
             {...register('branch_id')}
             error={!!errors.branch_id}
             helperText={errors.branch_id?.message}
