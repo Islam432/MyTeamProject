@@ -90,7 +90,7 @@ export default function Users() {
         ),
       },
     ]
-  }, [rows])
+  }, [rows, openErrorMessage])
 
   const handleCloseModal = () => {
     setOpen(false)
