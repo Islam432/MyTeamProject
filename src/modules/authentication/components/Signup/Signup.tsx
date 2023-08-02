@@ -1,24 +1,24 @@
 import { useForm } from 'react-hook-form'
 import { IconButton, InputAdornment } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { registerUser } from '../../services/auth.service'
+import { registerUser } from '../../../../shared/services/auth.service'
 import { UserSchema } from '../../../../shared/schemas/user.schema'
-import {z} from 'zod'
+import { z } from 'zod'
 import { useContext, useState } from 'react'
 import styles from './Signup.module.scss'
 import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI'
 import { FaRegEyeSlash } from 'react-icons/fa'
 import { BiShow } from 'react-icons/bi'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { AppContext } from '../../../../App'
 import { AxiosError } from 'axios'
-import { AppContext, SnackInfo } from '../../../../App'
 
 export type FormData = z.infer<typeof UserSchema>
 
 export default function Signup() {
   const [show, setShow] = useState<boolean>(false)
   const navigate = useNavigate()
-  const { setSnack } = useContext(AppContext)
+  const { openErrorMessage, openSuccessMessage } = useContext(AppContext)
 
   const {
     register,
@@ -31,19 +31,13 @@ export default function Signup() {
   const onSubmit = async (formData: FormData) => {
     try {
       const { data } = await registerUser(formData)
-      setSnack({
-        open: true,
-        type: 'success',
-        message: data.message,
-      } as SnackInfo)
+      openSuccessMessage(data.message)
+
       navigate('/signin')
-    } catch (error: AxiosError | any) {
-      const { data } = error.response
-      setSnack({
-        open: true,
-        type: 'error',
-        message: data.message,
-      } as SnackInfo)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        openErrorMessage(error.response?.data.message)
+      }
     }
   }
 

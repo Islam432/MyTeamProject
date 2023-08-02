@@ -1,4 +1,4 @@
-import { Button, TextField, styled } from '@mui/material'
+import { Button, Fab, TextField, styled } from '@mui/material'
 
 export const CssTextField = styled(TextField)(() => ({
   '& label.Mui-focused': {
@@ -47,5 +47,15 @@ export const CssButton = styled(Button)(() => ({
     margin: '0',
     fontSize: '16px',
     textTransform: 'none',
+  },
+}))
+
+export const CssFab = styled(Fab)(() => ({
+  '&': {
+    background: '#fc0',
+    color: '#fff',
+  },
+  '&:hover': {
+    background: '#fd0',
   },
 }))

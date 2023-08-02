@@ -1,11 +1,12 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { FormControl, InputLabel, Select } from '@mui/material'
 import './custom.scss'
-import { Children } from 'react'
 
 interface PropsSelect {
   label: string
   children: React.ReactNode
   id: string
+  error?: boolean
+  helperText?: string
 }
 
 export default function CustomSelect(props: PropsSelect) {

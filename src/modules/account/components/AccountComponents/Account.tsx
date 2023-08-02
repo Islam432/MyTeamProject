@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
-import { UbdateUser, getOneUser } from '../../services/account.service'
-import { AppContext, SnackInfo } from './../../../../App'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { ubdateUser, getOneUser } from '../../../../shared/services/account.service'
+import { AppContext } from './../../../../App'
 import styles from './Account.module.scss'
 import man from './../../../../../public/man.png'
 import { Chip, Card, CardContent, Typography, Button, CardActions } from '@mui/material'
@@ -23,7 +23,7 @@ export interface Contact {
 export default function Account() {
   const [visbl, setvisibl] = useState<boolean>(false)
   const [data, setData] = useState<Contact>({} as Contact)
-  const { auth, setSnack } = useContext(AppContext)
+  const { auth, openErrorMessage } = useContext(AppContext)
 
   const {
     register,
@@ -31,24 +31,24 @@ export default function Account() {
     formState: { errors },
   } = useForm<Contact>()
 
-  async function request() {
-    try {
-      const { data } = await getOneUser(auth.user.id)
-      console.log(data)
-      setData(data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+  const request = useCallback(
+    async function () {
+      try {
+        const { data } = await getOneUser(auth.user.id)
+        console.log(data)
+        setData(data)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          openErrorMessage(error.response?.data.message)
+        }
       }
-    }
-  }
+    },
+    [openErrorMessage, auth]
+  )
+
   useEffect(() => {
     request()
-  }, [])
+  }, [request])
 
   const submitUbdate = () => {
     setvisibl((visbl) => !visbl)
@@ -56,15 +56,11 @@ export default function Account() {
 
   const onSubmit = async (contact: Contact) => {
     try {
-      await UbdateUser(auth.user.id, contact)
+      await ubdateUser(auth.user.id, contact)
       request()
     } catch (error) {
       if (error instanceof AxiosError) {
-        setSnack({
-          open: true,
-          type: 'error',
-          message: error?.response?.data.message,
-        } as SnackInfo)
+        openErrorMessage(error.response?.data.message)
       }
     }
   }
