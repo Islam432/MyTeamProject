@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import { CourseTemplateManipulate } from '../components/CoursePage/Course-page'
+import { FormCardAdd } from '../components/DashBoard/DashBoard'
 
 const api = import.meta.env.VITE_API_URL
 
@@ -11,16 +11,8 @@ export function findOffice(token: string | undefined) {
   })
 }
 
-export function deleteCourse(token: string | undefined, id: number) {
-  return axios.delete(`${api}/course/${id}`, {
-    headers: {
-      authorization: token,
-    },
-  })
-}
-
-export function findOneCourse(token: string | undefined, id: number) {
-  return axios.get(`${api}/course/${id}`, {
+export function sendClass(token: string | undefined, data: FormCardAdd) {
+  return axios.post(`${api}/classes`, data, {
     headers: {
       authorization: token,
     },

@@ -1,6 +1,6 @@
 import styles from './Dashboard.module.scss'
 import { PiStudentFill } from 'react-icons/pi'
-import { Button, MenuItem } from '@mui/material'
+import { Button, Checkbox, Fab, FormControlLabel, MenuItem } from '@mui/material'
 import { BiBell, BiShareAlt } from 'react-icons/bi'
 import { BsFolder } from 'react-icons/bs'
 import { mokData } from './mokData'
@@ -11,7 +11,7 @@ import { AppContext } from '../../../../App'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
-import { CssButton, CssTextField } from '../../../../shared/components/CustomMUI/index'
+import { CssButton, CssFab, CssTextField } from '../../../../shared/components/CustomMUI/index'
 import CustomSelect from '../../../../shared/components/Select/Select'
 import { z } from 'zod'
 import { ClassesSchema } from '../../../../shared/schemas/classes.schema'
@@ -19,7 +19,7 @@ import { findCourse } from '../../../../modules/course-templates/services/course
 import Cookies from 'js-cookie'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { CourseTemplate } from 'src/modules/course-templates/components/CoursePage/Course-page'
-import { findOffice } from '../../services/dashboard.services'
+import { findOffice, sendClass } from '../../services/dashboard.services'
 
 interface Course {
   course_id: number
@@ -42,13 +42,16 @@ export default function Dashboard() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormCardAdd>({
     resolver: zodResolver(ClassesSchema),
   })
 
   const onSubmit = async (formData: FormCardAdd) => {
     try {
-      console.log('formData')
+      const res = await sendClass(token, formData)
+      reset()
+      setOpen(false)
     } catch (error: AxiosError | any) {
       setSnackbarMessage(error.response.message)
     }
@@ -57,15 +60,6 @@ export default function Dashboard() {
   const soft = mokData
   const handleCloseModal = () => {
     setOpen(false)
-  }
-
-  const request = async () => {
-    try {
-      const res = await findCourse(token)
-      setCourse(res.data)
-    } catch (error: any) {
-      setSnackbarMessage(error.message)
-    }
   }
   useEffect(() => {
     const request = async () => {
@@ -80,22 +74,19 @@ export default function Dashboard() {
     }
     request()
   }, [])
-  console.log(office)
 
   return (
     <>
       <div className={styles.title}>
         <h1>Dashboard</h1>
-        <Button
-          variant='contained'
-          color='primary'
-          className={styles.addbtn}
+        <CssFab
+          // className={styles.addbtn}
           onClick={() => {
             setOpen(!open)
           }}
         >
           <AiOutlinePlus style={{ fontSize: '30px', width: 'max-content' }} />
-        </Button>
+        </CssFab>
         <Modal
           title='Добавить новый курс'
           desc=''
@@ -127,9 +118,9 @@ export default function Dashboard() {
           <CustomSelect
             label='Офисы'
             idInput='branch_name'
-            {...register('branch_name')}
-            error={!!errors.branch_name}
-            helperText={errors.branch_name?.message}
+            {...register('branch_id')}
+            error={!!errors.branch_id}
+            helperText={errors.branch_id?.message}
           >
             {office.map((data) => {
               return <MenuItem value={data.id}>{data.name}</MenuItem>
@@ -138,9 +129,9 @@ export default function Dashboard() {
           <CustomSelect
             label='Группа'
             id='course_name'
-            {...register('course_name')}
-            error={!!errors.course_name}
-            helperText={errors.course_name?.message}
+            {...register('course_id')}
+            error={!!errors.course_id}
+            helperText={errors.course_id?.message}
           >
             {course.map((data) => {
               return <MenuItem value={data.course_id}>{data.name}</MenuItem>
@@ -176,8 +167,18 @@ export default function Dashboard() {
               shrink: true,
             }}
           />
-          <CssTextField
+          {/* <CssTextField
             label='Открыть курс'
+            sx={{
+              width: '100px',
+              margin: 'auto',
+              '& input': {
+                height: '90px',
+                width: '90px',
+                margin: 'auto',
+                backgroundColor: '#fc0',
+              },
+            }}
             type='checkbox'
             {...register('open_for_enrollment')}
             error={!!errors.open_for_enrollment}
@@ -185,6 +186,11 @@ export default function Dashboard() {
             InputLabelProps={{
               shrink: true,
             }}
+          /> */}
+          <FormControlLabel
+            {...register('open_for_enrollment')}
+            control={<Checkbox defaultChecked />}
+            label='Открыть курс'
           />
         </Modal>
       </div>

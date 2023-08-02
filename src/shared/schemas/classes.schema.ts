@@ -8,7 +8,7 @@ export const ClassesSchema = z.object({
     required_error: 'что то пошло не так',
     invalid_type_error: 'это не булевый тип',
   }),
-  course_code: z.string().min(2, 'Слишком короткое'),
-  branch_name: z.string().min(2, 'Слишком короткое'),
-  course_name: z.string().min(2, 'Слишком короткое'),
+  course_code: z.string().min(1, 'Слишком короткое'),
+  branch_id: z.number().min(1, 'Слишком короткое'),
+  course_id: z.number().min(1, 'Слишком короткое'),
 })
