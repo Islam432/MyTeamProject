@@ -1,3 +1,13 @@
+
+import PeopleComponent from "../components/PeopleComponent/PeopleComponent";
+
 export default function PeoplePage() {
-  return <h1>People</h1>
+
+
+
+  return (
+    <div>
+      <PeopleComponent/>
+    </div>
+  )
 }
