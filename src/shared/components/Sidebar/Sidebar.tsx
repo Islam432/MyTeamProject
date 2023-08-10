@@ -222,7 +222,7 @@ const ResponsiveDrawer = memo(function () {
         <DrawerHeader sx={{ bgcolor: '#333' }}>
           <img
             className={styles.logo}
-            src="'../../../../public/logo-light.svg"
+            src="'../../../../public/logoipsum-212.svg"
             alt=''
           />
           <IconButton onClick={handleDrawerClose}>

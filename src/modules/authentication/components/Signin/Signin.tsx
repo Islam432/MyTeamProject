@@ -43,7 +43,7 @@ const Signin = memo(function () {
       <div className={styles.signIn__content}>
         <div className={styles.signIn__title}>
           <img
-            src='./logo.svg'
+            src='../../../../../public/logoipsum-2.svg'
             alt=''
           />
           <h1 className={styles.signIn__subTitle}>Авторизация</h1>
