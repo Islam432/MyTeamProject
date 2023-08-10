@@ -46,7 +46,7 @@ export default function Signup() {
       <div className={styles.signUp__content}>
         <div className={styles.signUp__title}>
           <img
-            src='./logo.svg'
+                src='../../../../../public/logoipsum-2.svg'
             alt=''
           />
           <h1 className={styles.signUp__subTitle}>Регистрация</h1>
