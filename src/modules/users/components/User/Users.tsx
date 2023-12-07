@@ -124,6 +124,7 @@ export default function Users() {
         <UserTable
           columns={columns}
           rows={rows}
+
         />
       </div>
     </>

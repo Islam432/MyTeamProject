@@ -154,7 +154,7 @@ const theme = createTheme({
 })
 
 const ResponsiveDrawer = memo(function () {
-  // const theme = useTheme()
+ 
   const [open, setOpen] = useState(true)
   const location = useLocation()
   const paths = location.pathname.split('/').filter((path: string) => path !== '')
@@ -262,6 +262,7 @@ const ResponsiveDrawer = memo(function () {
         component='main'
         sx={{ flexGrow: 1 }}
       >
+     
         <DrawerHeader />
         <Outlet />
       </Box>

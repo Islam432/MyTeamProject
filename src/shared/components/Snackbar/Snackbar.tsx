@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode,  } from 'react'
 import styles from './styles.module.scss'
 import { Alert, Snackbar } from '@mui/material'
 interface PropsSnackBar {

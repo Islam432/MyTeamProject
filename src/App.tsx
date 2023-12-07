@@ -31,7 +31,7 @@ export type AppContextData = {
 
 export const AppContext = createContext<AppContextData>({} as AppContextData)
 
-export default function App() {
+export default function App()  {
   const [snack, setSnack] = useState<SnackInfo>({ open: false, type: 'success', message: '' })
   const [user, setUser] = useUserToken()
   const navigate = useNavigate()
@@ -78,6 +78,7 @@ export default function App() {
     <>
       <AppContext.Provider value={{ auth, openSuccessMessage, openErrorMessage } as AppContextData}>
         <Outlet />
+   
       </AppContext.Provider>
 
       <Snackbar
